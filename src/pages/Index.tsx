@@ -27,10 +27,12 @@ const Index = () => {
               TLC App-Builder
             </Button>
           </Link>
-          <Button size="lg" variant="outline" className="w-full sm:w-auto" disabled>
-            <Palette className="w-4 h-4 mr-2" />
-            Cartoonizer (Coming Soon)
-          </Button>
+          <Link to="/cartoonizer">
+            <Button size="lg" variant="outline" className="w-full sm:w-auto">
+              <Palette className="w-4 h-4 mr-2" />
+              ALI-Forge Cartoonizer
+            </Button>
+          </Link>
         </div>
       </div>
     </div>
