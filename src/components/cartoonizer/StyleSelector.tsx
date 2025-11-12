@@ -28,15 +28,15 @@ export const StyleSelector = ({ onStyleSelect }: StyleSelectorProps) => {
     <div className="container mx-auto px-4 py-12">
       <div className="max-w-6xl mx-auto space-y-8">
         <div className="text-center space-y-2">
-          <h2 className="text-3xl font-bold">Pick Your Style</h2>
+          <h2 className="text-3xl font-bold">The Loom</h2>
           <p className="text-muted-foreground">
-            Choose from 12 TV-inspired cartoon styles
+            Select a Style Spool to weave your cinematic masterpiece
           </p>
         </div>
 
         <div className="space-y-6">
           <div>
-            <h3 className="text-xl font-semibold mb-4">Adult Styles</h3>
+            <h3 className="text-xl font-semibold mb-4">Adult Spools</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {STYLES.filter(s => s.id.startsWith("ADULT")).map((style) => (
                 <Card 
@@ -53,7 +53,7 @@ export const StyleSelector = ({ onStyleSelect }: StyleSelectorProps) => {
                   </CardHeader>
                   <CardContent>
                     <Button className="w-full" variant="secondary">
-                      Select Style
+                      Pull This Thread
                     </Button>
                   </CardContent>
                 </Card>
@@ -62,7 +62,7 @@ export const StyleSelector = ({ onStyleSelect }: StyleSelectorProps) => {
           </div>
 
           <div>
-            <h3 className="text-xl font-semibold mb-4">Kids Styles</h3>
+            <h3 className="text-xl font-semibold mb-4">Kids Spools</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {STYLES.filter(s => s.id.startsWith("KIDS")).map((style) => (
                 <Card 
@@ -79,7 +79,7 @@ export const StyleSelector = ({ onStyleSelect }: StyleSelectorProps) => {
                   </CardHeader>
                   <CardContent>
                     <Button className="w-full" variant="secondary">
-                      Select Style
+                      Pull This Thread
                     </Button>
                   </CardContent>
                 </Card>

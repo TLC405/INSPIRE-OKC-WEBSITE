@@ -101,9 +101,9 @@ export const UploadView = ({ sessionId, onUploadComplete }: UploadViewProps) => 
     <div className="container mx-auto px-4 py-12">
       <div className="max-w-2xl mx-auto space-y-6">
         <div className="text-center space-y-2">
-          <h2 className="text-3xl font-bold">Upload Your Photo</h2>
+          <h2 className="text-3xl font-bold">Begin Your Weave</h2>
           <p className="text-muted-foreground">
-            Face must be visible (front or ¾ view) with good lighting
+            Upload a clear photo to transform into a cinematic masterpiece
           </p>
         </div>
 

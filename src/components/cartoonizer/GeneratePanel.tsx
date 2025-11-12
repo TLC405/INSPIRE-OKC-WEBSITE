@@ -67,10 +67,10 @@ export const GeneratePanel = ({
       });
 
       setGeneratedImage(data.imageUrl);
-      toast.success("Cartoon generated successfully!");
+      toast.success("Your masterpiece has been woven!");
     } catch (error) {
       console.error("Generation error:", error);
-      toast.error("Failed to generate cartoon. Please try again.");
+      toast.error("Failed to weave image. Please try again.");
       
       // Log error
       await supabase.from("generated_cartoons").insert({
@@ -101,10 +101,10 @@ export const GeneratePanel = ({
       // Download image
       const link = document.createElement("a");
       link.href = generatedImage;
-      link.download = `cartoon-${styleId}-${Date.now()}.png`;
+      link.download = `storyweave-${styleId}-${Date.now()}.png`;
       link.click();
 
-      toast.success("Image downloaded!");
+      toast.success("Masterpiece saved to your device!");
     } catch (error) {
       console.error("Download error:", error);
       toast.error("Failed to download image");
@@ -116,10 +116,10 @@ export const GeneratePanel = ({
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="text-center space-y-2">
           <h2 className="text-3xl font-bold">
-            {generating ? "Generating Your Cartoon..." : "Your Cartoon"}
+            {generating ? "Weaving Your Masterpiece..." : "Your Masterpiece"}
           </h2>
           <p className="text-muted-foreground">
-            {generating ? "This may take 10-30 seconds" : `Style: ${styleId}`}
+            {generating ? "The loom is working its magic (10-30 seconds)" : `Style Spool: ${styleId}`}
           </p>
         </div>
 
@@ -128,9 +128,9 @@ export const GeneratePanel = ({
             {generating ? (
               <div className="flex flex-col items-center justify-center py-20 space-y-4">
                 <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary" />
-                <p className="text-lg font-medium">Generating likeness...</p>
+                <p className="text-lg font-medium">Weaving cinematic magic...</p>
                 <p className="text-sm text-muted-foreground">
-                  Auto-extracting identity • Applying style • Preserving features
+                  Pulling threads • Blending styles • Creating your masterpiece
                 </p>
               </div>
             ) : generatedImage ? (
@@ -138,7 +138,7 @@ export const GeneratePanel = ({
                 <div className="relative rounded-lg overflow-hidden">
                   <img
                     src={generatedImage}
-                    alt="Generated cartoon"
+                    alt="Your woven masterpiece"
                     className="w-full h-auto"
                   />
                 </div>
@@ -146,15 +146,15 @@ export const GeneratePanel = ({
                 <div className="flex flex-wrap gap-3">
                   <Button onClick={handleDownload} className="flex-1 min-w-[200px]">
                     <Download className="w-4 h-4 mr-2" />
-                    Download PNG
+                    Save Masterpiece
                   </Button>
                   <Button onClick={onTryAnotherStyle} variant="secondary" className="flex-1 min-w-[200px]">
                     <RefreshCw className="w-4 h-4 mr-2" />
-                    Try Another Style
+                    Try Another Spool
                   </Button>
                   <Button onClick={onNewPhoto} variant="outline" className="flex-1 min-w-[200px]">
                     <Upload className="w-4 h-4 mr-2" />
-                    Upload New Photo
+                    New Photo
                   </Button>
                 </div>
               </div>
