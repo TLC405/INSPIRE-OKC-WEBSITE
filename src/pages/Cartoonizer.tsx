@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { ConsentBanner } from "@/components/cartoonizer/ConsentBanner";
 import { LandingView } from "@/components/cartoonizer/LandingView";
 import { UploadView } from "@/components/cartoonizer/UploadView";
-import { StyleSelector } from "@/components/cartoonizer/StyleSelector";
+import { StudioLobby } from "@/components/cartoonizer/StudioLobby";
 import { GeneratePanel } from "@/components/cartoonizer/GeneratePanel";
 
 type Step = "landing" | "upload" | "style" | "generate";
@@ -98,7 +98,7 @@ const Cartoonizer = () => {
         )}
         
         {step === "style" && (
-          <StyleSelector 
+          <StudioLobby 
             onStyleSelect={handleStyleSelect}
           />
         )}
