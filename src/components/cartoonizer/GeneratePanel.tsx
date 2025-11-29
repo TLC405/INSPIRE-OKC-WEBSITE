@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Download, RefreshCw, Upload, Sparkles, Film, Wand2 } from "lucide-react";
+import { Loader2, Download, Sparkles, RotateCcw, Camera } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -23,7 +23,8 @@ export const GeneratePanel = ({
   onNewPhoto,
 }: GeneratePanelProps) => {
   const [generating, setGenerating] = useState(false);
-  const [generatedImage, setGeneratedImage] = useState<string | null>(null);
+  const [generatedUrl, setGeneratedUrl] = useState<string | null>(null);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     generateCartoon();
@@ -31,89 +32,58 @@ export const GeneratePanel = ({
 
   const generateCartoon = async () => {
     setGenerating(true);
-    const startTime = Date.now();
+    setProgress(0);
+
+    const progressInterval = setInterval(() => {
+      setProgress((prev) => Math.min(prev + 10, 90));
+    }, 500);
 
     try {
-      // Track generation start
-      await supabase.from("events").insert({
-        session_id: sessionId,
-        event_type: "GENERATE_CARTOON",
-        event_data: { 
-          style_id: styleId,
-          upload_id: uploadId,
-        },
+      const { data, error } = await supabase.functions.invoke("generate-cartoon", {
+        body: { imageUrl: uploadUrl, styleId },
       });
 
-      // Call edge function to generate cartoon
-      const { data, error } = await supabase.functions.invoke("generate-cartoon", {
-        body: {
-          imageUrl: uploadUrl,
-          styleId: styleId,
-        },
-      });
+      clearInterval(progressInterval);
 
       if (error) throw error;
 
-      const duration = Date.now() - startTime;
-
-      // Save generated cartoon to database
-      await supabase.from("generated_cartoons").insert({
-        upload_id: uploadId,
-        session_id: sessionId,
-        style_id: styleId,
-        image_url: data.imageUrl,
-        generation_duration_ms: duration,
-        success: true,
-      });
-
-      setGeneratedImage(data.imageUrl);
-      toast.success("Your masterpiece has been woven!");
+      setProgress(100);
+      setGeneratedUrl(data.imageUrl);
+      toast.success("Your cartoon transformation is ready!");
     } catch (error) {
+      clearInterval(progressInterval);
       console.error("Generation error:", error);
-      toast.error("Failed to weave image. Please try again.");
-      
-      // Log error
-      await supabase.from("generated_cartoons").insert({
-        upload_id: uploadId,
-        session_id: sessionId,
-        style_id: styleId,
-        image_url: "",
-        generation_duration_ms: Date.now() - startTime,
-        success: false,
-        error_message: error instanceof Error ? error.message : "Unknown error",
-      });
+      toast.error("Transformation failed. Let's try again!");
+      setGenerating(false);
     } finally {
       setGenerating(false);
     }
   };
 
   const handleDownload = async () => {
-    if (!generatedImage) return;
+    if (!generatedUrl) return;
 
     try {
-      // Track download event
-      await supabase.from("events").insert({
-        session_id: sessionId,
-        event_type: "DOWNLOAD_IMAGE",
-        event_data: { style_id: styleId },
-      });
-
-      // Download image
-      const link = document.createElement("a");
-      link.href = generatedImage;
-      link.download = `storyweave-${styleId}-${Date.now()}.png`;
-      link.click();
-
-      toast.success("Masterpiece saved to your device!");
+      const response = await fetch(generatedUrl);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `storyweave-cartoon-${Date.now()}.png`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+      toast.success("Downloaded your cartoon masterpiece!");
     } catch (error) {
       console.error("Download error:", error);
-      toast.error("Failed to download image");
+      toast.error("Download failed. Please try again!");
     }
   };
 
   const styleNames: Record<string, string> = {
     "ADULT-A1": "Springfield Citizen",
-    "ADULT-A2": "Quahog Resident", 
+    "ADULT-A2": "Quahog Resident",
     "ADULT-A3": "Mountain Town Kid",
     "ADULT-A4": "Dimension C-137",
     "ADULT-A5": "Texas Neighbor",
@@ -127,154 +97,124 @@ export const GeneratePanel = ({
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-zinc-950 via-zinc-900 to-zinc-950 relative overflow-hidden">
-      {/* Dramatic Lighting */}
-      <div className="absolute inset-0">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-amber-500/10 blur-3xl rounded-full animate-pulse" />
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-red-500/10 blur-3xl rounded-full animate-pulse delay-75" />
+    <div className="min-h-screen bg-gradient-to-br from-background via-cartoon-splash/10 to-background relative overflow-hidden">
+      {/* Floating celebration elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-10 animate-float">
+          <Sparkles className="w-12 h-12 text-cartoon-pop" />
+        </div>
+        <div className="absolute top-40 right-20 animate-wiggle">
+          <Sparkles className="w-10 h-10 text-cartoon-zap" />
+        </div>
+        <div className="absolute bottom-32 left-1/4 animate-bounce">
+          <Sparkles className="w-8 h-8 text-cartoon-splash" />
+        </div>
       </div>
 
       <div className="container mx-auto px-4 py-12 relative z-10">
         <div className="max-w-5xl mx-auto space-y-8">
           {/* Header */}
           <div className="text-center space-y-4">
-            <div className="inline-block px-6 py-2 bg-gradient-to-r from-amber-600/20 to-red-600/20 border border-amber-500/30 rounded-lg">
-              <p className="text-amber-400 text-sm font-semibold tracking-wider flex items-center gap-2 justify-center">
-                <Film className="w-4 h-4" />
-                {generating ? "ACT III: THE TRANSFORMATION" : "ACT III: THE PREMIERE"}
+            <div className="inline-block px-6 py-3 bg-gradient-to-r from-cartoon-splash/20 to-cartoon-pow/20 border-3 border-cartoon-splash/40 rounded-2xl">
+              <p className="text-cartoon-splash text-base font-black tracking-wider flex items-center gap-2">
+                <Sparkles className="w-5 h-5 animate-spin" />
+                {generating ? "TRANSFORMATION IN PROGRESS" : "STEP 3: YOUR CARTOON AWAITS"}
               </p>
             </div>
-            
-            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-b from-amber-200 to-amber-600 bg-clip-text text-transparent">
-              {generating ? "Your Star Turn In Progress..." : "Your Starring Role"}
+
+            <h2 className="text-5xl md:text-7xl font-black bg-gradient-to-r from-cartoon-pop via-cartoon-pow to-cartoon-splash bg-clip-text text-transparent">
+              {generating ? "Creating Magic..." : "Ta-Da! 🎉"}
             </h2>
-            
-            <p className="text-zinc-400 text-lg">
-              {generating 
-                ? "Our AI director is crafting your cinematic transformation" 
-                : `Transformed into: ${styleNames[styleId] || styleId}`
-              }
+
+            <p className="text-foreground text-xl font-medium">
+              {generating ? "AI is working its magic..." : `You're now a ${styleNames[styleId]}!`}
             </p>
           </div>
 
-          {/* Main Content Card */}
-          <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-amber-500/20 to-red-500/20 blur-2xl" />
-            
-            <Card className="relative p-8 md:p-12 border-2 border-amber-600/30 bg-zinc-900/50 backdrop-blur-sm">
-              {/* Corner Markers */}
-              <div className="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-amber-500/60" />
-              <div className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-amber-500/60" />
-              <div className="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-amber-500/60" />
-              <div className="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-amber-500/60" />
+          {/* Generation Area */}
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* Original Photo */}
+            <Card className="border-4 border-border rounded-3xl overflow-hidden bg-card shadow-2xl">
+              <div className="p-4 bg-muted border-b-4 border-border">
+                <p className="text-center font-black text-lg text-foreground">Original You</p>
+              </div>
+              <div className="p-6">
+                <img
+                  src={uploadUrl}
+                  alt="Original"
+                  className="w-full h-auto rounded-2xl border-3 border-border"
+                />
+              </div>
+            </Card>
 
-              <div className="space-y-8">
+            {/* Generated Cartoon */}
+            <Card className="border-4 border-cartoon-pop rounded-3xl overflow-hidden bg-card shadow-2xl">
+              <div className="p-4 bg-gradient-to-r from-cartoon-pop via-cartoon-pow to-cartoon-splash border-b-4 border-cartoon-pop">
+                <p className="text-center font-black text-lg text-white">Cartoon You!</p>
+              </div>
+              <div className="p-6">
                 {generating ? (
-                  /* Generation Animation */
-                  <div className="flex flex-col items-center justify-center py-16 space-y-6">
-                    <div className="relative">
-                      <div className="animate-spin rounded-full h-24 w-24 border-t-4 border-b-4 border-amber-500" />
-                      <div className="absolute inset-0 animate-spin rounded-full h-24 w-24 border-r-4 border-l-4 border-red-500" style={{ animationDirection: 'reverse', animationDuration: '1.5s' }} />
-                      <Wand2 className="absolute inset-0 m-auto w-10 h-10 text-amber-400 animate-pulse" />
-                    </div>
-                    
+                  <div className="aspect-square rounded-2xl bg-muted flex flex-col items-center justify-center space-y-6 border-3 border-border">
+                    <Loader2 className="w-20 h-20 text-cartoon-pop animate-spin" />
                     <div className="text-center space-y-2">
-                      <p className="text-2xl font-bold text-amber-100 flex items-center gap-2 justify-center">
-                        <Sparkles className="w-6 h-6 animate-pulse" />
-                        Cinematic Magic In Progress
+                      <p className="text-2xl font-black text-foreground">
+                        {progress}%
                       </p>
-                      <p className="text-sm text-zinc-400 font-mono">
-                        Analyzing features • Applying style • Preserving identity
+                      <p className="text-muted-foreground font-semibold">
+                        Applying cartoon magic...
                       </p>
                     </div>
-
-                    <div className="w-full max-w-md bg-zinc-800/50 rounded-full h-2 overflow-hidden">
-                      <div className="h-full bg-gradient-to-r from-amber-500 to-red-500 animate-pulse" style={{ width: '70%' }} />
-                    </div>
-
-                    <p className="text-xs text-zinc-500 italic">
-                      This usually takes 10-30 seconds • AI is working to preserve your unique features
-                    </p>
-                  </div>
-                ) : generatedImage ? (
-                  /* Success Display */
-                  <div className="space-y-6">
-                    <div className="relative rounded-xl overflow-hidden border-4 border-amber-500/30 shadow-2xl shadow-amber-500/20">
-                      <img
-                        src={generatedImage}
-                        alt="Your cinematic transformation"
-                        className="w-full h-auto"
+                    <div className="w-3/4 h-4 bg-border rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-gradient-to-r from-cartoon-pop via-cartoon-pow to-cartoon-splash transition-all duration-300 rounded-full"
+                        style={{ width: `${progress}%` }}
                       />
-                      <div className="absolute top-4 right-4 px-4 py-2 bg-gradient-to-r from-amber-600 to-red-600 rounded-full border border-amber-400/50 backdrop-blur">
-                        <p className="text-white text-sm font-bold flex items-center gap-2">
-                          <Sparkles className="w-4 h-4" />
-                          PREMIERE READY
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Action Buttons */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <Button 
-                        onClick={handleDownload} 
-                        size="lg"
-                        className="bg-gradient-to-r from-amber-600 to-red-600 hover:from-amber-500 hover:to-red-500 text-white font-bold border border-amber-400/50 shadow-lg shadow-amber-500/30"
-                      >
-                        <Download className="w-5 h-5 mr-2" />
-                        Save Masterpiece
-                      </Button>
-                      
-                      <Button 
-                        onClick={onTryAnotherStyle} 
-                        size="lg"
-                        variant="outline"
-                        className="border-2 border-amber-600/50 text-amber-100 hover:bg-amber-600/10 hover:border-amber-500"
-                      >
-                        <RefreshCw className="w-5 h-5 mr-2" />
-                        Another Style
-                      </Button>
-                      
-                      <Button 
-                        onClick={onNewPhoto} 
-                        size="lg"
-                        variant="outline"
-                        className="border-2 border-zinc-600/50 text-zinc-300 hover:bg-zinc-600/10"
-                      >
-                        <Upload className="w-5 h-5 mr-2" />
-                        New Photo
-                      </Button>
-                    </div>
-
-                    {/* Share Prompt */}
-                    <div className="text-center pt-4 border-t border-zinc-700/50">
-                      <p className="text-sm text-amber-400/80 italic">
-                        ✨ Your transformation is complete! Share your starring role with the world.
-                      </p>
                     </div>
                   </div>
-                ) : (
-                  /* Error State */
-                  <div className="text-center py-16 space-y-6">
-                    <div className="mx-auto w-20 h-20 rounded-full bg-red-500/10 border-2 border-red-500/30 flex items-center justify-center">
-                      <RefreshCw className="w-10 h-10 text-red-400" />
-                    </div>
-                    <div className="space-y-2">
-                      <p className="text-xl font-semibold text-red-400">Transformation Interrupted</p>
-                      <p className="text-sm text-zinc-400">The magic didn't quite work this time</p>
-                    </div>
-                    <Button 
-                      onClick={generateCartoon}
-                      size="lg"
-                      className="bg-gradient-to-r from-amber-600 to-red-600 hover:from-amber-500 hover:to-red-500"
-                    >
-                      <Wand2 className="w-5 h-5 mr-2" />
-                      Try the Magic Again
-                    </Button>
-                  </div>
-                )}
+                ) : generatedUrl ? (
+                  <img
+                    src={generatedUrl}
+                    alt="Generated cartoon"
+                    className="w-full h-auto rounded-2xl border-3 border-cartoon-pop"
+                  />
+                ) : null}
               </div>
             </Card>
           </div>
+
+          {/* Action Buttons */}
+          {!generating && generatedUrl && (
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button
+                onClick={handleDownload}
+                size="lg"
+                className="text-xl px-8 py-6 bg-gradient-to-r from-cartoon-pop via-cartoon-pow to-cartoon-splash hover:from-cartoon-splash hover:via-cartoon-pop hover:to-cartoon-zap text-white font-black rounded-2xl transform hover:scale-105 border-3 border-foreground/20"
+              >
+                <Download className="w-6 h-6 mr-2" />
+                Download My Cartoon!
+              </Button>
+
+              <Button
+                onClick={onTryAnotherStyle}
+                size="lg"
+                variant="outline"
+                className="text-xl px-8 py-6 font-bold rounded-2xl border-3 transform hover:scale-105"
+              >
+                <RotateCcw className="w-6 h-6 mr-2" />
+                Try Another Style
+              </Button>
+
+              <Button
+                onClick={onNewPhoto}
+                size="lg"
+                variant="outline"
+                className="text-xl px-8 py-6 font-bold rounded-2xl border-3 transform hover:scale-105"
+              >
+                <Camera className="w-6 h-6 mr-2" />
+                New Photo
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </div>
