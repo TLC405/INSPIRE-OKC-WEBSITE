@@ -14,7 +14,163 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      events: {
+        Row: {
+          created_at: string
+          event_data: Json | null
+          event_type: string
+          id: string
+          session_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          event_data?: Json | null
+          event_type: string
+          id?: string
+          session_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          event_data?: Json | null
+          event_type?: string
+          id?: string
+          session_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "events_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "user_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      generated_cartoons: {
+        Row: {
+          created_at: string
+          error_message: string | null
+          generation_duration_ms: number | null
+          id: string
+          image_url: string
+          session_id: string
+          style_id: string
+          success: boolean | null
+          upload_id: string
+        }
+        Insert: {
+          created_at?: string
+          error_message?: string | null
+          generation_duration_ms?: number | null
+          id?: string
+          image_url: string
+          session_id: string
+          style_id: string
+          success?: boolean | null
+          upload_id: string
+        }
+        Update: {
+          created_at?: string
+          error_message?: string | null
+          generation_duration_ms?: number | null
+          id?: string
+          image_url?: string
+          session_id?: string
+          style_id?: string
+          success?: boolean | null
+          upload_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "generated_cartoons_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "user_sessions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "generated_cartoons_upload_id_fkey"
+            columns: ["upload_id"]
+            isOneToOne: false
+            referencedRelation: "uploads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      uploads: {
+        Row: {
+          created_at: string
+          faces_detected: number | null
+          file_size: number | null
+          file_url: string
+          id: string
+          session_id: string
+        }
+        Insert: {
+          created_at?: string
+          faces_detected?: number | null
+          file_size?: number | null
+          file_url: string
+          id?: string
+          session_id: string
+        }
+        Update: {
+          created_at?: string
+          faces_detected?: number | null
+          file_size?: number | null
+          file_url?: string
+          id?: string
+          session_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "uploads_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "user_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_sessions: {
+        Row: {
+          country: string | null
+          created_at: string
+          device: string | null
+          id: string
+          ip_hash: string | null
+          last_activity: string
+          referrer: string | null
+          region: string | null
+          session_uuid: string
+          user_agent: string | null
+        }
+        Insert: {
+          country?: string | null
+          created_at?: string
+          device?: string | null
+          id?: string
+          ip_hash?: string | null
+          last_activity?: string
+          referrer?: string | null
+          region?: string | null
+          session_uuid?: string
+          user_agent?: string | null
+        }
+        Update: {
+          country?: string | null
+          created_at?: string
+          device?: string | null
+          id?: string
+          ip_hash?: string | null
+          last_activity?: string
+          referrer?: string | null
+          region?: string | null
+          session_uuid?: string
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

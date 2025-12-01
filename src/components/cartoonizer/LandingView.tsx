@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Sparkles, Star, Zap, Heart } from "lucide-react";
+import { Sparkles, Star } from "lucide-react";
 
 interface LandingViewProps {
   onStart: () => void;
@@ -7,74 +7,80 @@ interface LandingViewProps {
 
 export const LandingView = ({ onStart }: LandingViewProps) => {
   return (
-    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-background via-cartoon-pow/10 to-background">
-      {/* Playful floating elements */}
+    <div className="min-h-screen relative overflow-hidden bg-gradient-to-b from-gray-900 via-purple-900/20 to-gray-900">
+      {/* Theater Curtains */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-0 w-32 h-full bg-gradient-to-r from-red-900 to-transparent opacity-40 animate-float" />
+        <div className="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-red-900 to-transparent opacity-40 animate-float" />
+      </div>
+
+      {/* Twinkling Lights */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-10 left-[10%] animate-float">
-          <Star className="w-8 h-8 text-cartoon-zap fill-cartoon-zap" />
+        <div className="absolute top-10 left-[10%] animate-pulse">
+          <Star className="w-6 h-6 text-yellow-300 fill-yellow-300" />
         </div>
-        <div className="absolute top-20 right-[15%] animate-float delay-100">
-          <Sparkles className="w-6 h-6 text-cartoon-pop" />
+        <div className="absolute top-20 right-[15%] animate-pulse delay-100">
+          <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
         </div>
-        <div className="absolute top-32 left-[25%] animate-bounce">
-          <Heart className="w-7 h-7 text-cartoon-boom fill-cartoon-boom" />
+        <div className="absolute top-32 left-[25%] animate-pulse delay-200">
+          <Star className="w-5 h-5 text-yellow-200 fill-yellow-200" />
         </div>
-        <div className="absolute top-40 right-[30%] animate-float delay-200">
-          <Zap className="w-8 h-8 text-cartoon-splash fill-cartoon-splash" />
+        <div className="absolute top-40 right-[30%] animate-pulse delay-300">
+          <Star className="w-6 h-6 text-yellow-300 fill-yellow-300" />
         </div>
-        <div className="absolute top-16 left-[60%] animate-wiggle">
-          <Star className="w-6 h-6 text-cartoon-pop fill-cartoon-pop" />
+        <div className="absolute top-16 left-[60%] animate-pulse delay-150">
+          <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
         </div>
-        <div className="absolute top-28 right-[70%] animate-float delay-300">
-          <Sparkles className="w-7 h-7 text-cartoon-zap" />
+        <div className="absolute top-28 right-[70%] animate-pulse delay-250">
+          <Star className="w-5 h-5 text-yellow-200 fill-yellow-200" />
         </div>
       </div>
 
       <div className="container mx-auto px-4 py-16 md:py-24 relative z-10">
-        <div className="text-center max-w-5xl mx-auto space-y-12">
-          {/* Header Badge */}
-          <div className="space-y-6">
-            <div className="inline-block px-8 py-4 bg-gradient-to-r from-cartoon-pop/20 via-cartoon-pow/30 to-cartoon-splash/20 border-4 border-cartoon-pop/50 rounded-2xl transform hover:scale-105 transition-transform">
-              <p className="text-cartoon-pop text-lg font-black tracking-wider uppercase flex items-center gap-2">
-                <Sparkles className="w-5 h-5" />
-                Ready to Get Cartoonified?
-                <Sparkles className="w-5 h-5" />
+        <div className="text-center max-w-6xl mx-auto space-y-16">
+          {/* Marquee Header */}
+          <div className="space-y-8">
+            <div className="inline-block px-10 py-5 bg-gradient-to-r from-yellow-400 via-red-500 to-yellow-400 rounded-3xl border-4 border-yellow-300 shadow-2xl transform hover:scale-105 transition-transform animate-pulse">
+              <p className="text-gray-900 text-2xl font-black tracking-widest uppercase flex items-center gap-3">
+                <Sparkles className="w-6 h-6 animate-spin" />
+                Tonight's Premiere
+                <Sparkles className="w-6 h-6 animate-spin" />
               </p>
             </div>
 
-            <h1 className="text-7xl md:text-9xl font-black bg-gradient-to-r from-cartoon-pop via-cartoon-pow to-cartoon-splash bg-clip-text text-transparent drop-shadow-2xl animate-pop">
+            <h1 className="text-8xl md:text-[10rem] font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-red-400 to-yellow-300 drop-shadow-[0_0_30px_rgba(250,204,21,0.5)] animate-float leading-none">
               StoryWeave
             </h1>
 
-            <p className="text-3xl md:text-4xl text-foreground font-bold">
-              Become a <span className="text-cartoon-pop">Cartoon Legend!</span>
+            <p className="text-4xl md:text-5xl text-yellow-100 font-black drop-shadow-lg">
+              Your <span className="text-red-400">Starring Role</span> Awaits
             </p>
           </div>
 
-          {/* Feature Box */}
-          <div className="relative max-w-2xl mx-auto group">
-            <div className="absolute inset-0 bg-gradient-to-r from-cartoon-pop/30 via-cartoon-pow/30 to-cartoon-splash/30 blur-3xl group-hover:blur-4xl transition-all duration-500" />
+          {/* The Poster Frame */}
+          <div className="relative max-w-3xl mx-auto group">
+            <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/40 via-red-500/40 to-yellow-400/40 blur-[100px] group-hover:blur-[120px] transition-all duration-500" />
 
-            <div className="relative bg-card border-4 border-border rounded-3xl p-8 transform hover:scale-105 hover:rotate-1 transition-all duration-300 shadow-2xl">
-              <div className="space-y-6">
-                <div className="text-cartoon-pop text-2xl font-black">
-                  🎨 The Ultimate Transformation Experience
+            <div className="relative bg-gradient-to-b from-yellow-900/30 to-red-900/30 backdrop-blur-sm border-8 border-yellow-600 rounded-3xl p-12 transform hover:scale-105 hover:rotate-1 transition-all duration-500 shadow-[0_0_50px_rgba(250,204,21,0.3)]">
+              <div className="space-y-8">
+                <div className="text-5xl font-black text-yellow-300 tracking-tight border-b-4 border-yellow-600 pb-4">
+                  🎭 The Premiere Experience
                 </div>
 
-                <div className="space-y-3">
-                  <p className="text-foreground text-lg leading-relaxed font-medium">
-                    Upload your photo and watch as AI magic transforms you into iconic animated characters. 
-                    From yellow-skinned Springfield residents to undersea adventurers, your cartoon destiny awaits!
+                <div className="space-y-6">
+                  <p className="text-yellow-50 text-2xl leading-relaxed font-semibold">
+                    Step onto the red carpet and into the spotlight. Your photo becomes the star of an epic transformation—
+                    from classic animated legends to modern cartoon masterpieces.
                   </p>
 
-                  <div className="flex justify-center gap-6 text-base text-muted-foreground pt-4 flex-wrap">
-                    <span className="flex items-center gap-2 bg-cartoon-zap/10 px-4 py-2 rounded-full border-2 border-cartoon-zap/30">
-                      <Star className="w-5 h-5 text-cartoon-zap fill-cartoon-zap" />
-                      12 Epic Styles
+                  <div className="flex justify-center gap-8 text-lg text-yellow-200 pt-6 flex-wrap">
+                    <span className="flex items-center gap-3 bg-yellow-500/20 px-6 py-3 rounded-full border-2 border-yellow-400/50 backdrop-blur-sm">
+                      <Star className="w-6 h-6 text-yellow-300 fill-yellow-300" />
+                      <span className="font-bold">12 Iconic Styles</span>
                     </span>
-                    <span className="flex items-center gap-2 bg-cartoon-splash/10 px-4 py-2 rounded-full border-2 border-cartoon-splash/30">
-                      <Sparkles className="w-5 h-5 text-cartoon-splash" />
-                      AI-Powered Magic
+                    <span className="flex items-center gap-3 bg-red-500/20 px-6 py-3 rounded-full border-2 border-red-400/50 backdrop-blur-sm">
+                      <Sparkles className="w-6 h-6 text-red-300" />
+                      <span className="font-bold">Studio-Grade AI</span>
                     </span>
                   </div>
                 </div>
@@ -82,49 +88,53 @@ export const LandingView = ({ onStart }: LandingViewProps) => {
             </div>
           </div>
 
-          {/* Style Preview Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
+          {/* Featured Worlds Preview */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
             {[
-              { name: "Simpsons", emoji: "🟡", color: "from-cartoon-zap/20" },
-              { name: "SpongeBob", emoji: "🧽", color: "from-cartoon-splash/20" },
-              { name: "Rick & Morty", emoji: "🔬", color: "from-cartoon-pow/20" },
-              { name: "Pokémon", emoji: "⚡", color: "from-cartoon-boom/20" },
+              { name: "Springfield", emoji: "🟡", glow: "shadow-[0_0_30px_rgba(234,179,8,0.6)]" },
+              { name: "Bikini Bottom", emoji: "🧽", glow: "shadow-[0_0_30px_rgba(14,165,233,0.6)]" },
+              { name: "Dimension C-137", emoji: "🔬", glow: "shadow-[0_0_30px_rgba(34,197,94,0.6)]" },
+              { name: "Kanto Region", emoji: "⚡", glow: "shadow-[0_0_30px_rgba(251,191,36,0.6)]" },
             ].map((world) => (
               <div
                 key={world.name}
-                className="relative group"
+                className="relative group cursor-pointer"
               >
-                <div className={`absolute inset-0 bg-gradient-to-br ${world.color} to-transparent blur-xl group-hover:blur-2xl transition-all duration-300`} />
+                <div className={`absolute inset-0 ${world.glow} rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
 
-                <div className="relative p-6 rounded-2xl border-3 border-border bg-card transform hover:scale-110 hover:rotate-3 transition-all duration-300 cursor-pointer">
-                  <div className="text-5xl mb-2 animate-bounce">{world.emoji}</div>
-                  <div className="text-sm font-bold text-foreground">{world.name}</div>
+                <div className="relative p-8 rounded-2xl border-4 border-yellow-600/50 bg-gradient-to-b from-gray-800 to-gray-900 transform hover:scale-110 hover:-rotate-2 transition-all duration-300">
+                  <div className="text-6xl mb-3 animate-bounce">{world.emoji}</div>
+                  <div className="text-base font-bold text-yellow-100">{world.name}</div>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* CTA Button */}
-          <div className="pt-4 space-y-4">
-            <Button
-              onClick={onStart}
-              size="lg"
-              className="text-2xl px-12 py-8 bg-gradient-to-r from-cartoon-pop via-cartoon-pow to-cartoon-splash hover:from-cartoon-splash hover:via-cartoon-pop hover:to-cartoon-zap text-white font-black rounded-2xl transform hover:scale-110 hover:rotate-2 transition-all duration-300 border-4 border-foreground/20 shadow-2xl"
-            >
-              <Sparkles className="w-7 h-7 mr-3 animate-spin" />
-              Let's Get Cartoony!
-              <Zap className="w-7 h-7 ml-3" />
-            </Button>
+          {/* CTA - Velvet Rope Entry */}
+          <div className="pt-8 space-y-6">
+            <div className="relative inline-block">
+              <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 via-red-500 to-yellow-400 blur-2xl opacity-75 animate-pulse" />
+              
+              <Button
+                onClick={onStart}
+                size="lg"
+                className="relative text-3xl px-16 py-10 bg-gradient-to-r from-yellow-400 via-red-500 to-yellow-400 hover:from-yellow-300 hover:via-red-400 hover:to-yellow-300 text-gray-900 font-black rounded-full transform hover:scale-110 transition-all duration-300 border-4 border-yellow-300 shadow-[0_0_40px_rgba(250,204,21,0.6)]"
+              >
+                <Sparkles className="w-8 h-8 mr-4 animate-spin" />
+                Enter The Theater
+                <Star className="w-8 h-8 ml-4 fill-gray-900" />
+              </Button>
+            </div>
 
-            <p className="text-muted-foreground text-sm italic">
-              3 Easy Steps: Upload → Pick Your Style → Transform into Cartoon Magic! ✨
+            <p className="text-yellow-200 text-lg font-semibold italic drop-shadow-lg">
+              🎬 Lights, Camera, Transformation! Your starring role begins now.
             </p>
           </div>
         </div>
       </div>
 
-      {/* Bottom glow */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-cartoon-pop/10 via-transparent to-transparent pointer-events-none" />
+      {/* Stage Lights Bottom Glow */}
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-yellow-600/20 via-red-600/10 to-transparent pointer-events-none" />
     </div>
   );
 };
