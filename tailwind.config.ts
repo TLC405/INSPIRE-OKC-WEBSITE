@@ -96,6 +96,18 @@ export default {
           "0%, 100%": { transform: "translateY(0px)" },
           "50%": { transform: "translateY(-20px)" },
         },
+        "curtain-reveal": {
+          "0%": { transform: "scaleX(1)", opacity: "1" },
+          "100%": { transform: "scaleX(0)", opacity: "0" },
+        },
+        spotlight: {
+          "0%, 100%": { opacity: "0.6", transform: "scale(1)" },
+          "50%": { opacity: "1", transform: "scale(1.1)" },
+        },
+        "projector-flicker": {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.95" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -104,6 +116,9 @@ export default {
         wiggle: "wiggle 1s ease-in-out infinite",
         pop: "pop 0.5s ease-in-out",
         float: "float 3s ease-in-out infinite",
+        "curtain-reveal": "curtain-reveal 1.5s ease-out forwards",
+        spotlight: "spotlight 2s ease-in-out infinite",
+        "projector-flicker": "projector-flicker 0.1s infinite",
       },
     },
   },

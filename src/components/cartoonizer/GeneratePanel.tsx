@@ -35,7 +35,11 @@ export const GeneratePanel = ({
     setProgress(0);
 
     const progressInterval = setInterval(() => {
-      setProgress((prev) => Math.min(prev + 10, 90));
+      setProgress((prev) => {
+        const newProgress = Math.min(prev + 10, 90);
+        setCurrentMessage(Math.floor((newProgress / 100) * transformationMessages.length));
+        return newProgress;
+      });
     }, 500);
 
     try {
@@ -96,119 +100,145 @@ export const GeneratePanel = ({
     "KIDS-K5": "Robo-Pal",
   };
 
+  const transformationMessages = [
+    "Sculpting your cartoon form...",
+    "Applying animation magic...",
+    "Fine-tuning your character...",
+    "Adding the final touches...",
+    "Almost ready for the premiere...",
+  ];
+
+  const [currentMessage, setCurrentMessage] = useState(0);
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-cartoon-splash/10 to-background relative overflow-hidden">
-      {/* Floating celebration elements */}
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900/30 to-gray-900 relative overflow-hidden">
+      {/* Soundstage Spotlights */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-10 left-1/4 w-64 h-64 bg-yellow-500/20 rounded-full blur-[150px] animate-spotlight" />
+        <div className="absolute top-20 right-1/4 w-72 h-72 bg-purple-500/20 rounded-full blur-[150px] animate-spotlight" style={{ animationDelay: "1s" }} />
+        <div className="absolute bottom-20 left-1/3 w-56 h-56 bg-blue-500/20 rounded-full blur-[120px] animate-spotlight" style={{ animationDelay: "2s" }} />
+        
+        {/* Animated Sparkles */}
         <div className="absolute top-20 left-10 animate-float">
-          <Sparkles className="w-12 h-12 text-cartoon-pop" />
+          <Sparkles className="w-12 h-12 text-yellow-300" />
         </div>
         <div className="absolute top-40 right-20 animate-wiggle">
-          <Sparkles className="w-10 h-10 text-cartoon-zap" />
+          <Sparkles className="w-10 h-10 text-purple-300" />
         </div>
         <div className="absolute bottom-32 left-1/4 animate-bounce">
-          <Sparkles className="w-8 h-8 text-cartoon-splash" />
+          <Sparkles className="w-8 h-8 text-blue-300" />
         </div>
       </div>
 
       <div className="container mx-auto px-4 py-12 relative z-10">
         <div className="max-w-5xl mx-auto space-y-8">
           {/* Header */}
-          <div className="text-center space-y-4">
-            <div className="inline-block px-6 py-3 bg-gradient-to-r from-cartoon-splash/20 to-cartoon-pow/20 border-3 border-cartoon-splash/40 rounded-2xl">
-              <p className="text-cartoon-splash text-base font-black tracking-wider flex items-center gap-2">
-                <Sparkles className="w-5 h-5 animate-spin" />
-                {generating ? "TRANSFORMATION IN PROGRESS" : "STEP 3: YOUR CARTOON AWAITS"}
+          <div className="text-center space-y-6">
+            <div className="inline-block px-10 py-5 bg-gradient-to-r from-yellow-400 via-purple-500 to-blue-500 rounded-3xl border-4 border-white/40 shadow-2xl backdrop-blur-sm">
+              <p className="text-white text-xl font-black tracking-widest uppercase flex items-center gap-3">
+                <Sparkles className="w-6 h-6 animate-spin" />
+                {generating ? "The Animator's Desk" : "Premiere Complete"}
+                <Sparkles className="w-6 h-6 animate-spin" />
               </p>
             </div>
 
-            <h2 className="text-5xl md:text-7xl font-black bg-gradient-to-r from-cartoon-pop via-cartoon-pow to-cartoon-splash bg-clip-text text-transparent">
-              {generating ? "Creating Magic..." : "Ta-Da! 🎉"}
+            <h2 className="text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-purple-400 to-blue-400 drop-shadow-[0_0_40px_rgba(255,255,255,0.4)]">
+              {generating ? "Transforming..." : "Standing Ovation! 🎬"}
             </h2>
 
-            <p className="text-foreground text-xl font-medium">
-              {generating ? "AI is working its magic..." : `You're now a ${styleNames[styleId]}!`}
+            <p className="text-white text-2xl font-bold drop-shadow-lg">
+              {generating ? transformationMessages[Math.min(currentMessage, transformationMessages.length - 1)] : `You're now a ${styleNames[styleId]}!`}
             </p>
           </div>
 
           {/* Generation Area */}
-          <div className="grid md:grid-cols-2 gap-6">
-            {/* Original Photo */}
-            <Card className="border-4 border-border rounded-3xl overflow-hidden bg-card shadow-2xl">
-              <div className="p-4 bg-muted border-b-4 border-border">
-                <p className="text-center font-black text-lg text-foreground">Original You</p>
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Original Photo - Film Reel Frame */}
+            <Card className="border-4 border-white/40 rounded-3xl overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900 shadow-2xl backdrop-blur-sm">
+              <div className="p-5 bg-gradient-to-r from-gray-700 to-gray-800 border-b-4 border-white/30">
+                <p className="text-center font-black text-2xl text-white drop-shadow-lg">🎬 Before</p>
               </div>
-              <div className="p-6">
-                <img
-                  src={uploadUrl}
-                  alt="Original"
-                  className="w-full h-auto rounded-2xl border-3 border-border"
-                />
+              <div className="p-8">
+                <div className="relative">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-yellow-400 to-purple-500 rounded-2xl blur opacity-50" />
+                  <img
+                    src={uploadUrl}
+                    alt="Original"
+                    className="relative w-full h-auto rounded-2xl border-4 border-white/30"
+                  />
+                </div>
               </div>
             </Card>
 
-            {/* Generated Cartoon */}
-            <Card className="border-4 border-cartoon-pop rounded-3xl overflow-hidden bg-card shadow-2xl">
-              <div className="p-4 bg-gradient-to-r from-cartoon-pop via-cartoon-pow to-cartoon-splash border-b-4 border-cartoon-pop">
-                <p className="text-center font-black text-lg text-white">Cartoon You!</p>
+            {/* Generated Cartoon - Cel Animation Frame */}
+            <Card className="border-4 border-yellow-400 rounded-3xl overflow-hidden bg-gradient-to-br from-purple-900 to-blue-900 shadow-[0_0_50px_rgba(234,179,8,0.5)] backdrop-blur-sm">
+              <div className="p-5 bg-gradient-to-r from-yellow-400 via-purple-500 to-blue-500 border-b-4 border-yellow-300">
+                <p className="text-center font-black text-2xl text-white drop-shadow-lg">✨ After</p>
               </div>
-              <div className="p-6">
+              <div className="p-8">
                 {generating ? (
-                  <div className="aspect-square rounded-2xl bg-muted flex flex-col items-center justify-center space-y-6 border-3 border-border">
-                    <Loader2 className="w-20 h-20 text-cartoon-pop animate-spin" />
-                    <div className="text-center space-y-2">
-                      <p className="text-2xl font-black text-foreground">
+                  <div className="aspect-square rounded-2xl bg-gradient-to-br from-gray-800 to-gray-900 flex flex-col items-center justify-center space-y-8 border-4 border-white/20 relative overflow-hidden">
+                    {/* Animated Background */}
+                    <div className="absolute inset-0">
+                      <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/20 via-purple-500/20 to-blue-500/20 animate-pulse" />
+                      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-yellow-400 to-transparent animate-[shimmer_2s_infinite]" />
+                    </div>
+                    
+                    <Loader2 className="w-24 h-24 text-yellow-400 animate-spin relative z-10 drop-shadow-[0_0_20px_rgba(234,179,8,0.8)]" />
+                    <div className="text-center space-y-3 relative z-10">
+                      <p className="text-4xl font-black text-white drop-shadow-lg">
                         {progress}%
                       </p>
-                      <p className="text-muted-foreground font-semibold">
-                        Applying cartoon magic...
+                      <p className="text-white/90 font-bold text-lg animate-pulse">
+                        {transformationMessages[Math.min(currentMessage, transformationMessages.length - 1)]}
                       </p>
                     </div>
-                    <div className="w-3/4 h-4 bg-border rounded-full overflow-hidden">
+                    <div className="w-3/4 h-6 bg-gray-800 rounded-full overflow-hidden border-2 border-white/30 relative z-10">
                       <div
-                        className="h-full bg-gradient-to-r from-cartoon-pop via-cartoon-pow to-cartoon-splash transition-all duration-300 rounded-full"
+                        className="h-full bg-gradient-to-r from-yellow-400 via-purple-500 to-blue-500 transition-all duration-500 rounded-full shadow-[0_0_20px_rgba(234,179,8,0.6)]"
                         style={{ width: `${progress}%` }}
                       />
                     </div>
                   </div>
                 ) : generatedUrl ? (
-                  <img
-                    src={generatedUrl}
-                    alt="Generated cartoon"
-                    className="w-full h-auto rounded-2xl border-3 border-cartoon-pop"
-                  />
+                  <div className="relative animate-fade-in">
+                    <div className="absolute -inset-1 bg-gradient-to-r from-yellow-400 via-purple-500 to-blue-500 rounded-2xl blur opacity-75 animate-pulse" />
+                    <img
+                      src={generatedUrl}
+                      alt="Generated cartoon"
+                      className="relative w-full h-auto rounded-2xl border-4 border-yellow-300 shadow-2xl"
+                    />
+                  </div>
                 ) : null}
               </div>
             </Card>
           </div>
 
-          {/* Action Buttons */}
+          {/* Studio Control Buttons */}
           {!generating && generatedUrl && (
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Button
                 onClick={handleDownload}
                 size="lg"
-                className="text-xl px-8 py-6 bg-gradient-to-r from-cartoon-pop via-cartoon-pow to-cartoon-splash hover:from-cartoon-splash hover:via-cartoon-pop hover:to-cartoon-zap text-white font-black rounded-2xl transform hover:scale-105 border-3 border-foreground/20"
+                className="text-2xl px-12 py-8 bg-gradient-to-r from-yellow-400 via-purple-500 to-blue-500 hover:from-yellow-300 hover:via-purple-400 hover:to-blue-400 text-white font-black rounded-full transform hover:scale-110 border-4 border-white/40 shadow-[0_0_40px_rgba(234,179,8,0.6)] transition-all duration-300"
               >
-                <Download className="w-6 h-6 mr-2" />
-                Download My Cartoon!
+                <Download className="w-7 h-7 mr-3" />
+                Download Masterpiece
               </Button>
 
               <Button
                 onClick={onTryAnotherStyle}
                 size="lg"
-                variant="outline"
-                className="text-xl px-8 py-6 font-bold rounded-2xl border-3 transform hover:scale-105"
+                className="text-xl px-10 py-8 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold rounded-full border-4 border-white/30 transform hover:scale-105 transition-all"
               >
                 <RotateCcw className="w-6 h-6 mr-2" />
-                Try Another Style
+                Different Style
               </Button>
 
               <Button
                 onClick={onNewPhoto}
                 size="lg"
-                variant="outline"
-                className="text-xl px-8 py-6 font-bold rounded-2xl border-3 transform hover:scale-105"
+                className="text-xl px-10 py-8 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold rounded-full border-4 border-white/30 transform hover:scale-105 transition-all"
               >
                 <Camera className="w-6 h-6 mr-2" />
                 New Photo
