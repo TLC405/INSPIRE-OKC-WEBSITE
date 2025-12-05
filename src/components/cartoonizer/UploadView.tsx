@@ -1,7 +1,6 @@
 import { useState, useCallback } from "react";
-import { Upload, Camera, Sparkles } from "lucide-react";
+import { Upload, Camera, ImagePlus, Check, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
 
 interface UploadViewProps {
@@ -12,6 +11,7 @@ interface UploadViewProps {
 export const UploadView = ({ sessionId, onUploadComplete }: UploadViewProps) => {
   const [uploading, setUploading] = useState(false);
   const [dragActive, setDragActive] = useState(false);
+  const [preview, setPreview] = useState<string | null>(null);
 
   const handleFile = async (file: File) => {
     if (!file.type.match(/image\/(jpeg|jpg|png|webp|heic)/)) {
@@ -27,15 +27,17 @@ export const UploadView = ({ sessionId, onUploadComplete }: UploadViewProps) => 
     setUploading(true);
 
     try {
-      // Convert to base64 for in-memory storage
       const reader = new FileReader();
       reader.onload = () => {
         const base64 = reader.result as string;
-        const uploadId = crypto.randomUUID();
+        setPreview(base64);
         
-        toast.success("Image ready! Let's pick your style!");
-        onUploadComplete(base64, uploadId);
-        setUploading(false);
+        setTimeout(() => {
+          const uploadId = crypto.randomUUID();
+          toast.success("Photo ready!");
+          onUploadComplete(base64, uploadId);
+          setUploading(false);
+        }, 500);
       };
       reader.onerror = () => {
         toast.error("Failed to read image");
@@ -72,85 +74,73 @@ export const UploadView = ({ sessionId, onUploadComplete }: UploadViewProps) => 
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-cartoon-splash/10 to-background relative overflow-hidden">
-      {/* Floating elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 animate-float">
-          <Camera className="w-12 h-12 text-cartoon-pop" />
-        </div>
-        <div className="absolute top-40 right-20 animate-wiggle">
-          <Camera className="w-10 h-10 text-cartoon-zap" />
-        </div>
-        <div className="absolute bottom-32 left-1/4 animate-bounce">
-          <Sparkles className="w-8 h-8 text-cartoon-splash" />
-        </div>
-      </div>
+    <div className="min-h-screen relative overflow-hidden bg-background">
+      {/* Mesh Gradient Background */}
+      <div className="absolute inset-0 mesh-gradient" />
       
+      {/* Animated Orbs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/3 left-1/5 w-80 h-80 bg-secondary/20 rounded-full blur-[100px] animate-pulse-glow" />
+        <div className="absolute bottom-1/3 right-1/5 w-96 h-96 bg-primary/15 rounded-full blur-[120px] animate-pulse-glow" style={{ animationDelay: "1.5s" }} />
+      </div>
+
       <div className="container mx-auto px-4 py-12 relative z-10">
-        <div className="max-w-3xl mx-auto space-y-8">
+        <div className="max-w-2xl mx-auto">
           {/* Header */}
-          <div className="text-center space-y-4">
-            <div className="inline-block px-6 py-3 bg-gradient-to-r from-cartoon-splash/20 to-cartoon-pow/20 border-3 border-cartoon-splash/40 rounded-2xl">
-              <p className="text-cartoon-splash text-base font-black tracking-wider flex items-center gap-2">
-                <Camera className="w-5 h-5" />
-                STEP 1: UPLOAD YOUR PHOTO
-              </p>
+          <div className="text-center mb-10 animate-fade-up">
+            <div className="glass inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6">
+              <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
+                <span className="text-xs font-bold text-primary">1</span>
+              </div>
+              <span className="text-sm font-medium text-muted-foreground">Upload Photo</span>
             </div>
             
-            <h2 className="text-5xl md:text-7xl font-black bg-gradient-to-r from-cartoon-splash via-cartoon-pow to-cartoon-pop bg-clip-text text-transparent">
-              Show Us Your Best Smile!
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
+              Upload Your Photo
             </h2>
-            
-            <p className="text-foreground text-xl font-medium">
-              Upload a clear photo of yourself for the best cartoon transformation
+            <p className="text-muted-foreground">
+              Choose a clear, front-facing photo for the best results
             </p>
           </div>
 
           {/* Upload Area */}
-          <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-cartoon-pop/20 to-cartoon-splash/20 blur-2xl" />
-            
-            <Card
-              className={`relative p-12 border-4 transition-all duration-300 ${
-                dragActive 
-                  ? "border-cartoon-pop bg-cartoon-pop/5 shadow-2xl shadow-cartoon-pop/20" 
-                  : "border-border bg-card backdrop-blur-sm"
+          <div 
+            className="animate-fade-up"
+            style={{ animationDelay: "0.1s" }}
+          >
+            <div
+              className={`premium-card p-8 md:p-12 transition-all duration-300 cursor-pointer group ${
+                dragActive ? "border-primary/50 bg-primary/5" : "hover:border-primary/30"
               }`}
               onDrop={handleDrop}
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
+              onClick={() => document.getElementById('file-upload')?.click()}
             >
               <div className="text-center space-y-6">
-                <div className="mx-auto w-24 h-24 rounded-full bg-gradient-to-br from-cartoon-pop/20 to-cartoon-splash/20 border-4 border-cartoon-pop/40 flex items-center justify-center relative">
-                  {uploading ? (
-                    <>
-                      <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-cartoon-pop" />
-                      <div className="absolute inset-0 bg-cartoon-pop/20 blur-xl animate-pulse" />
-                    </>
-                  ) : (
-                    <>
-                      <Camera className="w-12 h-12 text-cartoon-pop" />
-                      <div className="absolute -inset-4 border-4 border-cartoon-pop/20 rounded-full animate-ping" />
-                    </>
-                  )}
-                </div>
-
-                <div className="space-y-3">
-                  <p className="text-2xl font-black text-foreground">
+                {/* Icon */}
+                <div className="relative mx-auto w-20 h-20">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-accent/30 rounded-2xl blur-xl animate-pulse-glow" />
+                  <div className="relative w-full h-full rounded-2xl bg-gradient-to-br from-primary/20 to-accent/20 border border-white/10 flex items-center justify-center group-hover:scale-110 transition-transform">
                     {uploading ? (
-                      <span className="flex items-center justify-center gap-2">
-                        <Sparkles className="w-6 h-6 animate-pulse" />
-                        Preparing Your Photo...
-                      </span>
+                      <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
                     ) : (
-                      "Drop Your Photo Here"
+                      <ImagePlus className="w-8 h-8 text-primary" />
                     )}
+                  </div>
+                </div>
+
+                {/* Text */}
+                <div className="space-y-2">
+                  <p className="text-xl font-semibold text-foreground">
+                    {uploading ? "Processing..." : "Drop your photo here"}
                   </p>
-                  <p className="text-muted-foreground">
-                    or click the button below to select from your device
+                  <p className="text-sm text-muted-foreground">
+                    or click to browse from your device
                   </p>
                 </div>
 
+                {/* Hidden Input */}
                 <input
                   type="file"
                   accept="image/jpeg,image/jpg,image/png,image/webp,image/heic"
@@ -160,42 +150,43 @@ export const UploadView = ({ sessionId, onUploadComplete }: UploadViewProps) => 
                   disabled={uploading}
                 />
 
-                <label htmlFor="file-upload">
-                  <Button 
-                    asChild 
-                    disabled={uploading}
-                    size="lg"
-                    className="bg-gradient-to-r from-cartoon-pop via-cartoon-pow to-cartoon-splash hover:from-cartoon-splash hover:via-cartoon-pop hover:to-cartoon-zap text-white font-black border-3 border-foreground/20 rounded-xl"
-                  >
-                    <span>
-                      <Upload className="w-5 h-5 mr-2" />
-                      Choose Your Photo
-                    </span>
-                  </Button>
-                </label>
+                {/* Button */}
+                <Button 
+                  disabled={uploading}
+                  className="premium-button px-6 py-3 h-auto"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    document.getElementById('file-upload')?.click();
+                  }}
+                >
+                  <Upload className="w-4 h-4 mr-2" />
+                  Choose Photo
+                </Button>
 
-                {/* Tips */}
-                <div className="pt-6 border-t-2 border-border">
-                  <p className="text-xs text-muted-foreground font-mono mb-3">
-                    ACCEPTED FORMATS: JPG, PNG, WEBP, HEIC • MAX SIZE: 10MB
-                  </p>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs">
-                    <div className="bg-muted/50 rounded-lg p-2">
-                      <p className="font-bold text-cartoon-pop mb-1">📸 Clear Photo</p>
-                      <p className="text-muted-foreground">Front-facing, well-lit</p>
-                    </div>
-                    <div className="bg-muted/50 rounded-lg p-2">
-                      <p className="font-bold text-cartoon-zap mb-1">😊 Natural Look</p>
-                      <p className="text-muted-foreground">Your genuine smile</p>
-                    </div>
-                    <div className="bg-muted/50 rounded-lg p-2">
-                      <p className="font-bold text-cartoon-splash mb-1">⚡ High Quality</p>
-                      <p className="text-muted-foreground">Better results</p>
-                    </div>
-                  </div>
-                </div>
+                {/* Format Info */}
+                <p className="text-xs text-muted-foreground">
+                  JPG, PNG, WEBP, HEIC • Max 10MB
+                </p>
               </div>
-            </Card>
+            </div>
+          </div>
+
+          {/* Tips */}
+          <div 
+            className="mt-8 grid grid-cols-3 gap-4 animate-fade-up"
+            style={{ animationDelay: "0.2s" }}
+          >
+            {[
+              { icon: Camera, title: "Clear Face", desc: "Front-facing, well-lit" },
+              { icon: Check, title: "High Quality", desc: "Sharp, in focus" },
+              { icon: ImagePlus, title: "Solo Shot", desc: "One person only" },
+            ].map((tip) => (
+              <div key={tip.title} className="glass rounded-xl p-4 text-center">
+                <tip.icon className="w-5 h-5 text-primary mx-auto mb-2" />
+                <p className="text-xs font-medium text-foreground">{tip.title}</p>
+                <p className="text-xs text-muted-foreground">{tip.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
