@@ -14,18 +14,18 @@ interface GeneratePanelProps {
 }
 
 const STYLE_NAMES: Record<string, string> = {
-  "ADULT-A1": "Simpsons",
-  "ADULT-A2": "Family Guy",
-  "ADULT-A3": "South Park",
-  "ADULT-A4": "Rick & Morty",
-  "ADULT-A5": "King of the Hill",
-  "ADULT-A6": "Ren & Stimpy",
-  "ADULT-A7": "Beavis & Butthead",
-  "KIDS-K1": "SpongeBob",
-  "KIDS-K2": "Pokémon",
-  "KIDS-K3": "Classic Disney",
-  "KIDS-K4": "Peppa Pig",
-  "KIDS-K5": "Doraemon",
+  "ADULT-A1": "Simpsons Cartoon",
+  "ADULT-A2": "Family Guy Cartoon",
+  "ADULT-A3": "South Park Cartoon",
+  "ADULT-A4": "Rick & Morty Cartoon",
+  "ADULT-A5": "King of the Hill Cartoon",
+  "ADULT-A6": "Ren & Stimpy Cartoon",
+  "ADULT-A7": "Beavis & Butthead Cartoon",
+  "KIDS-K1": "SpongeBob Cartoon",
+  "KIDS-K2": "Pokémon Cartoon",
+  "KIDS-K3": "Classic Disney Cartoon",
+  "KIDS-K4": "Peppa Pig Cartoon",
+  "KIDS-K5": "Doraemon Cartoon",
 };
 
 const GENERATION_MESSAGES = [
