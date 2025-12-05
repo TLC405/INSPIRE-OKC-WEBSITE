@@ -3,18 +3,18 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Sparkles, ArrowRight } from "lucide-react";
 
 const STYLES = [
-  { id: "ADULT-A1", name: "Simpsons", desc: "Classic yellow Springfield style", emoji: "🟡", category: "adult" },
-  { id: "ADULT-A2", name: "Family Guy", desc: "Pastel Quahog aesthetic", emoji: "👨‍👩‍👧‍👦", category: "adult" },
-  { id: "ADULT-A3", name: "South Park", desc: "Flat paper cutout look", emoji: "⛷️", category: "adult" },
-  { id: "ADULT-A4", name: "Rick & Morty", desc: "Sci-fi multiverse style", emoji: "🔬", category: "adult" },
-  { id: "ADULT-A5", name: "King of the Hill", desc: "Grounded Texas aesthetic", emoji: "🏡", category: "adult" },
-  { id: "ADULT-A6", name: "Ren & Stimpy", desc: "Grotesque 90s chaos", emoji: "😵", category: "adult" },
-  { id: "ADULT-A7", name: "Beavis & Butthead", desc: "MTV slacker vibes", emoji: "🤘", category: "adult" },
-  { id: "KIDS-K1", name: "SpongeBob", desc: "Bikini Bottom adventure", emoji: "🧽", category: "kids" },
-  { id: "KIDS-K2", name: "Pokémon", desc: "Anime trainer style", emoji: "⚡", category: "kids" },
-  { id: "KIDS-K3", name: "Classic Disney", desc: "Golden age animation", emoji: "🎩", category: "kids" },
-  { id: "KIDS-K4", name: "Peppa Pig", desc: "Minimal geometric art", emoji: "🐷", category: "kids" },
-  { id: "KIDS-K5", name: "Doraemon", desc: "Clean manga aesthetic", emoji: "🤖", category: "kids" },
+  { id: "ADULT-A1", name: "Simpsons Cartoon", desc: "Classic yellow Springfield style", emoji: "🟡", category: "adult" },
+  { id: "ADULT-A2", name: "Family Guy Cartoon", desc: "Pastel Quahog aesthetic", emoji: "👨‍👩‍👧‍👦", category: "adult" },
+  { id: "ADULT-A3", name: "South Park Cartoon", desc: "Flat paper cutout look", emoji: "⛷️", category: "adult" },
+  { id: "ADULT-A4", name: "Rick & Morty Cartoon", desc: "Sci-fi multiverse style", emoji: "🔬", category: "adult" },
+  { id: "ADULT-A5", name: "King of the Hill Cartoon", desc: "Grounded Texas aesthetic", emoji: "🏡", category: "adult" },
+  { id: "ADULT-A6", name: "Ren & Stimpy Cartoon", desc: "Grotesque 90s chaos", emoji: "😵", category: "adult" },
+  { id: "ADULT-A7", name: "Beavis & Butthead Cartoon", desc: "MTV slacker vibes", emoji: "🤘", category: "adult" },
+  { id: "KIDS-K1", name: "SpongeBob Cartoon", desc: "Bikini Bottom adventure", emoji: "🧽", category: "kids" },
+  { id: "KIDS-K2", name: "Pokémon Cartoon", desc: "Anime trainer style", emoji: "⚡", category: "kids" },
+  { id: "KIDS-K3", name: "Classic Disney Cartoon", desc: "Golden age animation", emoji: "🎩", category: "kids" },
+  { id: "KIDS-K4", name: "Peppa Pig Cartoon", desc: "Minimal geometric art", emoji: "🐷", category: "kids" },
+  { id: "KIDS-K5", name: "Doraemon Cartoon", desc: "Clean manga aesthetic", emoji: "🤖", category: "kids" },
 ];
 
 interface StudioLobbyProps {
