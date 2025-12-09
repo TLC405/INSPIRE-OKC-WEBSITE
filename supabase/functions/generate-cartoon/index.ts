@@ -5,33 +5,20 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-// Style-specific prompts with enhanced identity preservation
+// Style-specific prompts
 const stylePrompts: Record<string, string> = {
-  // Adult Animation Styles - Enhanced for better identity preservation
-  "ADULT-A1": "Transform this person into The Simpsons animation style while preserving their unique facial structure and identity. Apply: bright yellow skin (#FFD90F), maintain their actual face shape and proportions, keep their distinctive features (nose shape, eye spacing, jawline), four-fingered hands, large white oval eyes with small black pupils positioned where their real eyes are, preserve their real hairstyle but simplify with thick black outlines, exaggerated overbite only if they have one, thick black character outlines, flat cel-shaded coloring, warm suburban color palette. CRITICAL: Keep their recognizable facial geometry and expression.",
-  
-  "ADULT-A2": "Transform this person into Family Guy animation style while maintaining facial recognition. Apply: smooth oval white eyes with black pupils positioned at their real eye locations, preserve their actual face shape (round/square/oval), keep their real nose shape but slightly simplified, maintain jawline and cheekbones, thin clean black outlines, smooth cel-shading with pastel skin tones, preserve their hairstyle with simplified vector rendering, keep any distinctive features like dimples or facial structure. CRITICAL: Their face shape and proportions must remain identifiable.",
-  
-  "ADULT-A3": "Transform this person into South Park cutout style while keeping them recognizable. Apply: simplified geometric construction paper aesthetic, circular or oval head matching their face shape, minimal but accurate facial feature placement (preserve eye spacing, nose position, mouth), flat matte colors, very simple shapes, construction paper texture. CRITICAL: Despite extreme simplification, maintain their distinctive facial proportions and feature arrangement so they're still identifiable.",
-  
-  "ADULT-A4": "Transform this person into Rick and Morty animation style preserving identity. Apply: exaggerated sci-fi features while keeping their base face shape, maintain their real eye shape but enlarge with visible iris detail, preserve their actual hairstyle with spiky stylization, keep their nose shape, add sci-fi elements, acid color palette (neon greens, purples, blues), dramatic rim lighting, preserve facial structure and proportions, energetic expression matching their real photo. CRITICAL: Keep recognizable facial geometry.",
-  
-  "ADULT-A5": "Transform this person into King of the Hill animation style with realistic accuracy. Apply: maintain realistic human proportions exactly as they are, preserve all facial features accurately (nose, eyes, mouth, jaw), natural skin tones matching their real complexion, keep their exact hairstyle with clean lines, grounded suburban aesthetic, subtle realistic rendering with minimal stylization. CRITICAL: This style requires the MOST facial accuracy - they should look like a slightly simplified but very recognizable version of themselves.",
-  
-  "ADULT-A6": "Transform this person into Ren & Stimpy grotesque style while keeping facial identity. Apply: extreme exaggeration of their actual features (if they have a large nose, make it HUGE; small eyes, make them BULGING), hyper-detailed texture showing pores and imperfections, preserve their real facial structure but distort grotesquely, maintain their face shape, rubber-hose body, intense saturated colors, deliberately ugly but RECOGNIZABLE aesthetic. CRITICAL: Exaggerate their real features, don't replace them.",
-  
-  "ADULT-A7": "Transform this person into Beavis and Butthead crude style maintaining identity. Apply: angular geometric version of their actual face shape, preserve their facial feature placement, crude flat coloring, minimal shading, keep their real hairstyle but angular, maintain nose shape, eye spacing, jaw structure but render crudely, MTV 90s aesthetic. CRITICAL: Despite crude rendering, their facial structure must be identifiable.",
-  
-  // Kids Animation Styles - Enhanced for identity preservation
-  "KIDS-K1": "Transform this person into SpongeBob SquarePants animation style keeping them recognizable. Apply: bright nautical colors, thick black outlines, preserve their face shape and feature placement, maintain their eye spacing and real eye shape (but larger and more expressive), keep their nose shape, preserve hairstyle with bright coloring, undersea aesthetic elements, bubble details. CRITICAL: Keep their actual facial proportions within the SpongeBob art style.",
-  
-  "KIDS-K2": "Transform this person into Pokémon anime style preserving identity. Apply: large expressive anime eyes positioned at their real eye locations, maintain their actual face shape (important for recognition), preserve nose shape, keep their real hairstyle with anime styling and colors, manga-style features, bright saturated palette, anime cel-shading with highlights, preserve facial proportions and structure. CRITICAL: Their face shape and feature arrangement must remain accurate.",
-  
-  "KIDS-K3": "Transform this person into Classic Toontown rubber-hose animation style keeping identity. Apply: circular vintage cartoon features while preserving their base face shape, large white gloves, pie-eyes positioned where their real eyes are, maintain their facial proportions, keep their hairstyle with vintage styling, bouncy proportions, 1930s animation aesthetic. CRITICAL: Despite vintage simplification, preserve their recognizable facial structure.",
-  
-  "KIDS-K4": "Transform this person into Peppa Pig minimal geometric style maintaining recognition. Apply: extremely simple geometric shapes that match their face (round face = circular shape, long face = oval shape), side-view profile if appropriate, preserve their relative feature sizes and positions, flat pastel colors, no shading, nursery aesthetic. CRITICAL: Even with extreme minimalism, their basic face shape and proportions must be preserved.",
-  
-  "KIDS-K5": "Transform this person into Doraemon anime style preserving features. Apply: clean manga lines, large round eyes at their real eye position, preserve their face shape, maintain their nose shape, keep their real hairstyle with bright anime colors, simplified but cute features matching their face, bright primary colors, minimal clean shading, friendly aesthetic. CRITICAL: Keep their facial geometry and proportions accurate within the Doraemon style.",
+  "ADULT-A1": "Simpsons-style suburban parody cartoon with warm yellow tones, thick black outlines, simplified features, 4-finger hands, oval eyes, exaggerated overbite",
+  "ADULT-A2": "Family Guy-style pastel sitcom cartoon with oval eyes, thin lines, soft shading, rounded features, realistic proportions",
+  "ADULT-A3": "South Park-style flat cutout cartoon with construction paper aesthetic, no shading, simple shapes, minimal detail, centered",
+  "ADULT-A4": "Rick and Morty-style neon sci-fi cartoon with acid green/blue colors, dramatic rim lighting, exaggerated expressions, spiky hair",
+  "ADULT-A5": "King of the Hill grounded cartoon style with natural proportions, warm earth tones, realistic shading, detailed facial features",
+  "ADULT-A6": "Ren & Stimpy gritty grotesque cartoon style with heavy texture, exaggerated veins, detailed gross-out elements, sickly palette, high detail",
+  "ADULT-A7": "Beavis & Butthead crude teen cartoon style with flat colors, minimal shading, angular features, simple background",
+  "KIDS-K1": "SpongeBob undersea absurdist cartoon style with bright colors, bubbly effects, dotted shading, cheerful expression",
+  "KIDS-K2": "Pokémon adventure anime style with manga lines, tri-tone cel shading, sparkle effects, determined expression",
+  "KIDS-K3": "Classic Toontown rubber-hose animation style with curved limbs, pie-cut eyes, white gloves, bouncy energy",
+  "KIDS-K4": "Peppa Pig minimal nursery cartoon style with thin lines, high-key colors, simple shapes, side profile view",
+  "KIDS-K5": "Doraemon-inspired blue robo-cat world cartoon style with clean lines, sky blue palette, rounded features, friendly expression",
 };
 
 serve(async (req) => {
@@ -55,28 +42,31 @@ serve(async (req) => {
     const stylePrompt = stylePrompts[styleId] || "cartoon style";
 
     // Build the full prompt with identity constraints
-    const fullPrompt = `IDENTITY PRESERVATION IS CRITICAL: ${stylePrompt}
+    const fullPrompt = `Create a ${stylePrompt} portrait from this photo.
 
-REQUIREMENTS:
-1. The transformed person MUST be clearly recognizable as the same individual from the input photo
-2. Preserve the exact face shape, eye spacing, nose shape, mouth position, and jawline
-3. Maintain their real hairstyle (color can change to match style, but shape/volume stays same)
-4. Keep all distinctive facial features that make them unique
-5. Apply the animation style AS A LAYER over their real features, not replacing them
-6. If they're smiling in the photo, keep the smile; if serious, keep that expression
-7. High quality professional cartoon transformation
-8. The final result should look like "this specific person drawn in [style]" not "a generic [style] character"
+CRITICAL IDENTITY REQUIREMENTS:
+- Preserve exact facial proportions: inter-pupil distance, eye shape, nose width, lip contour, jawline
+- Maintain skin tone and undertone exactly
+- Keep hair color, texture, and style
+- Preserve any glasses, facial hair, or distinguishing features
+- DO NOT de-age, lighten skin, slim face, or change eye color
+- Person must be 100% recognizable as the same individual
 
-VERIFICATION: After generation, this person's family/friends should immediately recognize them in the cartoon style.
+STYLE REQUIREMENTS:
+- Apply the specified cartoon style aesthetics
+- Waist-up portrait, face unobstructed
+- Clean linework appropriate to style
+- TV-show-inspired but NOT copying trademarked frames/logos
+- Friendly expression, 4:5 or 1:1 aspect ratio
+- High resolution, no text, no watermark
 
 NEGATIVE CONSTRAINTS:
-- No warped eyes, extra limbs, double face, completely different person
-- No wrong face shape, unrecognizable features, changed identity
-- No swapped features, random face, generic face
-- No bad hands, heavy blur, excessive distortion
-- No logos, brand names, or trademarked characters`;
+- No warped eyes, extra limbs, double face
+- No bad hands, heavy blur, posterization
+- No logos, brand names, or trademarked characters
+- No weird artifacts or distortions`;
 
-    console.log("Generating high-quality identity-preserving cartoon with style:", styleId);
+    console.log("Generating cartoon with style:", styleId);
 
     // Call Lovable AI image generation
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {

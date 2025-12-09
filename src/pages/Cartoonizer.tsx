@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { ConsentBanner } from "@/components/cartoonizer/ConsentBanner";
 import { LandingView } from "@/components/cartoonizer/LandingView";
 import { UploadView } from "@/components/cartoonizer/UploadView";
-import { StudioLobby } from "@/components/cartoonizer/StudioLobby";
+import { StyleSelector } from "@/components/cartoonizer/StyleSelector";
 import { GeneratePanel } from "@/components/cartoonizer/GeneratePanel";
 
 type Step = "landing" | "upload" | "style" | "generate";
@@ -18,8 +18,35 @@ const Cartoonizer = () => {
   const [consentGiven, setConsentGiven] = useState(false);
 
   useEffect(() => {
-    setSessionId(crypto.randomUUID());
+    createSession();
   }, []);
+
+  const createSession = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("user_sessions")
+        .insert({
+          device: navigator.userAgent,
+          user_agent: navigator.userAgent,
+          referrer: document.referrer || null,
+        })
+        .select()
+        .single();
+
+      if (error) throw error;
+      setSessionId(data.id);
+
+      // Track visit event
+      await supabase.from("events").insert({
+        session_id: data.id,
+        event_type: "VISIT",
+        event_data: { timestamp: new Date().toISOString() },
+      });
+    } catch (error) {
+      console.error("Error creating session:", error);
+      toast.error("Failed to initialize session");
+    }
+  };
 
   const handleStart = () => {
     if (!consentGiven) {
@@ -71,7 +98,7 @@ const Cartoonizer = () => {
         )}
         
         {step === "style" && (
-          <StudioLobby 
+          <StyleSelector 
             onStyleSelect={handleStyleSelect}
           />
         )}

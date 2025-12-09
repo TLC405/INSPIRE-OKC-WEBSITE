@@ -1,6 +1,8 @@
 import { useState, useCallback } from "react";
-import { Upload, Camera, ImagePlus, Check, ArrowLeft } from "lucide-react";
+import { Upload, Image as ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 interface UploadViewProps {
@@ -11,7 +13,6 @@ interface UploadViewProps {
 export const UploadView = ({ sessionId, onUploadComplete }: UploadViewProps) => {
   const [uploading, setUploading] = useState(false);
   const [dragActive, setDragActive] = useState(false);
-  const [preview, setPreview] = useState<string | null>(null);
 
   const handleFile = async (file: File) => {
     if (!file.type.match(/image\/(jpeg|jpg|png|webp|heic)/)) {
@@ -27,26 +28,49 @@ export const UploadView = ({ sessionId, onUploadComplete }: UploadViewProps) => 
     setUploading(true);
 
     try {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const base64 = reader.result as string;
-        setPreview(base64);
-        
-        setTimeout(() => {
-          const uploadId = crypto.randomUUID();
-          toast.success("Photo ready!");
-          onUploadComplete(base64, uploadId);
-          setUploading(false);
-        }, 500);
-      };
-      reader.onerror = () => {
-        toast.error("Failed to read image");
-        setUploading(false);
-      };
-      reader.readAsDataURL(file);
+      // Track upload event
+      await supabase.from("events").insert({
+        session_id: sessionId,
+        event_type: "UPLOAD_PHOTO",
+        event_data: { 
+          file_size: file.size,
+          file_type: file.type,
+        },
+      });
+
+      // Upload to storage
+      const fileName = `${sessionId}/${Date.now()}-${file.name}`;
+      const { error: uploadError, data } = await supabase.storage
+        .from("cartoons")
+        .upload(fileName, file);
+
+      if (uploadError) throw uploadError;
+
+      // Get public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from("cartoons")
+        .getPublicUrl(fileName);
+
+      // Save upload record
+      const { data: uploadData, error: dbError } = await supabase
+        .from("uploads")
+        .insert({
+          session_id: sessionId,
+          file_url: publicUrl,
+          file_size: file.size,
+          faces_detected: 1, // Placeholder, will be detected by AI
+        })
+        .select()
+        .single();
+
+      if (dbError) throw dbError;
+
+      toast.success("Image uploaded successfully!");
+      onUploadComplete(publicUrl, uploadData.id);
     } catch (error) {
       console.error("Upload error:", error);
-      toast.error("Failed to process image");
+      toast.error("Failed to upload image");
+    } finally {
       setUploading(false);
     }
   };
@@ -74,121 +98,64 @@ export const UploadView = ({ sessionId, onUploadComplete }: UploadViewProps) => 
   }, []);
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-background">
-      {/* Mesh Gradient Background */}
-      <div className="absolute inset-0 mesh-gradient" />
-      
-      {/* Animated Orbs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/3 left-1/5 w-80 h-80 bg-secondary/20 rounded-full blur-[100px] animate-pulse-glow" />
-        <div className="absolute bottom-1/3 right-1/5 w-96 h-96 bg-primary/15 rounded-full blur-[120px] animate-pulse-glow" style={{ animationDelay: "1.5s" }} />
-      </div>
+    <div className="container mx-auto px-4 py-12">
+      <div className="max-w-2xl mx-auto space-y-6">
+        <div className="text-center space-y-2">
+          <h2 className="text-3xl font-bold">Begin Your Weave</h2>
+          <p className="text-muted-foreground">
+            Upload a clear photo to transform into a cinematic masterpiece
+          </p>
+        </div>
 
-      <div className="container mx-auto px-4 py-12 relative z-10">
-        <div className="max-w-2xl mx-auto">
-          {/* Header */}
-          <div className="text-center mb-10 animate-fade-up">
-            <div className="glass inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6">
-              <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
-                <span className="text-xs font-bold text-primary">1</span>
-              </div>
-              <span className="text-sm font-medium text-muted-foreground">Upload Photo</span>
+        <Card
+          className={`p-12 border-2 border-dashed transition-all ${
+            dragActive ? "border-primary bg-primary/5" : "border-border"
+          }`}
+          onDrop={handleDrop}
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+        >
+          <div className="text-center space-y-6">
+            <div className="mx-auto w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center">
+              {uploading ? (
+                <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary" />
+              ) : (
+                <ImageIcon className="w-10 h-10 text-primary" />
+              )}
             </div>
-            
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
-              Upload Your Photo
-            </h2>
-            <p className="text-muted-foreground">
-              Choose a clear, front-facing photo for the best results
+
+            <div className="space-y-2">
+              <p className="text-lg font-medium">
+                {uploading ? "Uploading..." : "Drag and drop your photo here"}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                or click to browse
+              </p>
+            </div>
+
+            <input
+              type="file"
+              accept="image/jpeg,image/jpg,image/png,image/webp,image/heic"
+              onChange={(e) => e.target.files?.[0] && handleFile(e.target.files[0])}
+              className="hidden"
+              id="file-upload"
+              disabled={uploading}
+            />
+
+            <label htmlFor="file-upload">
+              <Button asChild disabled={uploading}>
+                <span>
+                  <Upload className="w-4 h-4 mr-2" />
+                  Choose File
+                </span>
+              </Button>
+            </label>
+
+            <p className="text-xs text-muted-foreground">
+              Accepts: JPG, PNG, WEBP, HEIC • Max size: 10MB
             </p>
           </div>
-
-          {/* Upload Area */}
-          <div 
-            className="animate-fade-up"
-            style={{ animationDelay: "0.1s" }}
-          >
-            <div
-              className={`premium-card p-8 md:p-12 transition-all duration-300 cursor-pointer group ${
-                dragActive ? "border-primary/50 bg-primary/5" : "hover:border-primary/30"
-              }`}
-              onDrop={handleDrop}
-              onDragOver={handleDragOver}
-              onDragLeave={handleDragLeave}
-              onClick={() => document.getElementById('file-upload')?.click()}
-            >
-              <div className="text-center space-y-6">
-                {/* Icon */}
-                <div className="relative mx-auto w-20 h-20">
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-accent/30 rounded-2xl blur-xl animate-pulse-glow" />
-                  <div className="relative w-full h-full rounded-2xl bg-gradient-to-br from-primary/20 to-accent/20 border border-white/10 flex items-center justify-center group-hover:scale-110 transition-transform">
-                    {uploading ? (
-                      <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-                    ) : (
-                      <ImagePlus className="w-8 h-8 text-primary" />
-                    )}
-                  </div>
-                </div>
-
-                {/* Text */}
-                <div className="space-y-2">
-                  <p className="text-xl font-semibold text-foreground">
-                    {uploading ? "Processing..." : "Drop your photo here"}
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    or click to browse from your device
-                  </p>
-                </div>
-
-                {/* Hidden Input */}
-                <input
-                  type="file"
-                  accept="image/jpeg,image/jpg,image/png,image/webp,image/heic"
-                  onChange={(e) => e.target.files?.[0] && handleFile(e.target.files[0])}
-                  className="hidden"
-                  id="file-upload"
-                  disabled={uploading}
-                />
-
-                {/* Button */}
-                <Button 
-                  disabled={uploading}
-                  className="premium-button px-6 py-3 h-auto"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    document.getElementById('file-upload')?.click();
-                  }}
-                >
-                  <Upload className="w-4 h-4 mr-2" />
-                  Choose Photo
-                </Button>
-
-                {/* Format Info */}
-                <p className="text-xs text-muted-foreground">
-                  JPG, PNG, WEBP, HEIC • Max 10MB
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Tips */}
-          <div 
-            className="mt-8 grid grid-cols-3 gap-4 animate-fade-up"
-            style={{ animationDelay: "0.2s" }}
-          >
-            {[
-              { icon: Camera, title: "Clear Face", desc: "Front-facing, well-lit" },
-              { icon: Check, title: "High Quality", desc: "Sharp, in focus" },
-              { icon: ImagePlus, title: "Solo Shot", desc: "One person only" },
-            ].map((tip) => (
-              <div key={tip.title} className="glass rounded-xl p-4 text-center">
-                <tip.icon className="w-5 h-5 text-primary mx-auto mb-2" />
-                <p className="text-xs font-medium text-foreground">{tip.title}</p>
-                <p className="text-xs text-muted-foreground">{tip.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
+        </Card>
       </div>
     </div>
   );
