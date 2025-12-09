@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Download, RefreshCw, Upload } from "lucide-react";
+import { Download, RefreshCw, Upload, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -13,6 +13,21 @@ interface GeneratePanelProps {
   onTryAnotherStyle: () => void;
   onNewPhoto: () => void;
 }
+
+const STYLE_NAMES: Record<string, string> = {
+  "ADULT-A1": "Simpsons Cartoon",
+  "ADULT-A2": "Family Guy Cartoon",
+  "ADULT-A3": "South Park Cartoon",
+  "ADULT-A4": "Rick & Morty Cartoon",
+  "ADULT-A5": "King of the Hill",
+  "ADULT-A6": "Ren & Stimpy Cartoon",
+  "ADULT-A7": "Beavis & Butthead",
+  "KIDS-K1": "SpongeBob Cartoon",
+  "KIDS-K2": "Pokémon Cartoon",
+  "KIDS-K3": "Classic Toontown",
+  "KIDS-K4": "Peppa Cartoon",
+  "KIDS-K5": "Doraemon Cartoon",
+};
 
 export const GeneratePanel = ({
   sessionId,
@@ -67,10 +82,10 @@ export const GeneratePanel = ({
       });
 
       setGeneratedImage(data.imageUrl);
-      toast.success("Your masterpiece has been woven!");
+      toast.success("Your cartoon is ready!");
     } catch (error) {
       console.error("Generation error:", error);
-      toast.error("Failed to weave image. Please try again.");
+      toast.error("Failed to generate cartoon. Please try again.");
       
       // Log error
       await supabase.from("generated_cartoons").insert({
@@ -101,71 +116,94 @@ export const GeneratePanel = ({
       // Download image
       const link = document.createElement("a");
       link.href = generatedImage;
-      link.download = `storyweave-${styleId}-${Date.now()}.png`;
+      link.download = `teefeme-5000-${styleId}-${Date.now()}.png`;
       link.click();
 
-      toast.success("Masterpiece saved to your device!");
+      toast.success("Downloaded! Look for the TLC easter egg 👀");
     } catch (error) {
       console.error("Download error:", error);
       toast.error("Failed to download image");
     }
   };
 
+  const styleName = STYLE_NAMES[styleId] || styleId;
+
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="max-w-4xl mx-auto space-y-6">
-        <div className="text-center space-y-2">
-          <h2 className="text-3xl font-bold">
-            {generating ? "Weaving Your Masterpiece..." : "Your Masterpiece"}
+        <div className="text-center space-y-3">
+          <h2 className="text-3xl md:text-4xl font-bold">
+            {generating ? "Creating Your Cartoon..." : "Your Transformation"}
           </h2>
           <p className="text-muted-foreground">
-            {generating ? "The loom is working its magic (10-30 seconds)" : `Style Spool: ${styleId}`}
+            {generating 
+              ? "FaceLock is preserving your identity (15-30 seconds)" 
+              : `Style: ${styleName}`}
           </p>
         </div>
 
-        <Card className="p-8">
+        <Card className="p-6 md:p-8">
           <div className="space-y-6">
             {generating ? (
-              <div className="flex flex-col items-center justify-center py-20 space-y-4">
-                <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary" />
-                <p className="text-lg font-medium">Weaving cinematic magic...</p>
-                <p className="text-sm text-muted-foreground">
-                  Pulling threads • Blending styles • Creating your masterpiece
-                </p>
+              <div className="flex flex-col items-center justify-center py-16 md:py-24 space-y-6">
+                <div className="relative">
+                  <div className="animate-spin rounded-full h-16 w-16 border-4 border-primary/20 border-t-primary" />
+                  <Sparkles className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 text-primary animate-pulse" />
+                </div>
+                <div className="text-center space-y-2">
+                  <p className="text-lg font-medium">Transforming you into {styleName}...</p>
+                  <p className="text-sm text-muted-foreground">
+                    Preserving your features • Placing you in the scene • Adding TLC touches
+                  </p>
+                </div>
               </div>
             ) : generatedImage ? (
               <div className="space-y-6">
-                <div className="relative rounded-lg overflow-hidden">
+                <div className="relative rounded-xl overflow-hidden bg-muted">
                   <img
                     src={generatedImage}
-                    alt="Your woven masterpiece"
+                    alt={`Your ${styleName} transformation`}
                     className="w-full h-auto"
                   />
+                  <div className="absolute bottom-3 right-3 bg-background/80 backdrop-blur-sm px-2 py-1 rounded text-xs font-medium">
+                    TeeFeeMe-5000
+                  </div>
                 </div>
 
-                <div className="flex flex-wrap gap-3">
-                  <Button onClick={handleDownload} className="flex-1 min-w-[200px]">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <Button onClick={handleDownload} size="lg" className="w-full">
                     <Download className="w-4 h-4 mr-2" />
-                    Save Masterpiece
+                    Download
                   </Button>
-                  <Button onClick={onTryAnotherStyle} variant="secondary" className="flex-1 min-w-[200px]">
+                  <Button onClick={onTryAnotherStyle} variant="secondary" size="lg" className="w-full">
                     <RefreshCw className="w-4 h-4 mr-2" />
-                    Try Another Spool
+                    Try Another Style
                   </Button>
-                  <Button onClick={onNewPhoto} variant="outline" className="flex-1 min-w-[200px]">
+                  <Button onClick={onNewPhoto} variant="outline" size="lg" className="w-full">
                     <Upload className="w-4 h-4 mr-2" />
                     New Photo
                   </Button>
                 </div>
               </div>
             ) : (
-              <div className="text-center py-20 space-y-4">
-                <p className="text-lg text-muted-foreground">Failed to generate</p>
-                <Button onClick={generateCartoon}>Try Again</Button>
+              <div className="text-center py-16 space-y-4">
+                <p className="text-lg text-muted-foreground">Generation failed</p>
+                <Button onClick={generateCartoon} size="lg">
+                  <RefreshCw className="w-4 h-4 mr-2" />
+                  Try Again
+                </Button>
               </div>
             )}
           </div>
         </Card>
+
+        {generatedImage && (
+          <div className="bg-muted/50 rounded-lg p-4 text-center">
+            <p className="text-sm text-muted-foreground">
+              🎯 <span className="font-medium text-foreground">Did you spot the TLC easter egg?</span> Every cartoon has a hidden "TLC" somewhere in the scene!
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
