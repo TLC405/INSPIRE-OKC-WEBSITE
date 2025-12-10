@@ -4,6 +4,8 @@ import { Card } from "@/components/ui/card";
 import { Download, RefreshCw, Upload, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { getStyleById, buildStylePrompt } from "@/lib/teeFeeMeStyles";
+import { getFingerprint } from "@/lib/fingerprint";
 
 interface GeneratePanelProps {
   sessionId: string;
@@ -13,21 +15,6 @@ interface GeneratePanelProps {
   onTryAnotherStyle: () => void;
   onNewPhoto: () => void;
 }
-
-const STYLE_NAMES: Record<string, string> = {
-  "ADULT-A1": "Simpsons Cartoon",
-  "ADULT-A2": "Family Guy Cartoon",
-  "ADULT-A3": "South Park Cartoon",
-  "ADULT-A4": "Rick & Morty Cartoon",
-  "ADULT-A5": "King of the Hill",
-  "ADULT-A6": "Ren & Stimpy Cartoon",
-  "ADULT-A7": "Beavis & Butthead",
-  "KIDS-K1": "SpongeBob Cartoon",
-  "KIDS-K2": "Pokémon Cartoon",
-  "KIDS-K3": "Classic Toontown",
-  "KIDS-K4": "Peppa Cartoon",
-  "KIDS-K5": "Doraemon Cartoon",
-};
 
 export const GeneratePanel = ({
   sessionId,
@@ -39,8 +26,15 @@ export const GeneratePanel = ({
 }: GeneratePanelProps) => {
   const [generating, setGenerating] = useState(false);
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
+  const [loadingMessage, setLoadingMessage] = useState("Transforming...");
+
+  const style = getStyleById(styleId);
+  const styleName = style?.label || styleId;
 
   useEffect(() => {
+    if (style?.loadingMessage) {
+      setLoadingMessage(style.loadingMessage);
+    }
     generateCartoon();
   }, []);
 
@@ -49,6 +43,18 @@ export const GeneratePanel = ({
     const startTime = Date.now();
 
     try {
+      // Get fingerprint for rate limiting
+      const fingerprint = await getFingerprint();
+
+      // Build the full prompt using the style engine
+      const promptData = buildStylePrompt({
+        styleId,
+        subjectHint: 'portrait of the same person from the uploaded photo',
+        lightingHint: 'soft studio lighting',
+        moodHint: 'friendly and confident',
+        extraNotes: 'keep the face clearly recognizable and the style faithful to the chosen show or game'
+      });
+
       // Track generation start
       await supabase.from("events").insert({
         session_id: sessionId,
@@ -59,15 +65,23 @@ export const GeneratePanel = ({
         },
       });
 
-      // Call edge function to generate cartoon
+      // Call edge function with built prompt
       const { data, error } = await supabase.functions.invoke("generate-cartoon", {
         body: {
           imageUrl: uploadUrl,
           styleId: styleId,
+          prompt: promptData.fullPrompt,
+          negativePrompt: promptData.negativePrompt,
+          fingerprintHash: fingerprint,
+          sessionId: sessionId,
         },
       });
 
       if (error) throw error;
+
+      if (data.error) {
+        throw new Error(data.error);
+      }
 
       const duration = Date.now() - startTime;
 
@@ -85,7 +99,13 @@ export const GeneratePanel = ({
       toast.success("Your cartoon is ready!");
     } catch (error) {
       console.error("Generation error:", error);
-      toast.error("Failed to generate cartoon. Please try again.");
+      const errorMsg = error instanceof Error ? error.message : "Unknown error";
+      
+      if (errorMsg.includes("Daily generation limit")) {
+        toast.error("You've hit your daily limit. Come back tomorrow!");
+      } else {
+        toast.error("Failed to generate. Try again.");
+      }
       
       // Log error
       await supabase.from("generated_cartoons").insert({
@@ -95,7 +115,7 @@ export const GeneratePanel = ({
         image_url: "",
         generation_duration_ms: Date.now() - startTime,
         success: false,
-        error_message: error instanceof Error ? error.message : "Unknown error",
+        error_message: errorMsg,
       });
     } finally {
       setGenerating(false);
@@ -119,65 +139,63 @@ export const GeneratePanel = ({
       link.download = `teefeme-5000-${styleId}-${Date.now()}.png`;
       link.click();
 
-      toast.success("Downloaded! Look for the TLC easter egg 👀");
+      toast.success("Downloaded! Enjoy homie 🤝");
     } catch (error) {
       console.error("Download error:", error);
       toast.error("Failed to download image");
     }
   };
 
-  const styleName = STYLE_NAMES[styleId] || styleId;
-
   return (
-    <div className="container mx-auto px-4 py-12">
+    <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto space-y-6">
-        <div className="text-center space-y-3">
-          <h2 className="text-3xl md:text-4xl font-bold">
-            {generating ? "Creating Your Cartoon..." : "Your Transformation"}
+        <div className="text-center space-y-2">
+          <h2 className="text-2xl md:text-3xl font-bold">
+            {generating ? loadingMessage : "Your Transformation"}
           </h2>
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             {generating 
-              ? "FaceLock is preserving your identity (15-30 seconds)" 
+              ? "FaceLock preserving your identity (15-30 sec)" 
               : `Style: ${styleName}`}
           </p>
         </div>
 
-        <Card className="p-6 md:p-8">
+        <Card className="p-4 md:p-6">
           <div className="space-y-6">
             {generating ? (
-              <div className="flex flex-col items-center justify-center py-16 md:py-24 space-y-6">
+              <div className="flex flex-col items-center justify-center py-12 md:py-20 space-y-4">
                 <div className="relative">
-                  <div className="animate-spin rounded-full h-16 w-16 border-4 border-primary/20 border-t-primary" />
-                  <Sparkles className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 text-primary animate-pulse" />
+                  <div className="animate-spin rounded-full h-14 w-14 border-4 border-primary/20 border-t-primary" />
+                  <Sparkles className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-5 h-5 text-primary animate-pulse" />
                 </div>
-                <div className="text-center space-y-2">
-                  <p className="text-lg font-medium">Transforming you into {styleName}...</p>
-                  <p className="text-sm text-muted-foreground">
-                    Preserving your features • Placing you in the scene • Adding TLC touches
+                <div className="text-center space-y-1">
+                  <p className="font-medium">Transforming you into {styleName}...</p>
+                  <p className="text-xs text-muted-foreground">
+                    Preserving your features • Placing you in the scene
                   </p>
                 </div>
               </div>
             ) : generatedImage ? (
-              <div className="space-y-6">
+              <div className="space-y-4">
                 <div className="relative rounded-xl overflow-hidden bg-muted">
                   <img
                     src={generatedImage}
                     alt={`Your ${styleName} transformation`}
                     className="w-full h-auto"
                   />
-                  <div className="absolute bottom-3 right-3 bg-background/80 backdrop-blur-sm px-2 py-1 rounded text-xs font-medium">
+                  <div className="absolute bottom-2 right-2 bg-background/80 backdrop-blur-sm px-2 py-1 rounded text-xs font-medium">
                     TeeFeeMe-5000
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                   <Button onClick={handleDownload} size="lg" className="w-full">
                     <Download className="w-4 h-4 mr-2" />
                     Download
                   </Button>
                   <Button onClick={onTryAnotherStyle} variant="secondary" size="lg" className="w-full">
                     <RefreshCw className="w-4 h-4 mr-2" />
-                    Try Another Style
+                    Another Style
                   </Button>
                   <Button onClick={onNewPhoto} variant="outline" size="lg" className="w-full">
                     <Upload className="w-4 h-4 mr-2" />
@@ -186,8 +204,8 @@ export const GeneratePanel = ({
                 </div>
               </div>
             ) : (
-              <div className="text-center py-16 space-y-4">
-                <p className="text-lg text-muted-foreground">Generation failed</p>
+              <div className="text-center py-12 space-y-3">
+                <p className="text-muted-foreground">Generation failed</p>
                 <Button onClick={generateCartoon} size="lg">
                   <RefreshCw className="w-4 h-4 mr-2" />
                   Try Again
@@ -197,13 +215,12 @@ export const GeneratePanel = ({
           </div>
         </Card>
 
-        {generatedImage && (
-          <div className="bg-muted/50 rounded-lg p-4 text-center">
-            <p className="text-sm text-muted-foreground">
-              🎯 <span className="font-medium text-foreground">Did you spot the TLC easter egg?</span> Every cartoon has a hidden "TLC" somewhere in the scene!
-            </p>
-          </div>
-        )}
+        {/* Mental health tagline */}
+        <div className="text-center">
+          <p className="text-xs text-muted-foreground">
+            TLC mental health tool - take a break, have some fun 🤝
+          </p>
+        </div>
       </div>
     </div>
   );
