@@ -3,106 +3,106 @@
 @tailwind utilities;
 
 /* TeeFeeMe-5000 Design System
-   Retro-futuristic cartoon lab aesthetic with neon accents
+   Premium Cartoon Lab aesthetic - soft gradients, glass panels, friendly shapes
    All colors MUST be HSL.
 */
 
 @layer base {
   :root {
-    /* Warm cream base with electric accents */
-    --background: 45 30% 97%;
-    --foreground: 240 10% 10%;
+    /* Warm cream base with soft premium accents */
+    --background: 40 25% 97%;
+    --foreground: 220 15% 15%;
 
-    --card: 45 25% 95%;
-    --card-foreground: 240 10% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 15% 15%;
 
-    --popover: 45 30% 97%;
-    --popover-foreground: 240 10% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 15% 15%;
 
-    /* Electric magenta primary */
-    --primary: 320 85% 55%;
+    /* Rich coral primary - warm and inviting */
+    --primary: 350 75% 58%;
     --primary-foreground: 0 0% 100%;
 
-    /* Teal secondary */
-    --secondary: 175 60% 45%;
+    /* Soft teal secondary */
+    --secondary: 170 45% 50%;
     --secondary-foreground: 0 0% 100%;
 
     /* Warm muted tones */
-    --muted: 45 20% 90%;
-    --muted-foreground: 240 5% 45%;
+    --muted: 40 20% 92%;
+    --muted-foreground: 220 10% 45%;
 
-    /* Amber accent */
-    --accent: 38 95% 55%;
-    --accent-foreground: 240 10% 10%;
+    /* Warm amber accent */
+    --accent: 35 85% 55%;
+    --accent-foreground: 220 15% 15%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 72% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 45 15% 85%;
-    --input: 45 15% 85%;
-    --ring: 320 85% 55%;
+    --border: 40 20% 88%;
+    --input: 40 20% 88%;
+    --ring: 350 75% 58%;
 
     --radius: 0.75rem;
 
-    /* TeeFeeMe brand colors */
-    --tfm-neon-pink: 320 100% 65%;
-    --tfm-electric-cyan: 185 100% 50%;
-    --tfm-sunset-orange: 25 100% 55%;
-    --tfm-cosmic-purple: 270 80% 60%;
-    --tfm-lime-pop: 80 90% 50%;
-    --tfm-gold: 45 100% 50%;
+    /* TeeFeeMe premium brand colors */
+    --tfm-coral: 350 75% 58%;
+    --tfm-teal: 170 45% 50%;
+    --tfm-amber: 35 85% 55%;
+    --tfm-lavender: 260 50% 65%;
+    --tfm-sage: 145 30% 55%;
+    --tfm-peach: 20 80% 70%;
 
-    --sidebar-background: 45 25% 95%;
-    --sidebar-foreground: 240 10% 10%;
-    --sidebar-primary: 320 85% 55%;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 220 15% 15%;
+    --sidebar-primary: 350 75% 58%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 45 20% 90%;
-    --sidebar-accent-foreground: 240 10% 10%;
-    --sidebar-border: 45 15% 85%;
-    --sidebar-ring: 320 85% 55%;
+    --sidebar-accent: 40 20% 92%;
+    --sidebar-accent-foreground: 220 15% 15%;
+    --sidebar-border: 40 20% 88%;
+    --sidebar-ring: 350 75% 58%;
   }
 
   .dark {
-    /* Deep space background with neon pop */
-    --background: 250 35% 8%;
-    --foreground: 45 30% 95%;
+    /* Deep warm background */
+    --background: 225 25% 10%;
+    --foreground: 40 20% 95%;
 
-    --card: 250 30% 12%;
-    --card-foreground: 45 30% 95%;
+    --card: 225 22% 14%;
+    --card-foreground: 40 20% 95%;
 
-    --popover: 250 30% 12%;
-    --popover-foreground: 45 30% 95%;
+    --popover: 225 22% 14%;
+    --popover-foreground: 40 20% 95%;
 
-    /* Neon pink primary */
-    --primary: 320 100% 65%;
-    --primary-foreground: 250 35% 8%;
+    /* Soft coral primary */
+    --primary: 350 70% 62%;
+    --primary-foreground: 225 25% 10%;
 
-    /* Electric cyan secondary */
-    --secondary: 185 100% 50%;
-    --secondary-foreground: 250 35% 8%;
+    /* Muted teal secondary */
+    --secondary: 170 40% 45%;
+    --secondary-foreground: 225 25% 10%;
 
-    --muted: 250 20% 18%;
-    --muted-foreground: 45 10% 60%;
+    --muted: 225 18% 18%;
+    --muted-foreground: 40 15% 60%;
 
-    /* Gold accent */
-    --accent: 45 100% 55%;
-    --accent-foreground: 250 35% 8%;
+    /* Warm amber accent */
+    --accent: 35 80% 55%;
+    --accent-foreground: 225 25% 10%;
 
-    --destructive: 0 70% 50%;
+    --destructive: 0 65% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 250 20% 20%;
-    --input: 250 20% 20%;
-    --ring: 320 100% 65%;
+    --border: 225 18% 22%;
+    --input: 225 18% 22%;
+    --ring: 350 70% 62%;
 
-    --sidebar-background: 250 30% 10%;
-    --sidebar-foreground: 45 30% 95%;
-    --sidebar-primary: 320 100% 65%;
-    --sidebar-primary-foreground: 250 35% 8%;
-    --sidebar-accent: 250 20% 18%;
-    --sidebar-accent-foreground: 45 30% 95%;
-    --sidebar-border: 250 20% 20%;
-    --sidebar-ring: 320 100% 65%;
+    --sidebar-background: 225 22% 12%;
+    --sidebar-foreground: 40 20% 95%;
+    --sidebar-primary: 350 70% 62%;
+    --sidebar-primary-foreground: 225 25% 10%;
+    --sidebar-accent: 225 18% 18%;
+    --sidebar-accent-foreground: 40 20% 95%;
+    --sidebar-border: 225 18% 22%;
+    --sidebar-ring: 350 70% 62%;
   }
 }
 
@@ -112,48 +112,108 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
   }
 }
 
 @layer utilities {
-  .tfm-glow {
-    box-shadow: 0 0 20px hsl(var(--primary) / 0.4),
-                0 0 40px hsl(var(--primary) / 0.2);
+  /* Premium soft glow effects */
+  .tfm-glow-soft {
+    box-shadow: 0 4px 30px hsl(var(--primary) / 0.15),
+                0 1px 8px hsl(var(--primary) / 0.1);
   }
 
-  .tfm-glow-cyan {
-    box-shadow: 0 0 20px hsl(var(--secondary) / 0.4),
-                0 0 40px hsl(var(--secondary) / 0.2);
-  }
-
-  .tfm-text-glow {
-    text-shadow: 0 0 10px hsl(var(--primary) / 0.5),
-                 0 0 20px hsl(var(--primary) / 0.3);
+  .tfm-glow-teal {
+    box-shadow: 0 4px 30px hsl(var(--secondary) / 0.15),
+                0 1px 8px hsl(var(--secondary) / 0.1);
   }
 
   .tfm-gradient-text {
     @apply bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent;
   }
+
+  .tfm-gradient-soft {
+    @apply bg-gradient-to-br from-primary/10 via-accent/5 to-secondary/10;
+  }
+
+  /* Glass effect */
+  .glass {
+    @apply bg-card/80 backdrop-blur-xl border border-border/50;
+  }
+
+  .glass-subtle {
+    @apply bg-card/60 backdrop-blur-md border border-border/30;
+  }
 }
 
 @layer components {
   .tfm-card {
-    @apply bg-card border border-border rounded-lg p-6 transition-all duration-300;
-    @apply hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10;
+    @apply bg-card border border-border rounded-2xl p-6 transition-all duration-300;
+    @apply hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5;
   }
 
-  .tfm-button-glow {
-    @apply relative overflow-hidden;
+  .tfm-card-glass {
+    @apply glass rounded-2xl p-6 transition-all duration-300;
+    @apply hover:border-primary/30 hover:shadow-xl;
   }
 
-  .tfm-button-glow::before {
-    content: '';
-    @apply absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/20 to-primary/0;
-    @apply translate-x-[-100%] transition-transform duration-500;
+  /* Smooth button hover */
+  .tfm-button-hover {
+    @apply transition-all duration-200;
+    @apply hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-0.5;
   }
 
-  .tfm-button-glow:hover::before {
-    @apply translate-x-[100%];
+  /* Floating animation for hero elements */
+  .tfm-float {
+    animation: tfm-float 4s ease-in-out infinite;
   }
+
+  .tfm-float-delayed {
+    animation: tfm-float 4s ease-in-out infinite 1s;
+  }
+
+  @keyframes tfm-float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
+  /* Soft pulse for icons */
+  .tfm-pulse-soft {
+    animation: tfm-pulse-soft 3s ease-in-out infinite;
+  }
+
+  @keyframes tfm-pulse-soft {
+    0%, 100% {
+      opacity: 0.8;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.02);
+    }
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
 }
