@@ -182,7 +182,7 @@ const HeroSection = ({ isAdmin }: HeroProps) => {
                 <span className="tfm-gradient-text">instant cartoon magic</span>
               </h1>
               <p className="text-lg sm:text-xl text-muted-foreground max-w-lg mx-auto lg:mx-0">
-                Upload a photo, pick from 12 iconic cartoon styles, and download your transformation in seconds. It's that simple.
+                Upload a photo, pick from 30+ cartoon styles, and download your transformation. It's that simple.
               </p>
             </div>
 
@@ -288,7 +288,7 @@ const HeroSection = ({ isAdmin }: HeroProps) => {
             </div>
             <div className="absolute -bottom-4 -left-4 hidden lg:block animate-float" style={{ animationDelay: "1s" }}>
               <div className="px-3 py-2 rounded-xl bg-accent text-accent-foreground text-xs font-bold shadow-lg">
-                12 Styles
+                30+ Styles
               </div>
             </div>
           </div>
@@ -312,7 +312,7 @@ const HowItWorksSection = () => {
     {
       icon: Palette,
       title: "Pick a cartoon style",
-      description: "Choose from 12 iconic styles, from Springfield to Bikini Bottom.",
+      description: "Choose from 30+ styles across anime, games, movies, and more.",
       color: "secondary",
     },
     {
@@ -388,7 +388,7 @@ const StylesSection = () => {
   ];
 
   const features = [
-    "12 Cartoon Styles",
+    "30+ Cartoon Styles",
     "FaceLock Technology",
     "TLC Easter Eggs",
     "Instant Download",
