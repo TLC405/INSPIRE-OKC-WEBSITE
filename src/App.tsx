@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import TLCAppBuilder from "./pages/TLCAppBuilder";
 import Cartoonizer from "./pages/Cartoonizer";
+import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 import { AdminRoute } from "./components/AdminRoute";
 
@@ -22,6 +23,14 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/cartoonizer" element={<Cartoonizer />} />
+          <Route 
+            path="/admin" 
+            element={
+              <AdminRoute>
+                <Admin />
+              </AdminRoute>
+            } 
+          />
           <Route 
             path="/app-builder" 
             element={
