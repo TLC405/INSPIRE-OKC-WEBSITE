@@ -1,15 +1,14 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { LandingView } from "@/components/cartoonizer/LandingView";
 import { UploadView } from "@/components/cartoonizer/UploadView";
 import { StyleSelector } from "@/components/cartoonizer/StyleSelector";
 import { GeneratePanel } from "@/components/cartoonizer/GeneratePanel";
 
-type Step = "landing" | "upload" | "style" | "generate";
+type Step = "upload" | "style" | "generate";
 
 const Cartoonizer = () => {
-  const [step, setStep] = useState<Step>("landing");
+  const [step, setStep] = useState<Step>("upload");
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [uploadId, setUploadId] = useState<string | null>(null);
   const [uploadUrl, setUploadUrl] = useState<string | null>(null);
@@ -45,10 +44,6 @@ const Cartoonizer = () => {
     }
   };
 
-  const handleStart = () => {
-    setStep("upload");
-  };
-
   const handleUploadComplete = (url: string, id: string) => {
     setUploadUrl(url);
     setUploadId(id);
@@ -74,10 +69,6 @@ const Cartoonizer = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
-      {step === "landing" && (
-        <LandingView onStart={handleStart} />
-      )}
-      
       {step === "upload" && sessionId && (
         <UploadView 
           sessionId={sessionId}

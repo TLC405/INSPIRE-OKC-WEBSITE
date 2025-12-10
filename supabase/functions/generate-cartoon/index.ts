@@ -187,11 +187,6 @@ SCENE PLACEMENT (REQUIRED):
 - The person naturally belongs in this cartoon world
 - Background elements complement but don't overshadow the person
 
-TLC EASTER EGG (REQUIRED):
-- Subtly incorporate this hidden detail: ${styleConfig.easterEgg}
-- Make it visible but not prominent - a fun hidden detail to discover
-- Style the TLC text to perfectly match the cartoon world's aesthetic
-
 OUTPUT REQUIREMENTS:
 - High resolution, clean linework appropriate to style
 - TV-show quality but NOT copying any trademarked frames/logos/characters
