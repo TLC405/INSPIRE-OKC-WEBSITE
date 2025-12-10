@@ -14,26 +14,88 @@ export type Database = {
   }
   public: {
     Tables: {
+      device_fingerprints: {
+        Row: {
+          fingerprint_hash: string
+          first_seen_at: string | null
+          id: string
+          language: string | null
+          last_seen_at: string | null
+          platform: string | null
+          screen_resolution: string | null
+          session_id: string | null
+          timezone: string | null
+          total_generations: number | null
+          user_agent: string | null
+        }
+        Insert: {
+          fingerprint_hash: string
+          first_seen_at?: string | null
+          id?: string
+          language?: string | null
+          last_seen_at?: string | null
+          platform?: string | null
+          screen_resolution?: string | null
+          session_id?: string | null
+          timezone?: string | null
+          total_generations?: number | null
+          user_agent?: string | null
+        }
+        Update: {
+          fingerprint_hash?: string
+          first_seen_at?: string | null
+          id?: string
+          language?: string | null
+          last_seen_at?: string | null
+          platform?: string | null
+          screen_resolution?: string | null
+          session_id?: string | null
+          timezone?: string | null
+          total_generations?: number | null
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "device_fingerprints_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "user_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       events: {
         Row: {
+          click_x: number | null
+          click_y: number | null
           created_at: string
+          element_clicked: string | null
           event_data: Json | null
           event_type: string
           id: string
+          page_url: string | null
           session_id: string | null
         }
         Insert: {
+          click_x?: number | null
+          click_y?: number | null
           created_at?: string
+          element_clicked?: string | null
           event_data?: Json | null
           event_type: string
           id?: string
+          page_url?: string | null
           session_id?: string | null
         }
         Update: {
+          click_x?: number | null
+          click_y?: number | null
           created_at?: string
+          element_clicked?: string | null
           event_data?: Json | null
           event_type?: string
           id?: string
+          page_url?: string | null
           session_id?: string | null
         }
         Relationships: [
@@ -97,6 +159,60 @@ export type Database = {
           },
         ]
       }
+      generation_limits: {
+        Row: {
+          created_at: string | null
+          fingerprint_hash: string
+          generation_count: number | null
+          generation_date: string
+          id: string
+          is_tlc_friend: boolean | null
+        }
+        Insert: {
+          created_at?: string | null
+          fingerprint_hash: string
+          generation_count?: number | null
+          generation_date?: string
+          id?: string
+          is_tlc_friend?: boolean | null
+        }
+        Update: {
+          created_at?: string | null
+          fingerprint_hash?: string
+          generation_count?: number | null
+          generation_date?: string
+          id?: string
+          is_tlc_friend?: boolean | null
+        }
+        Relationships: []
+      }
+      tlc_friends: {
+        Row: {
+          added_by: string | null
+          created_at: string | null
+          daily_limit: number | null
+          email: string
+          id: string
+          name: string | null
+        }
+        Insert: {
+          added_by?: string | null
+          created_at?: string | null
+          daily_limit?: number | null
+          email: string
+          id?: string
+          name?: string | null
+        }
+        Update: {
+          added_by?: string | null
+          created_at?: string | null
+          daily_limit?: number | null
+          email?: string
+          id?: string
+          name?: string | null
+        }
+        Relationships: []
+      }
       uploads: {
         Row: {
           created_at: string
@@ -155,39 +271,69 @@ export type Database = {
       }
       user_sessions: {
         Row: {
+          city: string | null
           country: string | null
           created_at: string
           device: string | null
+          fingerprint_hash: string | null
           id: string
           ip_hash: string | null
+          is_admin: boolean | null
+          is_tlc_friend: boolean | null
+          language: string | null
           last_activity: string
+          latitude: number | null
+          longitude: number | null
+          platform: string | null
           referrer: string | null
           region: string | null
+          screen_resolution: string | null
           session_uuid: string
+          timezone: string | null
           user_agent: string | null
         }
         Insert: {
+          city?: string | null
           country?: string | null
           created_at?: string
           device?: string | null
+          fingerprint_hash?: string | null
           id?: string
           ip_hash?: string | null
+          is_admin?: boolean | null
+          is_tlc_friend?: boolean | null
+          language?: string | null
           last_activity?: string
+          latitude?: number | null
+          longitude?: number | null
+          platform?: string | null
           referrer?: string | null
           region?: string | null
+          screen_resolution?: string | null
           session_uuid?: string
+          timezone?: string | null
           user_agent?: string | null
         }
         Update: {
+          city?: string | null
           country?: string | null
           created_at?: string
           device?: string | null
+          fingerprint_hash?: string | null
           id?: string
           ip_hash?: string | null
+          is_admin?: boolean | null
+          is_tlc_friend?: boolean | null
+          language?: string | null
           last_activity?: string
+          latitude?: number | null
+          longitude?: number | null
+          platform?: string | null
           referrer?: string | null
           region?: string | null
+          screen_resolution?: string | null
           session_uuid?: string
+          timezone?: string | null
           user_agent?: string | null
         }
         Relationships: []
