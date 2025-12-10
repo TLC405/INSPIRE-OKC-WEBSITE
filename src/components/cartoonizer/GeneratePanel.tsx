@@ -151,13 +151,13 @@ export const GeneratePanel = ({
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="text-center space-y-2">
           <h2 className="text-2xl md:text-3xl font-bold">
-            {generating ? loadingMessage : "Your Transformation"}
+            {generating ? "Creating Your Cartoon..." : "Your Transformation"}
           </h2>
-          <p className="text-muted-foreground text-sm">
-            {generating 
-              ? "FaceLock preserving your identity (15-30 sec)" 
-              : `Style: ${styleName}`}
-          </p>
+          {!generating && generatedImage && (
+            <p className="text-muted-foreground text-sm">
+              Style: {styleName}
+            </p>
+          )}
         </div>
 
         <Card className="p-4 md:p-6">
@@ -169,9 +169,9 @@ export const GeneratePanel = ({
                   <Sparkles className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-5 h-5 text-primary animate-pulse" />
                 </div>
                 <div className="text-center space-y-1">
-                  <p className="font-medium">Transforming you into {styleName}...</p>
+                  <p className="font-medium text-lg">{loadingMessage}</p>
                   <p className="text-xs text-muted-foreground">
-                    Preserving your features • Placing you in the scene
+                    FaceLock preserving your identity...
                   </p>
                 </div>
               </div>
@@ -215,10 +215,9 @@ export const GeneratePanel = ({
           </div>
         </Card>
 
-        {/* Mental health tagline */}
         <div className="text-center">
           <p className="text-xs text-muted-foreground">
-            TLC mental health tool - take a break, have some fun 🤝
+            A creative break for the homies 🤝
           </p>
         </div>
       </div>
