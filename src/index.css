@@ -1,108 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* TeeFeeMe-5000 Design System
-   Premium Cartoon Lab aesthetic - soft gradients, glass panels, friendly shapes
+/* ========================================================
+   INSPIRE OKC + TeeFeeMe-5000 Design System
+   Brutal Neo-Skeuomorphism: Red / Black / Hot Pink / White
    All colors MUST be HSL.
-*/
+======================================================== */
 
 @layer base {
   :root {
-    /* Warm cream base with soft premium accents */
-    --background: 40 25% 97%;
-    --foreground: 220 15% 15%;
+    /* INSPIRE OKC - Dark brutal base */
+    --background: 0 0% 4%;
+    --foreground: 0 0% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 220 15% 15%;
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 15% 15%;
+    --popover: 0 0% 6%;
+    --popover-foreground: 0 0% 98%;
 
-    /* Rich coral primary - warm and inviting */
-    --primary: 350 75% 58%;
+    /* Primary: Hot Pink */
+    --primary: 330 100% 55%;
     --primary-foreground: 0 0% 100%;
 
-    /* Soft teal secondary */
-    --secondary: 170 45% 50%;
+    /* Secondary: Deep Red */
+    --secondary: 0 85% 50%;
     --secondary-foreground: 0 0% 100%;
 
-    /* Warm muted tones */
-    --muted: 40 20% 92%;
-    --muted-foreground: 220 10% 45%;
+    /* Muted: Dark grays */
+    --muted: 0 0% 14%;
+    --muted-foreground: 0 0% 60%;
 
-    /* Warm amber accent */
-    --accent: 35 85% 55%;
-    --accent-foreground: 220 15% 15%;
+    /* Accent: Neon Pink */
+    --accent: 320 100% 65%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 72% 55%;
+    --destructive: 0 72% 45%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 40 20% 88%;
-    --input: 40 20% 88%;
-    --ring: 350 75% 58%;
+    --border: 0 0% 20%;
+    --input: 0 0% 16%;
+    --ring: 330 100% 55%;
 
-    --radius: 0.75rem;
+    --radius: 0rem;
 
-    /* TeeFeeMe premium brand colors */
-    --tfm-coral: 350 75% 58%;
-    --tfm-teal: 170 45% 50%;
-    --tfm-amber: 35 85% 55%;
-    --tfm-lavender: 260 50% 65%;
-    --tfm-sage: 145 30% 55%;
-    --tfm-peach: 20 80% 70%;
+    /* INSPIRE OKC Custom Tokens */
+    --okc-red: 0 85% 50%;
+    --okc-hotpink: 330 100% 55%;
+    --okc-neonpink: 320 100% 65%;
+    --okc-black: 0 0% 4%;
+    --okc-white: 0 0% 98%;
+    --okc-gray: 0 0% 20%;
+    --okc-darkgray: 0 0% 12%;
 
-    --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 220 15% 15%;
-    --sidebar-primary: 350 75% 58%;
+    /* Legacy TFM tokens - preserved for cartoonizer */
+    --tfm-coral: 12 90% 65%;
+    --tfm-teal: 175 60% 50%;
+    --tfm-amber: 38 95% 55%;
+    --tfm-lavender: 270 60% 70%;
+    --tfm-sage: 140 30% 55%;
+    --tfm-peach: 24 80% 70%;
+
+    --sidebar-background: 0 0% 6%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 330 100% 55%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 40 20% 92%;
-    --sidebar-accent-foreground: 220 15% 15%;
-    --sidebar-border: 40 20% 88%;
-    --sidebar-ring: 350 75% 58%;
-  }
-
-  .dark {
-    /* Deep warm background */
-    --background: 225 25% 10%;
-    --foreground: 40 20% 95%;
-
-    --card: 225 22% 14%;
-    --card-foreground: 40 20% 95%;
-
-    --popover: 225 22% 14%;
-    --popover-foreground: 40 20% 95%;
-
-    /* Soft coral primary */
-    --primary: 350 70% 62%;
-    --primary-foreground: 225 25% 10%;
-
-    /* Muted teal secondary */
-    --secondary: 170 40% 45%;
-    --secondary-foreground: 225 25% 10%;
-
-    --muted: 225 18% 18%;
-    --muted-foreground: 40 15% 60%;
-
-    /* Warm amber accent */
-    --accent: 35 80% 55%;
-    --accent-foreground: 225 25% 10%;
-
-    --destructive: 0 65% 50%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 225 18% 22%;
-    --input: 225 18% 22%;
-    --ring: 350 70% 62%;
-
-    --sidebar-background: 225 22% 12%;
-    --sidebar-foreground: 40 20% 95%;
-    --sidebar-primary: 350 70% 62%;
-    --sidebar-primary-foreground: 225 25% 10%;
-    --sidebar-accent: 225 18% 18%;
-    --sidebar-accent-foreground: 40 20% 95%;
-    --sidebar-border: 225 18% 22%;
-    --sidebar-ring: 350 70% 62%;
+    --sidebar-accent: 320 100% 65%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 0 0% 20%;
+    --sidebar-ring: 330 100% 55%;
   }
 }
 
@@ -113,36 +82,89 @@
 
   body {
     @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', 'Space Grotesk', system-ui, sans-serif;
   }
 }
 
 @layer utilities {
-  /* Premium soft glow effects */
-  .tfm-glow-soft {
-    box-shadow: 0 4px 30px hsl(var(--primary) / 0.15),
-                0 1px 8px hsl(var(--primary) / 0.1);
+  /* ========================================
+     BRUTAL NEO UTILITIES
+  ======================================== */
+  
+  /* Hard shadow - skeuomorphic */
+  .brutal-shadow {
+    box-shadow: 
+      6px 6px 0 hsl(var(--okc-hotpink)),
+      12px 12px 0 hsl(var(--okc-red));
   }
 
-  .tfm-glow-teal {
-    box-shadow: 0 4px 30px hsl(var(--secondary) / 0.15),
-                0 1px 8px hsl(var(--secondary) / 0.1);
+  .brutal-shadow-sm {
+    box-shadow: 3px 3px 0 hsl(var(--primary));
+  }
+
+  .brutal-shadow-white {
+    box-shadow: 4px 4px 0 hsl(var(--foreground));
+  }
+
+  /* Neon glow effects */
+  .neon-glow {
+    box-shadow: 
+      0 0 20px hsl(var(--primary) / 0.6),
+      0 0 40px hsl(var(--primary) / 0.3),
+      0 0 60px hsl(var(--primary) / 0.15);
+  }
+
+  .neon-glow-red {
+    box-shadow: 
+      0 0 20px hsl(var(--secondary) / 0.6),
+      0 0 40px hsl(var(--secondary) / 0.3);
+  }
+
+  /* Brutal borders */
+  .brutal-border {
+    @apply border-4 border-foreground;
+  }
+
+  .brutal-border-pink {
+    @apply border-4 border-primary;
+  }
+
+  .brutal-border-red {
+    @apply border-4 border-secondary;
+  }
+
+  /* Gradient text */
+  .okc-gradient-text {
+    @apply bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent;
   }
 
   .tfm-gradient-text {
     @apply bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent;
   }
 
-  .tfm-gradient-soft {
-    @apply bg-gradient-to-br from-primary/10 via-accent/5 to-secondary/10;
+  /* Scanline overlay for retro effect */
+  .scanlines::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      hsl(0 0% 0% / 0.05) 2px,
+      hsl(0 0% 0% / 0.05) 4px
+    );
+    pointer-events: none;
   }
 
-  /* Glass effect */
-  .glass {
-    @apply bg-card/80 backdrop-blur-xl border border-border/50 shadow-xl;
-  }
-
-  .glass-subtle {
-    @apply bg-card/60 backdrop-blur-md border border-border/30;
+  /* Noise texture overlay */
+  .noise::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
   }
 
   /* Hide scrollbar */
@@ -156,60 +178,180 @@
 }
 
 @layer components {
+  /* ========================================
+     BRUTAL CARD STYLES
+  ======================================== */
+  .brutal-card {
+    @apply bg-card border-4 border-foreground p-6 relative;
+    box-shadow: 6px 6px 0 hsl(var(--primary));
+    transition: all 0.15s ease;
+  }
+
+  .brutal-card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 8px 8px 0 hsl(var(--primary));
+  }
+
+  .brutal-card-red {
+    @apply bg-secondary border-4 border-foreground p-6 relative;
+    box-shadow: 6px 6px 0 hsl(var(--foreground));
+  }
+
+  .brutal-card-pink {
+    @apply bg-primary border-4 border-foreground p-6 relative;
+    box-shadow: 6px 6px 0 hsl(var(--foreground));
+  }
+
+  /* ========================================
+     BRUTAL BUTTONS
+  ======================================== */
+  .brutal-btn {
+    @apply inline-flex items-center justify-center gap-2 font-bold uppercase tracking-wider;
+    @apply px-6 py-3 border-4 border-foreground bg-primary text-primary-foreground;
+    box-shadow: 4px 4px 0 hsl(var(--foreground));
+    transition: all 0.1s ease;
+  }
+
+  .brutal-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 hsl(var(--foreground));
+  }
+
+  .brutal-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 hsl(var(--foreground));
+  }
+
+  .brutal-btn-outline {
+    @apply bg-transparent border-primary text-primary;
+    box-shadow: 4px 4px 0 hsl(var(--primary));
+  }
+
+  .brutal-btn-outline:hover {
+    @apply bg-primary text-primary-foreground;
+    box-shadow: 6px 6px 0 hsl(var(--foreground));
+  }
+
+  /* ========================================
+     WEATHER WIDGET
+  ======================================== */
+  .weather-widget {
+    @apply bg-gradient-to-br from-secondary via-primary to-accent;
+    @apply border-4 border-foreground p-6;
+    box-shadow: 8px 8px 0 hsl(var(--foreground));
+  }
+
+  /* ========================================
+     EVENT CARDS
+  ======================================== */
+  .event-card {
+    @apply bg-card border-2 border-border p-4 relative;
+    transition: all 0.15s ease;
+  }
+
+  .event-card:hover {
+    @apply border-primary;
+    box-shadow: 4px 4px 0 hsl(var(--primary));
+    transform: translate(-2px, -2px);
+  }
+
+  /* ========================================
+     SOCIAL FEED STYLING
+  ======================================== */
+  .social-badge {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold uppercase tracking-wider;
+    @apply border-2 border-foreground;
+  }
+
+  .social-badge-twitter {
+    @apply bg-[hsl(203_89%_53%)] text-white;
+  }
+
+  .social-badge-instagram {
+    @apply bg-gradient-to-r from-[hsl(37_90%_55%)] via-[hsl(340_82%_52%)] to-[hsl(280_72%_45%)] text-white;
+  }
+
+  .social-badge-facebook {
+    @apply bg-[hsl(221_44%_41%)] text-white;
+  }
+
+  /* ========================================
+     ANIMATIONS
+  ======================================== */
+  .animate-fade-in {
+    animation: fade-in 0.4s ease-out forwards;
+    opacity: 0;
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-slide-up {
+    animation: slide-up 0.5s ease-out forwards;
+  }
+
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-pulse-neon {
+    animation: pulse-neon 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-neon {
+    0%, 100% {
+      box-shadow: 0 0 20px hsl(var(--primary) / 0.4);
+    }
+    50% {
+      box-shadow: 0 0 40px hsl(var(--primary) / 0.8);
+    }
+  }
+
+  .animate-marquee {
+    animation: marquee 20s linear infinite;
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* Legacy TFM components for cartoonizer */
   .tfm-card {
     @apply bg-card border border-border rounded-2xl p-6 transition-all duration-300;
     @apply hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5;
   }
 
   .tfm-card-glass {
-    @apply glass rounded-2xl p-6 transition-all duration-300;
-    @apply hover:border-primary/30 hover:shadow-xl;
+    @apply bg-card/80 backdrop-blur-xl border border-border/50 rounded-2xl p-6;
   }
 
-  /* Smooth button hover */
   .tfm-button-hover {
     @apply transition-all duration-200;
     @apply hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-0.5;
   }
 
-  /* Floating animation for hero elements */
-  .tfm-float {
-    animation: tfm-float 4s ease-in-out infinite;
-  }
-
-  .tfm-float-delayed {
-    animation: tfm-float 4s ease-in-out infinite 1s;
-  }
-
-  @keyframes tfm-float {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-8px);
-    }
-  }
-
-  /* Soft pulse for icons */
-  .tfm-pulse-soft {
-    animation: tfm-pulse-soft 3s ease-in-out infinite;
-  }
-
-  @keyframes tfm-pulse-soft {
-    0%, 100% {
-      opacity: 0.8;
-      transform: scale(1);
-    }
-    50% {
-      opacity: 1;
-      transform: scale(1.02);
-    }
-  }
-
-  /* Card stagger animation */
-  .animate-fade-in {
-    animation: fade-in 0.4s ease-out forwards;
-    opacity: 0;
+  .glass {
+    @apply bg-card/80 backdrop-blur-xl border border-border/50 shadow-xl;
   }
 }
 
@@ -221,14 +363,12 @@
 
 ::-webkit-scrollbar-track {
   background: hsl(var(--muted));
-  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--muted-foreground) / 0.3);
-  border-radius: 4px;
+  background: hsl(var(--primary));
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--muted-foreground) / 0.5);
+  background: hsl(var(--accent));
 }
