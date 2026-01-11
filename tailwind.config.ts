@@ -65,6 +65,15 @@ export default {
           sage: "hsl(var(--tfm-sage))",
           peach: "hsl(var(--tfm-peach))",
         },
+        okc: {
+          red: "hsl(var(--okc-red))",
+          hotpink: "hsl(var(--okc-hotpink))",
+          neonpink: "hsl(var(--okc-neonpink))",
+          black: "hsl(var(--okc-black))",
+          white: "hsl(var(--okc-white))",
+          gray: "hsl(var(--okc-gray))",
+          darkgray: "hsl(var(--okc-darkgray))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
