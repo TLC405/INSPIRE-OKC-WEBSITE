@@ -9,6 +9,15 @@ import TLCAppBuilder from "./pages/TLCAppBuilder";
 import Cartoonizer from "./pages/Cartoonizer";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
+import Apply from "./pages/Apply";
+import Story from "./pages/Story";
+import Podcast from "./pages/Podcast";
+import Apps from "./pages/Apps";
+import Slides from "./pages/Slides";
+import Community from "./pages/Community";
+import Adulting from "./pages/Adulting";
+import Singles from "./pages/Singles";
+import Workout from "./pages/Workout";
 import { AdminRoute } from "./components/AdminRoute";
 
 const queryClient = new QueryClient();
@@ -22,6 +31,15 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/auth" element={<Auth />} />
+          <Route path="/apply" element={<Apply />} />
+          <Route path="/story" element={<Story />} />
+          <Route path="/podcast" element={<Podcast />} />
+          <Route path="/apps" element={<Apps />} />
+          <Route path="/slides" element={<Slides />} />
+          <Route path="/community" element={<Community />} />
+          <Route path="/adulting" element={<Adulting />} />
+          <Route path="/singles" element={<Singles />} />
+          <Route path="/workout" element={<Workout />} />
           <Route path="/cartoonizer" element={<Cartoonizer />} />
           <Route 
             path="/admin" 

@@ -14,6 +14,152 @@ export type Database = {
   }
   public: {
     Tables: {
+      app_gallery: {
+        Row: {
+          app_url: string | null
+          created_at: string | null
+          description: string | null
+          display_order: number | null
+          icon_url: string | null
+          id: string
+          is_featured: boolean | null
+          name: string
+        }
+        Insert: {
+          app_url?: string | null
+          created_at?: string | null
+          description?: string | null
+          display_order?: number | null
+          icon_url?: string | null
+          id?: string
+          is_featured?: boolean | null
+          name: string
+        }
+        Update: {
+          app_url?: string | null
+          created_at?: string | null
+          description?: string | null
+          display_order?: number | null
+          icon_url?: string | null
+          id?: string
+          is_featured?: boolean | null
+          name?: string
+        }
+        Relationships: []
+      }
+      community_applications: {
+        Row: {
+          channel_interest: string[] | null
+          created_at: string | null
+          email: string
+          id: string
+          name: string
+          phone: string | null
+          referral_name: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string | null
+          why_join: string
+        }
+        Insert: {
+          channel_interest?: string[] | null
+          created_at?: string | null
+          email: string
+          id?: string
+          name: string
+          phone?: string | null
+          referral_name?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string | null
+          why_join: string
+        }
+        Update: {
+          channel_interest?: string[] | null
+          created_at?: string | null
+          email?: string
+          id?: string
+          name?: string
+          phone?: string | null
+          referral_name?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string | null
+          why_join?: string
+        }
+        Relationships: []
+      }
+      community_events: {
+        Row: {
+          channel: string | null
+          created_at: string | null
+          description: string | null
+          event_date: string
+          id: string
+          is_members_only: boolean | null
+          location: string | null
+          max_attendees: number | null
+          title: string
+        }
+        Insert: {
+          channel?: string | null
+          created_at?: string | null
+          description?: string | null
+          event_date: string
+          id?: string
+          is_members_only?: boolean | null
+          location?: string | null
+          max_attendees?: number | null
+          title: string
+        }
+        Update: {
+          channel?: string | null
+          created_at?: string | null
+          description?: string | null
+          event_date?: string
+          id?: string
+          is_members_only?: boolean | null
+          location?: string | null
+          max_attendees?: number | null
+          title?: string
+        }
+        Relationships: []
+      }
+      community_members: {
+        Row: {
+          application_id: string | null
+          channels_access: string[] | null
+          id: string
+          is_active: boolean | null
+          joined_at: string | null
+          user_id: string
+        }
+        Insert: {
+          application_id?: string | null
+          channels_access?: string[] | null
+          id?: string
+          is_active?: boolean | null
+          joined_at?: string | null
+          user_id: string
+        }
+        Update: {
+          application_id?: string | null
+          channels_access?: string[] | null
+          id?: string
+          is_active?: boolean | null
+          joined_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "community_members_application_id_fkey"
+            columns: ["application_id"]
+            isOneToOne: false
+            referencedRelation: "community_applications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       device_fingerprints: {
         Row: {
           fingerprint_hash: string
@@ -183,6 +329,120 @@ export type Database = {
           generation_date?: string
           id?: string
           is_tlc_friend?: boolean | null
+        }
+        Relationships: []
+      }
+      podcast_episodes: {
+        Row: {
+          audio_url: string | null
+          created_at: string | null
+          description: string | null
+          duration_seconds: number | null
+          episode_number: number | null
+          id: string
+          is_published: boolean | null
+          published_at: string | null
+          title: string
+        }
+        Insert: {
+          audio_url?: string | null
+          created_at?: string | null
+          description?: string | null
+          duration_seconds?: number | null
+          episode_number?: number | null
+          id?: string
+          is_published?: boolean | null
+          published_at?: string | null
+          title: string
+        }
+        Update: {
+          audio_url?: string | null
+          created_at?: string | null
+          description?: string | null
+          duration_seconds?: number | null
+          episode_number?: number | null
+          id?: string
+          is_published?: boolean | null
+          published_at?: string | null
+          title?: string
+        }
+        Relationships: []
+      }
+      posts: {
+        Row: {
+          author_id: string | null
+          category: string | null
+          chapter_number: number | null
+          content: string
+          content_warning_text: string | null
+          created_at: string | null
+          excerpt: string | null
+          has_content_warning: boolean | null
+          id: string
+          is_published: boolean | null
+          slug: string
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          author_id?: string | null
+          category?: string | null
+          chapter_number?: number | null
+          content: string
+          content_warning_text?: string | null
+          created_at?: string | null
+          excerpt?: string | null
+          has_content_warning?: boolean | null
+          id?: string
+          is_published?: boolean | null
+          slug: string
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          author_id?: string | null
+          category?: string | null
+          chapter_number?: number | null
+          content?: string
+          content_warning_text?: string | null
+          created_at?: string | null
+          excerpt?: string | null
+          has_content_warning?: boolean | null
+          id?: string
+          is_published?: boolean | null
+          slug?: string
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      slide_decks: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          file_url: string
+          id: string
+          is_published: boolean | null
+          thumbnail_url: string | null
+          title: string
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          file_url: string
+          id?: string
+          is_published?: boolean | null
+          thumbnail_url?: string | null
+          title: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          file_url?: string
+          id?: string
+          is_published?: boolean | null
+          thumbnail_url?: string | null
+          title?: string
         }
         Relationships: []
       }
