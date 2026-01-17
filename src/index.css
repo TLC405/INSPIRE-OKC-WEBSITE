@@ -280,6 +280,10 @@
   ======================================== */
   .animate-fade-in {
     animation: fade-in 0.4s ease-out forwards;
+  }
+
+  .animate-fade-in-once {
+    animation: fade-in 0.4s ease-out forwards;
     opacity: 0;
   }
 

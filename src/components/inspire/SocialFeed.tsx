@@ -1,72 +1,92 @@
-import { Twitter, Instagram, Facebook } from "lucide-react";
+import { Heart, Users, Dumbbell, MapPin, ExternalLink, Calendar } from "lucide-react";
 
-interface SocialPost {
+interface SocialSpot {
   id: string;
-  platform: "twitter" | "instagram" | "facebook";
-  content: string;
-  author: string;
-  handle: string;
-  timestamp: string;
-  likes: number;
+  category: "volunteering" | "singles" | "gym";
+  name: string;
+  description: string;
+  location: string;
+  nextEvent?: string;
+  url: string;
 }
 
-// Mock social feed data - In production, would use real APIs
-const MOCK_POSTS: SocialPost[] = [
+const SOCIAL_SPOTS: SocialSpot[] = [
   {
-    id: "1",
-    platform: "twitter",
-    content: "Just had the best chicken-fried steak at Cattlemen's in Stockyards City! OKC food scene is unmatched 🥩 #OKCEats",
-    author: "Sarah K.",
-    handle: "@sarahk_okc",
-    timestamp: "2h ago",
-    likes: 142,
+    id: "v1",
+    category: "volunteering",
+    name: "Regional Food Bank of Oklahoma",
+    description: "Sort and pack food for families in need. Drop-in shifts available.",
+    location: "3355 S Purdue Ave, OKC",
+    nextEvent: "Daily 9am-12pm",
+    url: "#",
   },
   {
-    id: "2",
-    platform: "instagram",
-    content: "Sunset views from Scissortail Park never get old ✨ This city keeps surprising me 🌆 #OKC #Oklahoma",
-    author: "Marcus T.",
-    handle: "@marcus.travels",
-    timestamp: "4h ago",
-    likes: 389,
+    id: "v2",
+    category: "volunteering",
+    name: "Habitat for Humanity OKC",
+    description: "Build homes and hope. No experience needed.",
+    location: "Various sites in OKC",
+    nextEvent: "Saturdays 8am",
+    url: "#",
   },
   {
-    id: "3",
-    platform: "twitter",
-    content: "Thunder up! ⛈️ What a game last night! The energy at Paycom Center was ELECTRIC ⚡ #ThunderUp",
-    author: "OKC Sports Fan",
-    handle: "@okcsports",
-    timestamp: "6h ago",
-    likes: 892,
+    id: "s1",
+    category: "singles",
+    name: "OKC Singles Mixer",
+    description: "Monthly meetups at local bars and restaurants. Real connections, no apps.",
+    location: "Rotating venues",
+    nextEvent: "First Friday each month",
+    url: "#",
   },
   {
-    id: "4",
-    platform: "facebook",
-    content: "Paseo Arts District First Friday was amazing! So much local talent. Support your local artists! 🎨",
-    author: "OKC Arts Council",
-    handle: "OKC Arts",
-    timestamp: "1d ago",
-    likes: 234,
+    id: "s2",
+    category: "singles",
+    name: "Speed Dating at Stitch",
+    description: "Fast, fun, and face-to-face. Meet 10+ singles in one night.",
+    location: "Stitch, Automobile Alley",
+    nextEvent: "2nd Saturday monthly",
+    url: "#",
+  },
+  {
+    id: "g1",
+    category: "gym",
+    name: "Climb Up OKC",
+    description: "Indoor rock climbing for all levels. Great community vibe.",
+    location: "7502 N Broadway, OKC",
+    url: "#",
+  },
+  {
+    id: "g2",
+    category: "gym",
+    name: "YMCA of Greater OKC",
+    description: "Full facilities, pools, classes. Community-focused fitness.",
+    location: "Multiple locations",
+    url: "#",
   },
 ];
 
-const PlatformIcon = ({ platform }: { platform: string }) => {
-  switch (platform) {
-    case "twitter":
-      return <Twitter className="w-4 h-4" />;
-    case "instagram":
-      return <Instagram className="w-4 h-4" />;
-    case "facebook":
-      return <Facebook className="w-4 h-4" />;
-    default:
-      return null;
-  }
-};
-
-const platformStyles: Record<string, string> = {
-  twitter: "border-l-[hsl(203_89%_53%)]",
-  instagram: "border-l-[hsl(340_82%_52%)]",
-  facebook: "border-l-[hsl(221_44%_41%)]",
+const categoryConfig = {
+  volunteering: {
+    icon: Heart,
+    label: "Volunteering",
+    color: "text-secondary",
+    bg: "bg-secondary/10",
+    border: "border-secondary",
+  },
+  singles: {
+    icon: Users,
+    label: "Singles Events",
+    color: "text-primary",
+    bg: "bg-primary/10",
+    border: "border-primary",
+  },
+  gym: {
+    icon: Dumbbell,
+    label: "Gyms & Fitness",
+    color: "text-accent",
+    bg: "bg-accent/10",
+    border: "border-accent",
+  },
 };
 
 export const SocialFeed = () => {
@@ -74,60 +94,68 @@ export const SocialFeed = () => {
     <section className="py-16 lg:py-24 bg-muted/30">
       <div className="container mx-auto px-4">
         {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-12">
-          <div>
-            <h2 className="text-4xl md:text-5xl font-black text-foreground uppercase tracking-tight mb-2">
-              Social <span className="okc-gradient-text">Pulse</span>
-            </h2>
-            <p className="text-muted-foreground">
-              What OKC is talking about right now
-            </p>
-          </div>
-          <div className="flex gap-3">
-            <button className="social-badge social-badge-twitter">
-              <Twitter className="w-3 h-3" /> Twitter
-            </button>
-            <button className="social-badge social-badge-instagram">
-              <Instagram className="w-3 h-3" /> Instagram
-            </button>
-            <button className="social-badge social-badge-facebook">
-              <Facebook className="w-3 h-3" /> Facebook
-            </button>
-          </div>
+        <div className="mb-12">
+          <h2 className="text-4xl md:text-5xl font-black text-foreground uppercase tracking-tight mb-2">
+            Get <span className="okc-gradient-text">Involved</span>
+          </h2>
+          <p className="text-muted-foreground text-lg">
+            Volunteering, singles events, and fitness spots in OKC
+          </p>
         </div>
 
-        {/* Posts Grid */}
-        <div className="grid md:grid-cols-2 gap-4">
-          {MOCK_POSTS.map((post, index) => (
-            <div
-              key={post.id}
-              className={`bg-card p-5 border-l-4 ${platformStyles[post.platform]} animate-fade-in`}
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              {/* Header */}
-              <div className="flex justify-between items-start mb-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-muted flex items-center justify-center text-muted-foreground">
-                    <PlatformIcon platform={post.platform} />
-                  </div>
-                  <div>
-                    <p className="font-bold text-foreground text-sm">{post.author}</p>
-                    <p className="text-muted-foreground text-xs">{post.handle}</p>
-                  </div>
+        {/* Category Sections */}
+        {(["volunteering", "singles", "gym"] as const).map((cat) => {
+          const config = categoryConfig[cat];
+          const Icon = config.icon;
+          const spots = SOCIAL_SPOTS.filter((s) => s.category === cat);
+
+          return (
+            <div key={cat} className="mb-12 last:mb-0">
+              {/* Category Header */}
+              <div className="flex items-center gap-3 mb-6">
+                <div className={`p-2 ${config.bg} border-2 ${config.border}`}>
+                  <Icon className={`w-5 h-5 ${config.color}`} />
                 </div>
-                <span className="text-muted-foreground text-xs">{post.timestamp}</span>
+                <h3 className="text-xl font-black uppercase tracking-wide">{config.label}</h3>
               </div>
 
-              {/* Content */}
-              <p className="text-foreground leading-relaxed mb-3">{post.content}</p>
-
-              {/* Footer */}
-              <div className="flex items-center gap-4 text-muted-foreground text-xs">
-                <span>❤️ {post.likes}</span>
+              {/* Cards */}
+              <div className="grid md:grid-cols-2 gap-4">
+                {spots.map((spot) => (
+                  <div
+                    key={spot.id}
+                    className={`bg-card p-5 border-l-4 ${config.border} hover:border-l-8 transition-all`}
+                  >
+                    <div className="flex justify-between items-start mb-3">
+                      <h4 className="font-bold text-foreground">{spot.name}</h4>
+                      <a
+                        href={spot.url}
+                        className="text-muted-foreground hover:text-primary transition-colors"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                      </a>
+                    </div>
+                    <p className="text-muted-foreground text-sm mb-3">{spot.description}</p>
+                    <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
+                      <span className="flex items-center gap-1">
+                        <MapPin className="w-3 h-3" />
+                        {spot.location}
+                      </span>
+                      {spot.nextEvent && (
+                        <span className="flex items-center gap-1">
+                          <Calendar className="w-3 h-3" />
+                          {spot.nextEvent}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
     </section>
   );
