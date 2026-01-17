@@ -5,10 +5,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
-import TLCAppBuilder from "./pages/TLCAppBuilder";
-import Cartoonizer from "./pages/Cartoonizer";
-import Admin from "./pages/Admin";
-import NotFound from "./pages/NotFound";
 import Apply from "./pages/Apply";
 import Story from "./pages/Story";
 import Podcast from "./pages/Podcast";
@@ -18,6 +14,10 @@ import Community from "./pages/Community";
 import Adulting from "./pages/Adulting";
 import Singles from "./pages/Singles";
 import Workout from "./pages/Workout";
+import Cartoonizer from "./pages/Cartoonizer";
+import Admin from "./pages/Admin";
+import Info from "./pages/Info";
+import NotFound from "./pages/NotFound";
 import { AdminRoute } from "./components/AdminRoute";
 
 const queryClient = new QueryClient();
@@ -41,21 +41,14 @@ const App = () => (
           <Route path="/singles" element={<Singles />} />
           <Route path="/workout" element={<Workout />} />
           <Route path="/cartoonizer" element={<Cartoonizer />} />
-          <Route 
-            path="/admin" 
+          <Route path="/info" element={<Info />} />
+          <Route
+            path="/admin"
             element={
               <AdminRoute>
                 <Admin />
               </AdminRoute>
-            } 
-          />
-          <Route 
-            path="/app-builder" 
-            element={
-              <AdminRoute>
-                <TLCAppBuilder />
-              </AdminRoute>
-            } 
+            }
           />
           <Route path="*" element={<NotFound />} />
         </Routes>

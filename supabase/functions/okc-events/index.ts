@@ -122,19 +122,35 @@ serve(async (req) => {
   }
 
   try {
-    const url = new URL(req.url);
-    const category = url.searchParams.get("category");
-    const limit = parseInt(url.searchParams.get("limit") || "10");
+    let category: string | null = null;
+    let limit = 10;
+
+    // Handle both GET query params and POST body
+    if (req.method === "POST") {
+      try {
+        const body = await req.json();
+        category = body.category || null;
+        limit = body.limit || 10;
+      } catch {
+        // Body parsing failed, continue with defaults
+      }
+    } else {
+      const url = new URL(req.url);
+      category = url.searchParams.get("category");
+      limit = parseInt(url.searchParams.get("limit") || "10");
+    }
 
     let events = generateMockEvents();
 
     // Filter by category if specified
     if (category && category !== "all") {
-      events = events.filter((e) => e.category.toLowerCase() === category.toLowerCase());
+      events = events.filter((e) => e.category.toLowerCase() === category!.toLowerCase());
     }
 
     // Limit results
     events = events.slice(0, limit);
+
+    console.log(`Returning ${events.length} events for category: ${category || 'all'}`);
 
     return new Response(JSON.stringify({ events, total: events.length }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },

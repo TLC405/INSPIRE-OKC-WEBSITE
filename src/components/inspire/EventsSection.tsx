@@ -56,12 +56,8 @@ export const EventsSection = () => {
           </div>
         ) : events.length > 0 ? (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {events.map((event, index) => (
-              <div
-                key={event.id}
-                className="animate-fade-in"
-                style={{ animationDelay: `${index * 0.05}s` }}
-              >
+            {events.map((event) => (
+              <div key={event.id}>
                 <EventCard event={event} />
               </div>
             ))}

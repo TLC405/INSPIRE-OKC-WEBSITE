@@ -80,11 +80,10 @@ export const StyleSelector = ({ onStyleSelect }: StyleSelectorProps) => {
 
         {/* Style Cards Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-          {filteredStyles.map((style, index) => (
+          {filteredStyles.map((style) => (
             <div
               key={style.id}
-              className="group relative cursor-pointer animate-fade-in"
-              style={{ animationDelay: `${index * 50}ms` }}
+              className="group relative cursor-pointer"
               onClick={() => onStyleSelect(style.id)}
               onMouseEnter={() => setHoveredStyle(style.id)}
               onMouseLeave={() => setHoveredStyle(null)}
