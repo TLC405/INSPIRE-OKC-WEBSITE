@@ -83,6 +83,17 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Inter', 'Space Grotesk', system-ui, sans-serif;
+    /* Enable smooth scrolling */
+    scroll-behavior: smooth;
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
 
@@ -276,8 +287,10 @@
   }
 
   /* ========================================
-     ANIMATIONS
+     ANIMATIONS - CINEMATIC
   ======================================== */
+  
+  /* Base fade in */
   .animate-fade-in {
     animation: fade-in 0.4s ease-out forwards;
   }
@@ -298,14 +311,15 @@
     }
   }
 
+  /* Slide up - sections */
   .animate-slide-up {
-    animation: slide-up 0.5s ease-out forwards;
+    animation: slide-up 0.6s ease-out forwards;
   }
 
   @keyframes slide-up {
     from {
       opacity: 0;
-      transform: translateY(30px);
+      transform: translateY(40px);
     }
     to {
       opacity: 1;
@@ -313,6 +327,57 @@
     }
   }
 
+  /* Scale in - cards */
+  .animate-scale-in {
+    animation: scale-in 0.4s ease-out forwards;
+  }
+
+  @keyframes scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Wipe in - reveal */
+  .animate-wipe-in {
+    animation: wipe-in 0.8s ease-out forwards;
+  }
+
+  @keyframes wipe-in {
+    from {
+      clip-path: inset(0 100% 0 0);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
+  /* Float with rotation - shapes */
+  .animate-float-rotate {
+    animation: float-rotate 8s ease-in-out infinite;
+  }
+
+  @keyframes float-rotate {
+    0%, 100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    25% {
+      transform: translateY(-15px) rotate(2deg);
+    }
+    50% {
+      transform: translateY(-25px) rotate(-1deg);
+    }
+    75% {
+      transform: translateY(-10px) rotate(1deg);
+    }
+  }
+
+  /* Pulse neon */
   .animate-pulse-neon {
     animation: pulse-neon 2s ease-in-out infinite;
   }
@@ -326,8 +391,23 @@
     }
   }
 
+  /* Soft pulse */
+  .animate-pulse-soft {
+    animation: pulse-soft 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse-soft {
+    0%, 100% {
+      opacity: 0.7;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  /* Marquee */
   .animate-marquee {
-    animation: marquee 20s linear infinite;
+    animation: marquee 25s linear infinite;
   }
 
   @keyframes marquee {
@@ -336,6 +416,57 @@
     }
     to {
       transform: translateX(-50%);
+    }
+  }
+
+  /* Underline draw */
+  .animate-underline-draw {
+    animation: underline-draw 0.3s ease-out forwards;
+  }
+
+  @keyframes underline-draw {
+    from {
+      transform: scaleX(0);
+      transform-origin: left;
+    }
+    to {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+  }
+
+  /* Bounce subtle */
+  .animate-bounce-subtle {
+    animation: bounce-subtle 2s ease-in-out infinite;
+  }
+
+  @keyframes bounce-subtle {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
+  /* Shimmer effect */
+  .animate-shimmer {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--muted)) 0%,
+      hsl(var(--muted-foreground) / 0.1) 50%,
+      hsl(var(--muted)) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
     }
   }
 
@@ -357,6 +488,98 @@
   .glass {
     @apply bg-card/80 backdrop-blur-xl border border-border/50 shadow-xl;
   }
+  /* ========================================
+     PREMIUM MICRO-INTERACTIONS
+  ======================================== */
+  
+  /* Card 3D tilt on hover */
+  .card-3d {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    transition: transform 0.3s ease-out;
+  }
+
+  .card-3d:hover {
+    transform: translateY(-4px) rotateX(2deg) rotateY(-2deg);
+  }
+
+  /* Link underline animation */
+  .link-underline {
+    position: relative;
+  }
+
+  .link-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: hsl(var(--primary));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease-out;
+  }
+
+  .link-underline:hover::after {
+    transform: scaleX(1);
+  }
+
+  /* Button press effect */
+  .btn-press {
+    transition: all 0.1s ease;
+  }
+
+  .btn-press:active {
+    transform: scale(0.97) translateY(2px);
+  }
+
+  /* Stacked shadow (no gradients) */
+  .shadow-stacked {
+    box-shadow: 
+      4px 4px 0 hsl(var(--primary)),
+      8px 8px 0 hsl(var(--secondary));
+  }
+
+  .shadow-stacked-deep {
+    box-shadow: 
+      4px 4px 0 hsl(var(--primary)),
+      8px 8px 0 hsl(var(--secondary)),
+      12px 12px 0 hsl(var(--foreground) / 0.2);
+  }
+
+  /* Text stacked shadow */
+  .text-shadow-stacked {
+    text-shadow: 
+      2px 2px 0 hsl(var(--primary)),
+      4px 4px 0 hsl(var(--secondary));
+  }
+
+  /* Focus ring */
+  .focus-brutal:focus-visible {
+    outline: 4px solid hsl(var(--primary));
+    outline-offset: 2px;
+  }
+
+  /* Scroll-triggered visible state */
+  .scroll-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .scroll-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Stagger children */
+  .stagger-children > *:nth-child(1) { transition-delay: 0.1s; }
+  .stagger-children > *:nth-child(2) { transition-delay: 0.2s; }
+  .stagger-children > *:nth-child(3) { transition-delay: 0.3s; }
+  .stagger-children > *:nth-child(4) { transition-delay: 0.4s; }
+  .stagger-children > *:nth-child(5) { transition-delay: 0.5s; }
+  .stagger-children > *:nth-child(6) { transition-delay: 0.6s; }
 }
 
 /* Custom scrollbar */
