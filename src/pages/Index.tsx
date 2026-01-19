@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
-import { Zap, Menu, X, LogIn, Sparkles, ArrowRight, Download, Info } from "lucide-react";
+import { Zap, Menu, X, LogIn, Sparkles, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";
-import { WeatherWidget } from "@/components/inspire/WeatherWidget";
 import { EventsSection } from "@/components/inspire/EventsSection";
 import { SocialFeed } from "@/components/inspire/SocialFeed";
 import { TeeFeeSection } from "@/components/inspire/TeeFeeSection";
@@ -11,6 +10,8 @@ import { BlogPreview } from "@/components/inspire/BlogPreview";
 import { PodcastPreview } from "@/components/inspire/PodcastPreview";
 import { GraphicsGallery } from "@/components/inspire/GraphicsGallery";
 import { InstallAppModal } from "@/components/inspire/InstallAppModal";
+import { CinematicHero } from "@/components/inspire/CinematicHero";
+import { ScrollProgress } from "@/components/ui/ScrollProgress";
 
 // ============================================================================
 // HEADER
@@ -145,76 +146,6 @@ const Header = () => {
   );
 };
 
-// ============================================================================
-// HERO
-// ============================================================================
-const HeroSection = () => {
-  return (
-    <section className="pt-28 pb-16 lg:pt-36 lg:pb-24 relative overflow-hidden">
-      {/* Background elements */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-20 -left-32 w-96 h-96 bg-primary/20 blur-3xl" />
-        <div className="absolute bottom-0 -right-32 w-80 h-80 bg-secondary/20 blur-3xl" />
-      </div>
-
-      <div className="container mx-auto px-4 relative">
-        <div className="grid lg:grid-cols-5 gap-8 lg:gap-12 items-start">
-          {/* Left: Main Content - 3 cols */}
-          <div className="lg:col-span-3 space-y-8">
-            {/* Marquee */}
-            <div className="overflow-hidden bg-primary py-2 border-y-4 border-foreground -mx-4 px-4">
-              <div className="animate-marquee whitespace-nowrap flex gap-8">
-                {Array(4).fill(null).map((_, i) => (
-                  <span key={i} className="text-primary-foreground font-black uppercase tracking-widest text-sm">
-                    🔥 OKLAHOMA CITY · EVENTS · CULTURE · COMMUNITY · INSPIRE · 
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="space-y-6">
-              <h1 className="text-5xl sm:text-6xl lg:text-8xl font-black uppercase leading-[0.9] tracking-tighter">
-                <span className="text-foreground">Inspire</span>
-                <br />
-                <span className="okc-gradient-text">Oklahoma</span>
-                <br />
-                <span className="text-foreground">City</span>
-              </h1>
-
-              <p className="text-lg sm:text-xl text-muted-foreground max-w-xl font-medium">
-                Stories, podcasts, apps, and events that turn strangers into people who show up. 
-                <span className="text-primary font-bold"> Powered by TLC.</span>
-              </p>
-
-              <div className="flex flex-wrap gap-4">
-                <Link to="/apply">
-                  <button className="brutal-btn">
-                    Apply to Join
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </Link>
-                <a href="#story">
-                  <button className="brutal-btn-outline brutal-btn">
-                    Explore My Work
-                  </button>
-                </a>
-              </div>
-
-              <p className="text-xs text-muted-foreground uppercase tracking-wider">
-                Approval required. No spam. Real-life first.
-              </p>
-            </div>
-          </div>
-
-          {/* Right: Weather - 2 cols */}
-          <div className="lg:col-span-2">
-            <WeatherWidget />
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
 
 // ============================================================================
 // FOOTER
@@ -267,8 +198,9 @@ const Footer = () => {
 const Index = () => {
   return (
     <div className="min-h-screen bg-background relative">
+      <ScrollProgress />
       <Header />
-      <HeroSection />
+      <CinematicHero />
       <div id="events">
         <EventsSection />
       </div>
