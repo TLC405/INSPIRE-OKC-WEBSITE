@@ -17,6 +17,8 @@ import Workout from "./pages/Workout";
 import Cartoonizer from "./pages/Cartoonizer";
 import Admin from "./pages/Admin";
 import Info from "./pages/Info";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
 import { AdminRoute } from "./components/AdminRoute";
 
@@ -42,6 +44,8 @@ const App = () => (
           <Route path="/workout" element={<Workout />} />
           <Route path="/cartoonizer" element={<Cartoonizer />} />
           <Route path="/info" element={<Info />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/terms" element={<Terms />} />
           <Route
             path="/admin"
             element={
