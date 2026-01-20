@@ -25,8 +25,8 @@ const Header = () => {
     { label: "Events", href: "#events" },
     { label: "Story", href: "#story" },
     { label: "Podcast", href: "#podcast" },
-    { label: "Social", href: "#social" },
-    { label: "Volunteering", href: "#social" },
+    { label: "Singles", href: "/singles", isRoute: true },
+    { label: "Apps", href: "/apps", isRoute: true },
     { label: "Info", href: "/info", isRoute: true },
   ];
 
@@ -180,6 +180,12 @@ const Footer = () => {
             </Link>
             <Link to="/info" className="text-muted-foreground hover:text-primary transition-colors">
               Info
+            </Link>
+            <Link to="/privacy" className="text-muted-foreground hover:text-primary transition-colors">
+              Privacy
+            </Link>
+            <Link to="/terms" className="text-muted-foreground hover:text-primary transition-colors">
+              Terms
             </Link>
           </div>
 
