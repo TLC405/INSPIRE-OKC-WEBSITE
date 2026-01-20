@@ -11,72 +11,57 @@ export const CinematicHero = () => {
   const { ref: ctaRef, isVisible: ctaVisible } = useScrollAnimation({ threshold: 0.2 });
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-background">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
       {/* Background */}
       <VideoBackground
         fallbackImage={okcHero}
-        overlayOpacity={0.92}
+        overlayOpacity={0.94}
       />
 
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-6 pt-32 pb-24 lg:pt-40 lg:pb-32">
-        <div className="max-w-7xl mx-auto">
-          {/* Elegant Typography Grid */}
-          <ParallaxLayer speed={0.05} direction="down" className="mb-16">
-            <div className="grid lg:grid-cols-2 gap-12 items-end">
-              {/* Left: Headline */}
-              <div>
-                <div className="mb-6 flex items-center gap-4">
-                  <div className="h-1 w-16 bg-primary" />
-                  <span className="text-sm font-black uppercase tracking-[0.2em] text-primary">
-                    Oklahoma City
-                  </span>
-                </div>
-                <h1 className="text-6xl sm:text-7xl md:text-8xl font-black uppercase leading-[0.9] tracking-tight mb-8">
-                  <AnimatedText
-                    text="Inspire"
-                    as="span"
-                    animation="chars"
-                    className="block text-foreground"
-                    staggerDelay={0.04}
-                  />
-                  <AnimatedText
-                    text="Your"
-                    as="span"
-                    animation="chars"
-                    className="block text-primary"
-                    staggerDelay={0.03}
-                  />
-                  <AnimatedText
-                    text="Community"
-                    as="span"
-                    animation="chars"
-                    className="block text-foreground"
-                    staggerDelay={0.05}
-                  />
-                </h1>
-              </div>
-
-              {/* Right: Subheadline */}
-              <div className="lg:border-l-4 lg:border-foreground lg:pl-12">
-                <RevealText
-                  text="Stories, podcasts, apps, and events that turn strangers into people who show up."
-                  as="p"
-                  className="text-xl sm:text-2xl text-foreground font-bold leading-tight mb-6"
-                />
-                <div className="flex items-center gap-3 text-primary font-black uppercase text-sm tracking-widest">
-                  <Minus className="w-8 h-1" />
-                  <span>Real-life first</span>
-                </div>
-              </div>
+      <div className="relative z-10 container mx-auto px-6 py-32">
+        <div className="max-w-6xl mx-auto text-center">
+          {/* Ultra Premium Headline */}
+          <ParallaxLayer speed={0.05} direction="down" className="mb-20">
+            <h1 className="text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] font-black uppercase leading-[0.85] tracking-tighter mb-12">
+              <AnimatedText
+                text="Inspire"
+                as="span"
+                animation="chars"
+                className="block text-foreground"
+                staggerDelay={0.04}
+              />
+              <AnimatedText
+                text="OKC"
+                as="span"
+                animation="chars"
+                className="block text-primary"
+                staggerDelay={0.03}
+              />
+            </h1>
+            
+            {/* Refined Tagline */}
+            <div className="max-w-3xl mx-auto mb-8">
+              <RevealText
+                text="Building community through real-life connections"
+                as="p"
+                className="text-2xl sm:text-3xl text-foreground font-bold leading-tight"
+              />
+            </div>
+            
+            {/* Minimal Accent */}
+            <div className="flex items-center justify-center gap-4 text-primary font-black uppercase text-sm tracking-widest">
+              <Minus className="w-12 h-px" />
+              <span>Real-life first</span>
+              <Minus className="w-12 h-px" />
             </div>
           </ParallaxLayer>
 
-          {/* Elegant CTA Grid */}
+          {/* Ultra Premium CTA Grid */}
           <div 
             ref={ctaRef}
             className={cn(
-              "grid sm:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-700",
+              "grid md:grid-cols-2 gap-8 max-w-4xl mx-auto transition-all duration-700",
               ctaVisible 
                 ? "opacity-100 translate-y-0" 
                 : "opacity-0 translate-y-8"
@@ -84,69 +69,46 @@ export const CinematicHero = () => {
           >
             {/* Primary CTA */}
             <Link to="/apply" className="group">
-              <div className="relative h-full border-4 border-foreground bg-primary p-8 transition-all duration-300 hover:-translate-y-2"
+              <div className="relative h-full border-4 border-foreground bg-primary p-10 transition-all duration-300 hover:-translate-y-3"
                 style={{
-                  boxShadow: '6px 6px 0 hsl(var(--foreground))',
+                  boxShadow: '8px 8px 0 hsl(var(--foreground))',
                 }}
               >
-                <div className="mb-4">
-                  <div className="h-1 w-12 bg-foreground mb-4" />
-                  <h3 className="text-2xl font-black uppercase tracking-tight text-foreground mb-2">
-                    Join Us
+                <div className="mb-6">
+                  <div className="h-1 w-16 bg-foreground mb-6 mx-auto" />
+                  <h3 className="text-3xl font-black uppercase tracking-tight text-foreground mb-3">
+                    Join
                   </h3>
-                  <p className="text-sm font-bold text-foreground/80">
-                    Apply to become part of the community
+                  <p className="text-base font-bold text-foreground/80">
+                    Become part of the community
                   </p>
                 </div>
-                <div className="flex items-center gap-2 text-foreground font-black uppercase text-xs tracking-wider">
+                <div className="flex items-center justify-center gap-2 text-foreground font-black uppercase text-sm tracking-wider">
                   <span>Apply Now</span>
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-2" />
                 </div>
               </div>
             </Link>
 
             {/* Secondary CTA */}
-            <a href="#story" className="group">
-              <div className="relative h-full border-4 border-primary bg-foreground p-8 transition-all duration-300 hover:-translate-y-2"
+            <Link to="/singles" className="group">
+              <div className="relative h-full border-4 border-primary bg-foreground p-10 transition-all duration-300 hover:-translate-y-3"
                 style={{
-                  boxShadow: '6px 6px 0 hsl(var(--primary))',
+                  boxShadow: '8px 8px 0 hsl(var(--primary))',
                 }}
               >
-                <div className="mb-4">
-                  <div className="h-1 w-12 bg-primary mb-4" />
-                  <h3 className="text-2xl font-black uppercase tracking-tight text-background mb-2">
-                    Stories
+                <div className="mb-6">
+                  <div className="h-1 w-16 bg-primary mb-6 mx-auto" />
+                  <h3 className="text-3xl font-black uppercase tracking-tight text-background mb-3">
+                    Connect
                   </h3>
-                  <p className="text-sm font-bold text-background/70">
-                    Read about our community impact
+                  <p className="text-base font-bold text-background/70">
+                    Meet people at real events
                   </p>
                 </div>
-                <div className="flex items-center gap-2 text-background font-black uppercase text-xs tracking-wider">
-                  <span>Explore</span>
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                </div>
-              </div>
-            </a>
-
-            {/* Tertiary CTA */}
-            <Link to="/singles" className="group sm:col-span-2 lg:col-span-1">
-              <div className="relative h-full border-4 border-foreground bg-background p-8 transition-all duration-300 hover:-translate-y-2"
-                style={{
-                  boxShadow: '6px 6px 0 hsl(var(--primary))',
-                }}
-              >
-                <div className="mb-4">
-                  <div className="h-1 w-12 bg-primary mb-4" />
-                  <h3 className="text-2xl font-black uppercase tracking-tight text-foreground mb-2">
-                    Singles
-                  </h3>
-                  <p className="text-sm font-bold text-muted-foreground">
-                    Meet people at real-life events
-                  </p>
-                </div>
-                <div className="flex items-center gap-2 text-primary font-black uppercase text-xs tracking-wider">
+                <div className="flex items-center justify-center gap-2 text-background font-black uppercase text-sm tracking-wider">
                   <span>Learn More</span>
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-2" />
                 </div>
               </div>
             </Link>
@@ -155,16 +117,16 @@ export const CinematicHero = () => {
       </div>
 
       {/* Minimal Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20">
-        <div className="flex flex-col items-center gap-2 opacity-50">
-          <div className="w-0.5 h-12 bg-foreground">
-            <div className="w-full h-3 bg-primary animate-bounce" />
+      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20">
+        <div className="flex flex-col items-center gap-2 opacity-40">
+          <div className="w-px h-16 bg-foreground">
+            <div className="w-full h-4 bg-primary animate-bounce" />
           </div>
         </div>
       </div>
 
       {/* Subtle Bottom Edge */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-primary" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-primary/50" />
     </section>
   );
 };
