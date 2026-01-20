@@ -22,7 +22,8 @@ const Header = () => {
   const [installModalOpen, setInstallModalOpen] = useState(false);
 
   const navItems = [
-    { label: "Singles", href: "/singles", isRoute: true },
+    { label: "Social Singles", href: "/singles", isRoute: true },
+    { label: "Calisthenics", href: "/calisthenics", isRoute: true },
     { label: "Apps", href: "/apps", isRoute: true },
     { label: "Info", href: "/info", isRoute: true },
   ];
@@ -177,11 +178,14 @@ const Footer = () => {
               Explore
             </h3>
             <div className="flex flex-col gap-3">
+              <Link to="/singles" className="text-muted-foreground hover:text-primary transition-colors font-bold text-sm">
+                Social Singles
+              </Link>
+              <Link to="/calisthenics" className="text-muted-foreground hover:text-primary transition-colors font-bold text-sm">
+                Calisthenics
+              </Link>
               <Link to="/apps" className="text-muted-foreground hover:text-primary transition-colors font-bold text-sm">
                 Applications
-              </Link>
-              <Link to="/singles" className="text-muted-foreground hover:text-primary transition-colors font-bold text-sm">
-                Singles
               </Link>
             </div>
           </div>

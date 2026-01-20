@@ -1,71 +1,35 @@
 import { Link } from "react-router-dom";
-import { ArrowLeft, Heart, Calendar, MapPin, Users, MessageSquare } from "lucide-react";
+import { ArrowLeft, Dumbbell, Calendar, MapPin, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
 
-const upcomingEvents = [
+const upcomingWorkouts = [
   {
     id: 1,
-    title: "Coffee & Conversation",
-    date: "Jan 18, 2025",
-    time: "10:00 AM",
-    location: "Clarity Coffee, Midtown",
-    spots: 8,
+    title: "Morning Park Workout",
+    date: "Jan 20, 2025",
+    time: "7:00 AM",
+    location: "Myriad Gardens",
+    spots: 15,
   },
   {
     id: 2,
-    title: "Hiking at Lake Hefner",
-    date: "Jan 25, 2025",
-    time: "9:00 AM",
-    location: "Lake Hefner Trails",
+    title: "Strength Training Session",
+    date: "Jan 22, 2025",
+    time: "6:00 PM",
+    location: "Wheeler Park",
     spots: 12,
   },
   {
     id: 3,
-    title: "Game Night",
-    date: "Feb 1, 2025",
-    time: "7:00 PM",
-    location: "The Patriarch, Paseo",
-    spots: 16,
-  },
-];
-
-const menTalkEvents = [
-  {
-    id: 1,
-    title: "Men's Morning Coffee",
-    date: "Jan 21, 2025",
+    title: "Weekend Bootcamp",
+    date: "Jan 27, 2025",
     time: "8:00 AM",
-    location: "Elemental Coffee, Midtown",
-    spots: 10,
-  },
-  {
-    id: 2,
-    title: "Basketball Pickup Games",
-    date: "Jan 24, 2025",
-    time: "6:30 PM",
-    location: "Chesapeake Arena Courts",
-    spots: 16,
-  },
-  {
-    id: 3,
-    title: "Men's Book Club",
-    date: "Jan 28, 2025",
-    time: "7:00 PM",
-    location: "Full Circle Bookstore",
-    spots: 12,
+    location: "Lake Hefner",
+    spots: 20,
   },
 ];
 
-const Singles = () => {
-  const [activeTab, setActiveTab] = useState<"singles" | "mentalk">("singles");
-
-  const currentEvents = activeTab === "singles" ? upcomingEvents : menTalkEvents;
-  const tabTitle = activeTab === "singles" ? "Social Singles OKC" : "Men-Talk OKC";
-  const tabDescription = activeTab === "singles" 
-    ? "No swiping. No DMs. Just real events with real people. Connections unlock after you show up."
-    : "Build authentic friendships with other men. Sports, books, coffee, and real conversations.";
-
+const Calisthenics = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -84,50 +48,26 @@ const Singles = () => {
       {/* Main Content */}
       <main className="container mx-auto px-6 py-16">
         <div className="max-w-4xl mx-auto">
-          {/* Tabs */}
-          <div className="flex justify-center gap-4 mb-12">
-            <button
-              onClick={() => setActiveTab("singles")}
-              className={`px-6 py-3 font-black uppercase text-sm border-2 border-foreground transition-all ${
-                activeTab === "singles"
-                  ? "bg-primary text-foreground"
-                  : "bg-background text-foreground hover:bg-muted"
-              }`}
-              style={{ boxShadow: activeTab === "singles" ? '4px 4px 0 hsl(var(--foreground))' : 'none' }}
-            >
-              <Heart className="w-4 h-4 inline mr-2" fill={activeTab === "singles" ? "currentColor" : "none"} />
-              Social Singles OKC
-            </button>
-            <button
-              onClick={() => setActiveTab("mentalk")}
-              className={`px-6 py-3 font-black uppercase text-sm border-2 border-foreground transition-all ${
-                activeTab === "mentalk"
-                  ? "bg-primary text-foreground"
-                  : "bg-background text-foreground hover:bg-muted"
-              }`}
-              style={{ boxShadow: activeTab === "mentalk" ? '4px 4px 0 hsl(var(--foreground))' : 'none' }}
-            >
-              <MessageSquare className="w-4 h-4 inline mr-2" />
-              Men-Talk OKC
-            </button>
-          </div>
-
           {/* Page Header */}
           <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary border-2 border-foreground mb-6"
+              style={{ boxShadow: '4px 4px 0 hsl(var(--foreground))' }}
+            >
+              <Dumbbell className="w-5 h-5 text-foreground" />
+              <span className="text-sm font-black text-foreground uppercase tracking-wide">
+                Calisthenics OKC
+              </span>
+            </div>
             <h1 className="text-5xl md:text-6xl font-black uppercase tracking-tight mb-4">
-              {activeTab === "singles" ? (
-                <>Meet in <span className="text-primary">Real Life</span></>
-              ) : (
-                <>Build <span className="text-primary">Real Friendships</span></>
-              )}
+              Train <span className="text-primary">Together</span>
             </h1>
             <p className="text-foreground text-lg max-w-xl mx-auto font-bold">
-              {tabDescription}
+              Free outdoor workouts. All skill levels welcome. Build strength and community.
             </p>
           </div>
 
           {/* How It Works */}
-          <div className="border-2 border-foreground p-8 mb-16 bg-card"
+          <div className="border-4 border-foreground p-8 mb-16 bg-card"
             style={{ boxShadow: '6px 6px 0 hsl(var(--foreground))' }}
           >
             <h3 className="text-2xl font-black uppercase mb-8 text-center pb-4 border-b-2 border-foreground">
@@ -140,8 +80,8 @@ const Singles = () => {
                 >
                   <span className="font-black text-2xl text-foreground">1</span>
                 </div>
-                <h4 className="font-black uppercase mb-2">Apply</h4>
-                <p className="text-muted-foreground text-sm font-medium">Get approved to join the community</p>
+                <h4 className="font-black uppercase mb-2">Show Up</h4>
+                <p className="text-muted-foreground text-sm font-medium">Find a session and join us</p>
               </div>
               <div className="text-center">
                 <div className="w-14 h-14 bg-primary border-2 border-foreground flex items-center justify-center mx-auto mb-4"
@@ -149,8 +89,8 @@ const Singles = () => {
                 >
                   <span className="font-black text-2xl text-foreground">2</span>
                 </div>
-                <h4 className="font-black uppercase mb-2">Attend</h4>
-                <p className="text-muted-foreground text-sm font-medium">Show up to events and meet people</p>
+                <h4 className="font-black uppercase mb-2">Train</h4>
+                <p className="text-muted-foreground text-sm font-medium">Work out at your own pace</p>
               </div>
               <div className="text-center">
                 <div className="w-14 h-14 bg-primary border-2 border-foreground flex items-center justify-center mx-auto mb-4"
@@ -159,43 +99,43 @@ const Singles = () => {
                   <span className="font-black text-2xl text-foreground">3</span>
                 </div>
                 <h4 className="font-black uppercase mb-2">Connect</h4>
-                <p className="text-muted-foreground text-sm font-medium">Exchange info with people you vibe with</p>
+                <p className="text-muted-foreground text-sm font-medium">Meet like-minded people</p>
               </div>
             </div>
           </div>
 
-          {/* Upcoming Events */}
+          {/* Upcoming Workouts */}
           <div className="mb-16">
             <h3 className="text-2xl font-black uppercase mb-8 pb-4 border-b-2 border-primary">
-              Upcoming Events
+              Upcoming Workouts
             </h3>
             <div className="space-y-4">
-              {currentEvents.map((event) => (
+              {upcomingWorkouts.map((workout) => (
                 <div
-                  key={event.id}
+                  key={workout.id}
                   className="border-2 border-foreground p-6 hover:-translate-y-1 transition-all duration-200 bg-card"
                   style={{ boxShadow: '4px 4px 0 hsl(var(--foreground))' }}
                 >
                   <div className="flex flex-col sm:flex-row justify-between gap-4">
                     <div>
-                      <h4 className="text-xl font-black uppercase mb-3">{event.title}</h4>
+                      <h4 className="text-xl font-black uppercase mb-3">{workout.title}</h4>
                       <div className="flex flex-wrap gap-4 text-sm text-muted-foreground font-bold">
                         <span className="flex items-center gap-2">
                           <Calendar className="w-4 h-4 text-primary" />
-                          {event.date} • {event.time}
+                          {workout.date} • {workout.time}
                         </span>
                         <span className="flex items-center gap-2">
                           <MapPin className="w-4 h-4 text-primary" />
-                          {event.location}
+                          {workout.location}
                         </span>
                         <span className="flex items-center gap-2">
                           <Users className="w-4 h-4 text-primary" />
-                          {event.spots} spots
+                          {workout.spots} spots
                         </span>
                       </div>
                     </div>
                     <Button className="border-2 border-foreground bg-primary text-foreground font-black uppercase hover:bg-foreground hover:text-background transition-colors flex-shrink-0">
-                      RSVP
+                      Join
                     </Button>
                   </div>
                 </div>
@@ -208,14 +148,14 @@ const Singles = () => {
             style={{ boxShadow: '8px 8px 0 hsl(var(--foreground))' }}
           >
             <h3 className="text-2xl font-black uppercase mb-3 text-foreground">
-              Ready to {activeTab === "singles" ? "Meet Your People" : "Build Real Friendships"}?
+              Ready to Train?
             </h3>
             <p className="text-foreground font-bold mb-6 text-lg">
-              Apply to join and get access to all {tabTitle} events.
+              No equipment needed. Just show up and get strong with us.
             </p>
             <Link to="/apply">
               <Button className="border-2 border-foreground bg-foreground text-background font-black uppercase hover:bg-background hover:text-foreground transition-colors">
-                Apply to Join
+                Get Started
               </Button>
             </Link>
           </div>
@@ -225,4 +165,4 @@ const Singles = () => {
   );
 };
 
-export default Singles;
+export default Calisthenics;

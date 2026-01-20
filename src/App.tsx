@@ -13,6 +13,7 @@ import Slides from "./pages/Slides";
 import Community from "./pages/Community";
 import Adulting from "./pages/Adulting";
 import Singles from "./pages/Singles";
+import Calisthenics from "./pages/Calisthenics";
 import Workout from "./pages/Workout";
 import Cartoonizer from "./pages/Cartoonizer";
 import Admin from "./pages/Admin";
@@ -41,6 +42,7 @@ const App = () => (
           <Route path="/community" element={<Community />} />
           <Route path="/adulting" element={<Adulting />} />
           <Route path="/singles" element={<Singles />} />
+          <Route path="/calisthenics" element={<Calisthenics />} />
           <Route path="/workout" element={<Workout />} />
           <Route path="/cartoonizer" element={<Cartoonizer />} />
           <Route path="/info" element={<Info />} />
