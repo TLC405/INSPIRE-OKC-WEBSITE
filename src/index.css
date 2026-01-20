@@ -26,8 +26,8 @@
     --primary: 330 100% 55%;
     --primary-foreground: 0 0% 100%;
 
-    /* Secondary: Deep Red */
-    --secondary: 0 85% 50%;
+    /* Secondary: Hot Pink (changed from red) */
+    --secondary: 330 100% 55%;
     --secondary-foreground: 0 0% 100%;
 
     /* Muted: Dark grays */
@@ -48,13 +48,17 @@
     --radius: 0rem;
 
     /* INSPIRE OKC Custom Tokens */
-    --okc-red: 0 85% 50%;
+    --okc-red: 330 100% 55%; /* Changed to pink */
     --okc-hotpink: 330 100% 55%;
     --okc-neonpink: 320 100% 65%;
     --okc-black: 0 0% 4%;
     --okc-white: 0 0% 98%;
     --okc-gray: 0 0% 20%;
     --okc-darkgray: 0 0% 12%;
+    
+    /* TLC Brand Colors for gradient */
+    --tlc-red: 0 85% 50%;
+    --tlc-white: 0 0% 98%;
 
     /* Legacy TFM tokens - preserved for cartoonizer */
     --tfm-coral: 12 90% 65%;
@@ -151,6 +155,15 @@
 
   .tfm-gradient-text {
     @apply bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent;
+  }
+  
+  /* TLC Brand Gradient - Red White Red */
+  .tlc-gradient-text {
+    background: linear-gradient(90deg, hsl(var(--tlc-red)) 0%, hsl(var(--tlc-white)) 50%, hsl(var(--tlc-red)) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
   }
 
   /* Scanline overlay for retro effect */

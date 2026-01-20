@@ -48,8 +48,8 @@ const Header = () => {
                   Inspire OKC
                   <Download className="w-4 h-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
                 </span>
-                <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">
-                  Powered by TLC
+                <p className="text-[10px] font-bold uppercase tracking-widest">
+                  Powered by <span className="tlc-gradient-text">TLC</span>
                 </p>
               </div>
             </button>
@@ -161,7 +161,7 @@ const Footer = () => {
             </div>
             <div>
               <span className="font-black text-foreground uppercase">Inspire OKC</span>
-              <p className="text-xs text-muted-foreground">Powered by TLC</p>
+              <p className="text-xs font-bold">Powered by <span className="tlc-gradient-text">TLC</span></p>
             </div>
           </div>
 

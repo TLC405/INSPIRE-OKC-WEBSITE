@@ -34,11 +34,14 @@ const Singles = () => {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b-4 border-primary bg-card">
-        <div className="container mx-auto px-4 py-4">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link to="/" className="inline-flex items-center gap-2 text-foreground hover:text-primary transition-colors font-bold uppercase tracking-wide">
             <ArrowLeft className="w-4 h-4" />
             Back to Home
           </Link>
+          <div className="text-xs font-black uppercase tracking-wider">
+            Powered by <span className="tlc-gradient-text">TLC</span>
+          </div>
         </div>
       </header>
 
@@ -62,28 +65,31 @@ const Singles = () => {
           </div>
 
           {/* How It Works */}
-          <div className="brutal-card p-8 mb-12 bg-secondary border-secondary">
-            <h3 className="text-2xl font-black uppercase mb-8 text-center border-b-4 border-foreground pb-4">
+          <div className="brutal-card p-8 mb-12 bg-primary border-primary">
+            <h3 className="text-2xl font-black uppercase mb-2 text-center border-b-4 border-foreground pb-4">
               How It Works
             </h3>
+            <div className="text-center text-xs font-black uppercase tracking-wider mb-6">
+              Powered by <span className="tlc-gradient-text">TLC</span>
+            </div>
             <div className="grid sm:grid-cols-3 gap-6">
               <div className="text-center">
-                <div className="w-16 h-16 bg-primary border-4 border-foreground brutal-shadow-sm flex items-center justify-center mx-auto mb-4">
-                  <span className="font-black text-3xl text-foreground">1</span>
+                <div className="w-16 h-16 bg-foreground border-4 border-background brutal-shadow-sm flex items-center justify-center mx-auto mb-4">
+                  <span className="font-black text-3xl text-background">1</span>
                 </div>
                 <h4 className="font-black uppercase mb-2">Apply</h4>
                 <p className="text-foreground text-sm font-bold">Get approved to join the community</p>
               </div>
               <div className="text-center">
-                <div className="w-16 h-16 bg-primary border-4 border-foreground brutal-shadow-sm flex items-center justify-center mx-auto mb-4">
-                  <span className="font-black text-3xl text-foreground">2</span>
+                <div className="w-16 h-16 bg-foreground border-4 border-background brutal-shadow-sm flex items-center justify-center mx-auto mb-4">
+                  <span className="font-black text-3xl text-background">2</span>
                 </div>
                 <h4 className="font-black uppercase mb-2">Attend</h4>
                 <p className="text-foreground text-sm font-bold">Show up to events and meet people</p>
               </div>
               <div className="text-center">
-                <div className="w-16 h-16 bg-primary border-4 border-foreground brutal-shadow-sm flex items-center justify-center mx-auto mb-4">
-                  <span className="font-black text-3xl text-foreground">3</span>
+                <div className="w-16 h-16 bg-foreground border-4 border-background brutal-shadow-sm flex items-center justify-center mx-auto mb-4">
+                  <span className="font-black text-3xl text-background">3</span>
                 </div>
                 <h4 className="font-black uppercase mb-2">Connect</h4>
                 <p className="text-foreground text-sm font-bold">Exchange info with people you vibe with</p>
@@ -135,9 +141,12 @@ const Singles = () => {
             <h3 className="text-2xl font-black uppercase mb-3 text-foreground">
               Ready to Meet Your People?
             </h3>
-            <p className="text-foreground font-bold mb-6 text-lg">
+            <p className="text-foreground font-bold mb-4 text-lg">
               Apply to join and get access to all Singles OKC events.
             </p>
+            <div className="text-xs font-black uppercase tracking-wider mb-6">
+              Powered by <span className="tlc-gradient-text">TLC</span>
+            </div>
             <Link to="/apply">
               <Button className="brutal-btn font-black uppercase bg-foreground text-background hover:bg-foreground/90 border-foreground">
                 Apply to Join

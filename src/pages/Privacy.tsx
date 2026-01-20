@@ -8,13 +8,18 @@ export default function Privacy() {
       <div className="container mx-auto px-4 py-12 max-w-4xl">
         {/* Header with Logo */}
         <div className="mb-12">
-          <Link to="/" className="inline-flex items-center gap-3 mb-8">
+          <Link to="/" className="inline-flex items-center gap-3 mb-4">
             <div className="w-12 h-12 bg-primary flex items-center justify-center border-4 border-foreground brutal-shadow-sm">
               <Zap className="w-6 h-6 text-primary-foreground" />
             </div>
-            <span className="font-black text-foreground text-2xl uppercase tracking-tight">
-              Inspire OKC
-            </span>
+            <div>
+              <span className="font-black text-foreground text-2xl uppercase tracking-tight block">
+                Inspire OKC
+              </span>
+              <span className="text-xs font-black uppercase tracking-wider">
+                Powered by <span className="tlc-gradient-text">TLC</span>
+              </span>
+            </div>
           </Link>
           
           <Link to="/">
@@ -208,7 +213,7 @@ export default function Privacy() {
         {/* Footer */}
         <div className="mt-12 pt-8 border-t-4 border-primary text-center">
           <p className="text-muted-foreground font-bold uppercase tracking-wider text-sm">
-            © 2025 Inspire Oklahoma City · Powered by TLC
+            © 2025 Inspire Oklahoma City · Powered by <span className="tlc-gradient-text">TLC</span>
           </p>
         </div>
       </div>
