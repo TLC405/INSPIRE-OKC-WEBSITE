@@ -1,166 +1,170 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Zap, Sparkles } from 'lucide-react';
+import { ArrowRight, Minus } from 'lucide-react';
 import { VideoBackground } from '@/components/ui/VideoBackground';
-import { FloatingShapes } from '@/components/ui/FloatingShapes';
 import { ParallaxLayer } from '@/components/ui/ParallaxLayer';
 import { AnimatedText, RevealText } from '@/components/ui/AnimatedText';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
-import { useMouseParallax } from '@/hooks/useParallax';
 import { cn } from '@/lib/utils';
 import okcHero from '@/assets/okc-community-hero.png';
 
 export const CinematicHero = () => {
   const { ref: ctaRef, isVisible: ctaVisible } = useScrollAnimation({ threshold: 0.2 });
-  const mousePosition = useMouseParallax(0.01);
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-background">
-      {/* Layer 1: Video/Image Background */}
+      {/* Background */}
       <VideoBackground
         fallbackImage={okcHero}
-        overlayOpacity={0.85}
+        overlayOpacity={0.92}
       />
 
-      {/* Layer 2: Floating Geometric Shapes */}
-      <FloatingShapes />
-
-      {/* Layer 3: Content */}
-      <div className="relative z-10 container mx-auto px-4 pt-28 pb-20 lg:pt-36 lg:pb-28">
-        <div className="max-w-6xl mx-auto">
-          {/* Eyebrow with TLC branding */}
-          <ParallaxLayer speed={0.1} direction="down">
-            <div className="mb-8 flex flex-wrap gap-4 items-center">
-              <div 
-                className={cn(
-                  "inline-flex items-center gap-2 px-6 py-3 border-4 border-primary bg-primary brutal-shadow",
-                  "transition-all duration-500"
-                )}
-                style={{
-                  transform: `translate(${mousePosition.x * 5}px, ${mousePosition.y * 5}px)`,
-                }}
-              >
-                <Zap className="w-5 h-5 text-foreground" fill="currentColor" />
-                <span className="text-sm font-black uppercase tracking-widest text-foreground">
-                  Powered by <span className="tlc-gradient-text">TLC</span>
-                </span>
+      {/* Content */}
+      <div className="relative z-10 container mx-auto px-6 pt-32 pb-24 lg:pt-40 lg:pb-32">
+        <div className="max-w-7xl mx-auto">
+          {/* Elegant Typography Grid */}
+          <ParallaxLayer speed={0.05} direction="down" className="mb-16">
+            <div className="grid lg:grid-cols-2 gap-12 items-end">
+              {/* Left: Headline */}
+              <div>
+                <div className="mb-6 flex items-center gap-4">
+                  <div className="h-1 w-16 bg-primary" />
+                  <span className="text-sm font-black uppercase tracking-[0.2em] text-primary">
+                    Oklahoma City
+                  </span>
+                </div>
+                <h1 className="text-6xl sm:text-7xl md:text-8xl font-black uppercase leading-[0.9] tracking-tight mb-8">
+                  <AnimatedText
+                    text="Inspire"
+                    as="span"
+                    animation="chars"
+                    className="block text-foreground"
+                    staggerDelay={0.04}
+                  />
+                  <AnimatedText
+                    text="Your"
+                    as="span"
+                    animation="chars"
+                    className="block text-primary"
+                    staggerDelay={0.03}
+                  />
+                  <AnimatedText
+                    text="Community"
+                    as="span"
+                    animation="chars"
+                    className="block text-foreground"
+                    staggerDelay={0.05}
+                  />
+                </h1>
               </div>
-              <div className="inline-flex items-center gap-2 px-4 py-2 border-4 border-foreground bg-background/90 brutal-shadow-sm">
-                <Sparkles className="w-4 h-4 text-primary" />
-                <span className="text-xs font-black uppercase tracking-widest text-primary">
-                  Approval Required
-                </span>
-              </div>
-            </div>
-          </ParallaxLayer>
 
-          {/* Main Headline - Ultra Bold */}
-          <ParallaxLayer speed={0.05} direction="down" className="mb-10">
-            <h1 className="text-7xl sm:text-8xl md:text-9xl lg:text-[12rem] font-black uppercase leading-[0.8] tracking-tighter">
-              <AnimatedText
-                text="Inspire"
-                as="span"
-                animation="chars"
-                className="block text-foreground drop-shadow-[0_4px_0_hsl(var(--primary))]"
-                staggerDelay={0.04}
-              />
-              <AnimatedText
-                text="Oklahoma"
-                as="span"
-                animation="chars"
-                className="block text-primary drop-shadow-[0_6px_0_hsl(var(--foreground))]"
-                staggerDelay={0.03}
-              />
-              <AnimatedText
-                text="City"
-                as="span"
-                animation="chars"
-                className="block text-foreground drop-shadow-[0_4px_0_hsl(var(--primary))]"
-                staggerDelay={0.05}
-              />
-            </h1>
-          </ParallaxLayer>
-
-          {/* Subheadline - Brutalist Cards */}
-          <ParallaxLayer speed={0.03} direction="down" className="mb-12">
-            <div className="max-w-2xl">
-              <div className="brutal-card bg-primary border-primary p-6 mb-4">
+              {/* Right: Subheadline */}
+              <div className="lg:border-l-4 lg:border-foreground lg:pl-12">
                 <RevealText
                   text="Stories, podcasts, apps, and events that turn strangers into people who show up."
                   as="p"
-                  className="text-2xl sm:text-3xl text-foreground font-black uppercase leading-tight"
+                  className="text-xl sm:text-2xl text-foreground font-bold leading-tight mb-6"
                 />
-              </div>
-              <div className="brutal-card bg-foreground border-foreground p-4">
-                <p className="text-base sm:text-lg text-background font-black uppercase tracking-wider">
-                  🔥 No spam · No random DMs · Real-life first
-                </p>
+                <div className="flex items-center gap-3 text-primary font-black uppercase text-sm tracking-widest">
+                  <Minus className="w-8 h-1" />
+                  <span>Real-life first</span>
+                </div>
               </div>
             </div>
           </ParallaxLayer>
 
-          {/* CTA Buttons - Enhanced Brutalist Style */}
+          {/* Elegant CTA Grid */}
           <div 
             ref={ctaRef}
             className={cn(
-              "flex flex-wrap gap-6 transition-all duration-700",
+              "grid sm:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-700",
               ctaVisible 
                 ? "opacity-100 translate-y-0" 
                 : "opacity-0 translate-y-8"
             )}
           >
-            <Link to="/apply">
-              <button className="group relative overflow-hidden px-10 py-6 border-4 border-foreground bg-primary text-foreground font-black uppercase tracking-wider text-xl transition-all duration-200 hover:-translate-x-2 hover:-translate-y-2 active:translate-x-0.5 active:translate-y-0.5"
+            {/* Primary CTA */}
+            <Link to="/apply" className="group">
+              <div className="relative h-full border-4 border-foreground bg-primary p-8 transition-all duration-300 hover:-translate-y-2"
                 style={{
-                  boxShadow: '8px 8px 0 hsl(var(--foreground))',
+                  boxShadow: '6px 6px 0 hsl(var(--foreground))',
                 }}
               >
-                <span className="relative z-10 flex items-center gap-3">
-                  Apply to Join
-                  <ArrowRight className="w-6 h-6 transition-transform group-hover:translate-x-2" />
-                </span>
-              </button>
+                <div className="mb-4">
+                  <div className="h-1 w-12 bg-foreground mb-4" />
+                  <h3 className="text-2xl font-black uppercase tracking-tight text-foreground mb-2">
+                    Join Us
+                  </h3>
+                  <p className="text-sm font-bold text-foreground/80">
+                    Apply to become part of the community
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 text-foreground font-black uppercase text-xs tracking-wider">
+                  <span>Apply Now</span>
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                </div>
+              </div>
             </Link>
 
-            <a href="#story">
-              <button className="group relative overflow-hidden px-10 py-6 border-4 border-primary bg-foreground text-background font-black uppercase tracking-wider text-xl transition-all duration-200 hover:-translate-x-2 hover:-translate-y-2 active:translate-x-0.5 active:translate-y-0.5"
+            {/* Secondary CTA */}
+            <a href="#story" className="group">
+              <div className="relative h-full border-4 border-primary bg-foreground p-8 transition-all duration-300 hover:-translate-y-2"
                 style={{
-                  boxShadow: '8px 8px 0 hsl(var(--primary))',
+                  boxShadow: '6px 6px 0 hsl(var(--primary))',
                 }}
               >
-                <span className="relative z-10 flex items-center gap-3">
-                  Explore Content
-                  <Sparkles className="w-6 h-6 transition-transform group-hover:rotate-180" />
-                </span>
-              </button>
+                <div className="mb-4">
+                  <div className="h-1 w-12 bg-primary mb-4" />
+                  <h3 className="text-2xl font-black uppercase tracking-tight text-background mb-2">
+                    Stories
+                  </h3>
+                  <p className="text-sm font-bold text-background/70">
+                    Read about our community impact
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 text-background font-black uppercase text-xs tracking-wider">
+                  <span>Explore</span>
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                </div>
+              </div>
             </a>
 
-            <Link to="/singles">
-              <button className="group relative overflow-hidden px-10 py-6 border-4 border-foreground bg-background text-foreground font-black uppercase tracking-wider text-xl transition-all duration-200 hover:-translate-x-2 hover:-translate-y-2 active:translate-x-0.5 active:translate-y-0.5"
+            {/* Tertiary CTA */}
+            <Link to="/singles" className="group sm:col-span-2 lg:col-span-1">
+              <div className="relative h-full border-4 border-foreground bg-background p-8 transition-all duration-300 hover:-translate-y-2"
                 style={{
-                  boxShadow: '8px 8px 0 hsl(var(--primary))',
+                  boxShadow: '6px 6px 0 hsl(var(--primary))',
                 }}
               >
-                <span className="relative z-10">Singles OKC →</span>
-              </button>
+                <div className="mb-4">
+                  <div className="h-1 w-12 bg-primary mb-4" />
+                  <h3 className="text-2xl font-black uppercase tracking-tight text-foreground mb-2">
+                    Singles
+                  </h3>
+                  <p className="text-sm font-bold text-muted-foreground">
+                    Meet people at real-life events
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 text-primary font-black uppercase text-xs tracking-wider">
+                  <span>Learn More</span>
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                </div>
+              </div>
             </Link>
           </div>
         </div>
       </div>
 
-      {/* Scroll Indicator - Enhanced */}
-      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20">
-        <div className="flex flex-col items-center gap-3">
-          <div className="w-12 h-16 border-4 border-primary bg-background/80 flex justify-center pt-3 brutal-shadow-sm">
-            <div className="w-2 h-4 bg-primary animate-bounce" />
+      {/* Minimal Scroll Indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20">
+        <div className="flex flex-col items-center gap-2 opacity-50">
+          <div className="w-0.5 h-12 bg-foreground">
+            <div className="w-full h-3 bg-primary animate-bounce" />
           </div>
-          <span className="text-xs uppercase tracking-widest text-foreground font-black px-3 py-1 bg-primary border-2 border-foreground">
-            Scroll
-          </span>
         </div>
       </div>
 
-      {/* Bottom edge with TLC */}
-      <div className="absolute bottom-0 left-0 right-0 h-2 bg-primary border-t-4 border-foreground" />
+      {/* Subtle Bottom Edge */}
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-primary" />
     </section>
   );
 };
