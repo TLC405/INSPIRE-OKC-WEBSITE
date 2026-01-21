@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -17,6 +18,15 @@ interface Event {
   image?: string;
   category: string;
 }
+
+// Valid categories for events
+const validCategories = ["all", "Tech", "Art", "Sports", "Wellness", "Business", "Music", "Food", "Community"] as const;
+
+// Input validation schemas
+const eventsQuerySchema = z.object({
+  category: z.enum(validCategories).optional().nullable(),
+  limit: z.coerce.number().int().min(1).max(100).default(10),
+});
 
 // Mock events for Oklahoma City - In production, these would come from real APIs
 // Note: Eventbrite, Meetup APIs require paid access for full functionality
@@ -125,19 +135,44 @@ serve(async (req) => {
     let category: string | null = null;
     let limit = 10;
 
-    // Handle both GET query params and POST body
+    // Handle both GET query params and POST body with validation
     if (req.method === "POST") {
+      let body: unknown = {};
       try {
-        const body = await req.json();
-        category = body.category || null;
-        limit = body.limit || 10;
+        body = await req.json();
       } catch {
         // Body parsing failed, continue with defaults
       }
+
+      const parseResult = eventsQuerySchema.safeParse(body);
+      if (!parseResult.success) {
+        return new Response(
+          JSON.stringify({ error: "Invalid request parameters", details: parseResult.error.issues.map(i => i.message) }),
+          { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+
+      category = parseResult.data.category || null;
+      limit = parseResult.data.limit;
     } else {
       const url = new URL(req.url);
-      category = url.searchParams.get("category");
-      limit = parseInt(url.searchParams.get("limit") || "10");
+      const rawCategory = url.searchParams.get("category");
+      const rawLimit = url.searchParams.get("limit");
+
+      const parseResult = eventsQuerySchema.safeParse({
+        category: rawCategory,
+        limit: rawLimit ? parseInt(rawLimit) : 10,
+      });
+
+      if (!parseResult.success) {
+        return new Response(
+          JSON.stringify({ error: "Invalid request parameters", details: parseResult.error.issues.map(i => i.message) }),
+          { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+
+      category = parseResult.data.category || null;
+      limit = parseResult.data.limit;
     }
 
     let events = generateMockEvents();

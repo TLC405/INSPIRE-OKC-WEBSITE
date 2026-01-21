@@ -1,10 +1,21 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.7.1";
+import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
+
+// Input validation schema
+const generateCartoonSchema = z.object({
+  imageUrl: z.string().url().max(2048),
+  styleId: z.string().min(1).max(50).regex(/^[A-Z]+-[A-Z0-9]+$/, "Invalid style ID format"),
+  prompt: z.string().max(1000).optional(),
+  negativePrompt: z.string().max(500).optional(),
+  fingerprintHash: z.string().max(200).optional(),
+  sessionId: z.string().uuid().optional(),
+});
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -12,12 +23,28 @@ serve(async (req) => {
   }
 
   try {
-    const { imageUrl, styleId, prompt, negativePrompt, fingerprintHash, sessionId } = await req.json();
-    
-    if (!imageUrl || !styleId) {
-      throw new Error("Missing imageUrl or styleId");
+    // Parse and validate input
+    let body: unknown;
+    try {
+      body = await req.json();
+    } catch {
+      return new Response(
+        JSON.stringify({ error: "Invalid JSON body" }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
     }
 
+    const parseResult = generateCartoonSchema.safeParse(body);
+    if (!parseResult.success) {
+      console.error("Validation error:", parseResult.error.issues);
+      return new Response(
+        JSON.stringify({ error: "Invalid request parameters", details: parseResult.error.issues.map(i => i.message) }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    const { imageUrl, styleId, prompt, negativePrompt, fingerprintHash, sessionId } = parseResult.data;
+    
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) {
       throw new Error("LOVABLE_API_KEY not configured");
