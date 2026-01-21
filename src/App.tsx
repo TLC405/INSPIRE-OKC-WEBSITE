@@ -14,6 +14,7 @@ import Community from "./pages/Community";
 import Adulting from "./pages/Adulting";
 import Singles from "./pages/Singles";
 import Workout from "./pages/Workout";
+import SelfMastery from "./pages/SelfMastery";
 import Cartoonizer from "./pages/Cartoonizer";
 import Admin from "./pages/Admin";
 import Info from "./pages/Info";
@@ -40,8 +41,8 @@ const App = () => (
           <Route path="/adulting" element={<Adulting />} />
           <Route path="/singles" element={<Singles />} />
           <Route path="/workout" element={<Workout />} />
+          <Route path="/self-mastery" element={<SelfMastery />} />
           <Route path="/cartoonizer" element={<Cartoonizer />} />
-          <Route path="/info" element={<Info />} />
           <Route
             path="/admin"
             element={
