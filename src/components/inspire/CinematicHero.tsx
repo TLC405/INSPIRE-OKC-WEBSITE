@@ -1,13 +1,17 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Zap } from 'lucide-react';
+import { ArrowRight, Zap, MapPin } from 'lucide-react';
 import { VideoBackground } from '@/components/ui/VideoBackground';
 import { FloatingShapes } from '@/components/ui/FloatingShapes';
 import { ParallaxLayer } from '@/components/ui/ParallaxLayer';
 import { AnimatedText, RevealText } from '@/components/ui/AnimatedText';
+import { ParticleCanvas } from '@/components/ui/ParticleCanvas';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { useMouseParallax } from '@/hooks/useParallax';
 import { cn } from '@/lib/utils';
 import okcHero from '@/assets/okc-community-hero.png';
+
+const GPS_COORDS = "35.4676°N, 97.5164°W";
+
 export const CinematicHero = () => {
   const {
     ref: ctaRef,
@@ -16,12 +20,32 @@ export const CinematicHero = () => {
     threshold: 0.2
   });
   const mousePosition = useMouseParallax(0.01);
+  
   return <section className="relative min-h-screen flex items-center overflow-hidden">
       {/* Layer 1: Video/Image Background */}
       <VideoBackground fallbackImage={okcHero} overlayOpacity={0.75} />
 
+      {/* Layer 1.5: Particle Canvas */}
+      <div className="absolute inset-0 z-[1]">
+        <ParticleCanvas 
+          particleCount={180} 
+          speed={0.2}
+          colors={["hsl(330, 100%, 55%)", "hsl(0, 85%, 50%)", "hsl(0, 0%, 98%)"]}
+        />
+      </div>
+
       {/* Layer 2: Floating Geometric Shapes */}
       <FloatingShapes />
+
+      {/* GPS Overlay */}
+      <div className="absolute top-24 right-4 lg:top-28 lg:right-8 z-20">
+        <div className="flex items-center gap-2 px-3 py-1.5 bg-background/80 border-2 border-foreground">
+          <MapPin className="w-3 h-3 text-primary" />
+          <span className="font-mono text-[10px] text-muted-foreground tracking-wider">
+            {GPS_COORDS}
+          </span>
+        </div>
+      </div>
 
       {/* Layer 3: Content */}
       <div className="relative z-10 container mx-auto px-4 pt-24 pb-16 lg:pt-32 lg:pb-24">

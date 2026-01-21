@@ -2,3 +2,12 @@ project_id = "twizfjptpbnilumucyyd"
 
 [functions.generate-cartoon]
 verify_jwt = false
+
+[functions.architect-chat]
+verify_jwt = false
+
+[functions.okc-events]
+verify_jwt = false
+
+[functions.okc-weather]
+verify_jwt = false
