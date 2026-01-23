@@ -582,6 +582,172 @@
   .stagger-children > *:nth-child(6) { transition-delay: 0.6s; }
 }
 
+/* ========================================
+   ADDITIONAL ULTRA-POLISH ANIMATIONS
+======================================== */
+
+/* Confetti animation */
+.animate-confetti {
+  animation: confetti-fall 3s ease-out forwards;
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* Scanning animation for upload */
+@keyframes scan {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 1;
+  }
+}
+
+.animate-scan {
+  animation: scan 2s ease-in-out infinite;
+}
+
+/* Checkmark draw animation */
+.animate-checkmark {
+  animation: checkmark-draw 0.3s ease-out forwards;
+}
+
+@keyframes checkmark-draw {
+  0% {
+    stroke-dashoffset: 100;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Shake error animation */
+.animate-shake {
+  animation: shake-error 0.4s ease-out;
+}
+
+@keyframes shake-error {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-8px);
+  }
+  50% {
+    transform: translateX(8px);
+  }
+  75% {
+    transform: translateX(-4px);
+  }
+}
+
+/* Pulse ring expansion */
+.animate-pulse-ring {
+  animation: pulse-ring 1.5s ease-out infinite;
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.9);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+}
+
+/* Card flip */
+.animate-flip {
+  animation: card-flip 0.6s ease-out forwards;
+}
+
+@keyframes card-flip {
+  0% {
+    transform: perspective(1000px) rotateY(90deg);
+    opacity: 0;
+  }
+  100% {
+    transform: perspective(1000px) rotateY(0deg);
+    opacity: 1;
+  }
+}
+
+/* Glow pulse for neon effect */
+.animate-glow-pulse {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px hsl(var(--primary) / 0.5));
+  }
+  50% {
+    filter: drop-shadow(0 0 20px hsl(var(--primary) / 0.8));
+  }
+}
+
+/* Typing cursor blink */
+.animate-cursor-blink {
+  animation: cursor-blink 1s step-end infinite;
+}
+
+@keyframes cursor-blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Brutal hover lift */
+.brutal-hover {
+  transition: all 0.15s ease;
+}
+
+.brutal-hover:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: 
+    4px 4px 0 hsl(var(--primary)),
+    8px 8px 0 hsl(var(--secondary));
+}
+
+/* Success state */
+.brutal-success {
+  @apply border-green-500 bg-green-500/10;
+  box-shadow: 4px 4px 0 hsl(142 76% 36%);
+}
+
+/* Loading skeleton brutal */
+.brutal-skeleton {
+  @apply bg-muted border-2 border-border;
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes skeleton-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
@@ -594,6 +760,7 @@
 
 ::-webkit-scrollbar-thumb {
   background: hsl(var(--primary));
+  border: 2px solid hsl(var(--muted));
 }
 
 ::-webkit-scrollbar-thumb:hover {
