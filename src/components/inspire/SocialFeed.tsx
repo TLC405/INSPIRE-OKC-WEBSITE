@@ -1,4 +1,5 @@
-import { Heart, Users, Dumbbell, MapPin, ExternalLink, Calendar } from "lucide-react";
+import { Heart, Users, Dumbbell, MapPin, ExternalLink, Calendar, ArrowRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface SocialSpot {
   id: string;
@@ -70,35 +71,38 @@ const categoryConfig = {
     icon: Heart,
     label: "Volunteering",
     color: "text-secondary",
-    bg: "bg-secondary/10",
+    bg: "bg-secondary",
     border: "border-secondary",
   },
   singles: {
     icon: Users,
     label: "Singles Events",
     color: "text-primary",
-    bg: "bg-primary/10",
+    bg: "bg-primary",
     border: "border-primary",
   },
   gym: {
     icon: Dumbbell,
     label: "Gyms & Fitness",
     color: "text-accent",
-    bg: "bg-accent/10",
+    bg: "bg-accent",
     border: "border-accent",
   },
 };
 
 export const SocialFeed = () => {
   return (
-    <section className="py-16 lg:py-24 bg-muted/30">
-      <div className="container mx-auto px-4">
-        {/* Header */}
+    <section className="py-16 lg:py-24 relative overflow-hidden">
+      <div className="absolute inset-0 bg-muted/30" />
+      <div className="absolute top-0 left-0 w-full h-1 bg-border" />
+      
+      <div className="container mx-auto px-4 relative">
+        {/* Header - Brutal */}
         <div className="mb-12">
           <h2 className="text-4xl md:text-5xl font-black text-foreground uppercase tracking-tight mb-2">
             Get <span className="okc-gradient-text">Involved</span>
           </h2>
-          <p className="text-muted-foreground text-lg">
+          <p className="text-muted-foreground font-mono text-sm uppercase tracking-wider">
             Volunteering, singles events, and fitness spots in OKC
           </p>
         </div>
@@ -113,39 +117,44 @@ export const SocialFeed = () => {
             <div key={cat} className="mb-12 last:mb-0">
               {/* Category Header */}
               <div className="flex items-center gap-3 mb-6">
-                <div className={`p-2 ${config.bg} border-2 ${config.border}`}>
-                  <Icon className={`w-5 h-5 ${config.color}`} />
+                <div className={cn("w-10 h-10 border-4 border-foreground flex items-center justify-center", config.bg)}>
+                  <Icon className="w-5 h-5 text-foreground" />
                 </div>
                 <h3 className="text-xl font-black uppercase tracking-wide">{config.label}</h3>
               </div>
 
-              {/* Cards */}
+              {/* Cards - Brutal */}
               <div className="grid md:grid-cols-2 gap-4">
                 {spots.map((spot) => (
                   <div
                     key={spot.id}
-                    className={`bg-card p-5 border-l-4 ${config.border} hover:border-l-8 transition-all`}
+                    className={cn(
+                      "brutal-card group",
+                      `border-l-8 ${config.border}`
+                    )}
                   >
                     <div className="flex justify-between items-start mb-3">
-                      <h4 className="font-bold text-foreground">{spot.name}</h4>
+                      <h4 className="font-black uppercase tracking-tight text-foreground group-hover:text-primary transition-colors">
+                        {spot.name}
+                      </h4>
                       <a
                         href={spot.url}
-                        className="text-muted-foreground hover:text-primary transition-colors"
+                        className="w-8 h-8 border-2 border-foreground flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
                         <ExternalLink className="w-4 h-4" />
                       </a>
                     </div>
-                    <p className="text-muted-foreground text-sm mb-3">{spot.description}</p>
-                    <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
-                      <span className="flex items-center gap-1">
-                        <MapPin className="w-3 h-3" />
+                    <p className="text-muted-foreground text-sm mb-4 font-mono">{spot.description}</p>
+                    <div className="flex flex-wrap gap-3 text-xs font-mono uppercase tracking-wider">
+                      <span className="flex items-center gap-1 px-2 py-1 border-2 border-border">
+                        <MapPin className="w-3 h-3 text-primary" />
                         {spot.location}
                       </span>
                       {spot.nextEvent && (
-                        <span className="flex items-center gap-1">
-                          <Calendar className="w-3 h-3" />
+                        <span className="flex items-center gap-1 px-2 py-1 border-2 border-primary bg-primary/10">
+                          <Calendar className="w-3 h-3 text-primary" />
                           {spot.nextEvent}
                         </span>
                       )}

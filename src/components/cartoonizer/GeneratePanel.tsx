@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Download, RefreshCw, Upload, Sparkles, Palette, Check } from "lucide-react";
+import { Download, RefreshCw, Upload, Sparkles, Palette, Check, Zap, Share2, AlertTriangle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { getStyleById, buildStylePrompt } from "@/lib/teeFeeMeStyles";
 import { getFingerprint } from "@/lib/fingerprint";
+import { cn } from "@/lib/utils";
 
 interface GeneratePanelProps {
   sessionId: string;
@@ -17,10 +17,10 @@ interface GeneratePanelProps {
 }
 
 const GENERATION_STEPS = [
-  { label: "Analyzing face", icon: "🔍" },
-  { label: "Applying style", icon: "🎨" },
-  { label: "Preserving identity", icon: "🔐" },
-  { label: "Rendering scene", icon: "✨" },
+  { label: "Analyzing face", icon: "🔍", complete: "✓" },
+  { label: "Applying style", icon: "🎨", complete: "✓" },
+  { label: "Preserving identity", icon: "🔐", complete: "✓" },
+  { label: "Rendering scene", icon: "✨", complete: "✓" },
 ];
 
 export const GeneratePanel = ({
@@ -35,6 +35,7 @@ export const GeneratePanel = ({
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
   const [loadingMessage, setLoadingMessage] = useState("Transforming...");
   const [currentStep, setCurrentStep] = useState(0);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   const style = getStyleById(styleId);
   const styleName = style?.label || styleId;
@@ -112,7 +113,11 @@ export const GeneratePanel = ({
       });
 
       setGeneratedImage(data.imageUrl);
+      setShowConfetti(true);
       toast.success("Your cartoon is ready!");
+      
+      // Hide confetti after animation
+      setTimeout(() => setShowConfetti(false), 3000);
     } catch (error) {
       console.error("Generation error:", error);
       const errorMsg = error instanceof Error ? error.message : "Unknown error";
@@ -159,97 +164,144 @@ export const GeneratePanel = ({
     }
   };
 
+  const handleShare = async () => {
+    if (!generatedImage) return;
+    
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: `My ${styleName} Transformation`,
+          text: `Check out my cartoon transformation made with TeeFeeMe-5000!`,
+          url: window.location.href,
+        });
+      } else {
+        await navigator.clipboard.writeText(window.location.href);
+        toast.success("Link copied to clipboard!");
+      }
+    } catch (error) {
+      console.error("Share error:", error);
+    }
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="text-center space-y-2">
-          <div className={`
-            inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium
-            bg-gradient-to-r ${styleGradient} text-white shadow-lg
-          `}>
+        {/* Confetti celebration */}
+        {showConfetti && (
+          <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden">
+            {[...Array(50)].map((_, i) => (
+              <div
+                key={i}
+                className="absolute animate-confetti"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  animationDelay: `${Math.random() * 0.5}s`,
+                  backgroundColor: ['hsl(330, 100%, 55%)', 'hsl(0, 85%, 50%)', 'hsl(50, 100%, 50%)', 'hsl(280, 100%, 60%)'][Math.floor(Math.random() * 4)],
+                  width: `${Math.random() * 10 + 5}px`,
+                  height: `${Math.random() * 10 + 5}px`,
+                }}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* Header - Brutal */}
+        <div className="text-center space-y-3">
+          <div className="inline-flex items-center gap-2 px-4 py-2 brutal-border bg-card font-mono text-xs uppercase tracking-widest">
+            <Sparkles className="w-4 h-4 text-primary" />
+            <span>Step_03 / 03</span>
+          </div>
+          <div className={cn(
+            "inline-flex items-center gap-2 px-4 py-2 border-4 border-foreground font-black uppercase text-sm",
+            `bg-gradient-to-r ${styleGradient} text-white`
+          )}>
             <Palette className="w-4 h-4" />
             {styleName}
           </div>
-          <h2 className="text-2xl md:text-3xl font-bold">
+          <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tight">
             {generating ? "Creating Your Cartoon..." : "Your Transformation"}
           </h2>
         </div>
 
-        <Card className="overflow-hidden border-0 shadow-2xl">
+        {/* Main Card - Brutal */}
+        <div className="brutal-card overflow-hidden">
           {generating ? (
             // Enhanced Loading State
             <div className="p-6 md:p-10">
               <div className="grid md:grid-cols-2 gap-6 md:gap-10 items-center">
                 {/* Original Photo */}
                 <div className="space-y-3">
-                  <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Original</p>
-                  <div className="relative rounded-xl overflow-hidden aspect-square">
+                  <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
+                    [ Original ]
+                  </p>
+                  <div className="relative border-4 border-foreground overflow-hidden aspect-square">
                     <img 
                       src={uploadUrl} 
                       alt="Your photo" 
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                    {/* Corner accents */}
+                    <div className="absolute top-0 left-0 w-6 h-6 border-t-4 border-l-4 border-primary" />
+                    <div className="absolute top-0 right-0 w-6 h-6 border-t-4 border-r-4 border-primary" />
+                    <div className="absolute bottom-0 left-0 w-6 h-6 border-b-4 border-l-4 border-primary" />
+                    <div className="absolute bottom-0 right-0 w-6 h-6 border-b-4 border-r-4 border-primary" />
                   </div>
                 </div>
 
                 {/* Transformation Progress */}
                 <div className="space-y-6">
-                  <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider text-center md:text-left">
-                    Transforming
+                  <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground text-center md:text-left">
+                    [ Transforming ]
                   </p>
                   
-                  {/* Animated Orb */}
+                  {/* Animated Orb - Brutal style */}
                   <div className="flex justify-center">
                     <div className="relative">
                       {/* Outer ring */}
-                      <div className={`
-                        w-32 h-32 rounded-full bg-gradient-to-br ${styleGradient}
-                        animate-pulse opacity-30
-                      `} />
+                      <div className="w-32 h-32 border-4 border-primary animate-pulse-neon" />
                       
                       {/* Spinning ring */}
-                      <div className="absolute inset-2 rounded-full border-4 border-dashed border-primary/50 animate-spin" 
-                           style={{ animationDuration: '3s' }} />
+                      <div 
+                        className="absolute inset-2 border-4 border-dashed border-secondary animate-spin" 
+                        style={{ animationDuration: '3s' }} 
+                      />
                       
                       {/* Center content */}
-                      <div className="absolute inset-4 rounded-full bg-card flex items-center justify-center">
-                        <Sparkles className="w-8 h-8 text-primary animate-pulse" />
+                      <div className="absolute inset-4 bg-card border-2 border-foreground flex items-center justify-center">
+                        <Zap className="w-10 h-10 text-primary animate-pulse" />
                       </div>
                     </div>
                   </div>
 
                   {/* Loading Message */}
                   <div className="text-center space-y-2">
-                    <p className="font-semibold text-lg">{loadingMessage}</p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="font-black uppercase text-lg">{loadingMessage}</p>
+                    <p className="text-sm text-muted-foreground font-mono">
                       FaceLock preserving your identity...
                     </p>
                   </div>
 
-                  {/* Step Indicators */}
+                  {/* Step Indicators - Brutal */}
                   <div className="space-y-2">
                     {GENERATION_STEPS.map((step, index) => (
                       <div 
                         key={step.label}
-                        className={`
-                          flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-300
-                          ${index === currentStep 
-                            ? "bg-primary/10 text-primary" 
+                        className={cn(
+                          "flex items-center gap-3 px-4 py-2 border-2 transition-all duration-300",
+                          index === currentStep 
+                            ? "border-primary bg-primary/10 text-primary" 
                             : index < currentStep 
-                              ? "text-muted-foreground" 
-                              : "text-muted-foreground/50"
-                          }
-                        `}
+                              ? "border-muted text-muted-foreground" 
+                              : "border-border text-muted-foreground/50"
+                        )}
                       >
-                        <span className="text-lg">{step.icon}</span>
-                        <span className="text-sm font-medium">{step.label}</span>
+                        <span className="text-lg">{index <= currentStep ? step.icon : "○"}</span>
+                        <span className="text-sm font-mono uppercase tracking-wider">{step.label}</span>
                         {index < currentStep && (
                           <Check className="w-4 h-4 ml-auto text-green-500" />
                         )}
                         {index === currentStep && (
-                          <div className="ml-auto w-4 h-4 rounded-full border-2 border-primary border-t-transparent animate-spin" />
+                          <div className="ml-auto w-4 h-4 border-2 border-primary border-t-transparent animate-spin" />
                         )}
                       </div>
                     ))}
@@ -258,14 +310,16 @@ export const GeneratePanel = ({
               </div>
             </div>
           ) : generatedImage ? (
-            // Result Display
+            // Result Display - Brutal
             <div className="p-4 md:p-6 space-y-6">
               {/* Side by Side Comparison */}
               <div className="grid md:grid-cols-2 gap-4">
                 {/* Original */}
                 <div className="space-y-2">
-                  <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Before</p>
-                  <div className="relative rounded-xl overflow-hidden aspect-square bg-muted">
+                  <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
+                    [ Before ]
+                  </p>
+                  <div className="relative border-4 border-foreground overflow-hidden aspect-square bg-muted">
                     <img
                       src={uploadUrl}
                       alt="Original photo"
@@ -276,45 +330,55 @@ export const GeneratePanel = ({
 
                 {/* Generated */}
                 <div className="space-y-2">
-                  <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">After</p>
-                  <div className="relative rounded-xl overflow-hidden aspect-square bg-muted group">
+                  <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+                    [ After ]
+                    <Sparkles className="w-3 h-3 text-primary" />
+                  </p>
+                  <div className="relative border-4 border-primary overflow-hidden aspect-square bg-muted group shadow-stacked">
                     <img
                       src={generatedImage}
                       alt={`Your ${styleName} transformation`}
                       className="w-full h-full object-cover"
                     />
                     {/* Watermark */}
-                    <div className="absolute bottom-2 right-2 bg-black/60 backdrop-blur-sm px-2 py-1 rounded text-xs font-medium text-white/90">
+                    <div className="absolute bottom-2 right-2 bg-background/90 backdrop-blur-sm px-2 py-1 border-2 border-foreground text-xs font-black uppercase">
                       TeeFeeMe-5000
                     </div>
+                    {/* Shine overlay on hover */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
                   </div>
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {/* Action Buttons - Brutal */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <Button 
                   onClick={handleDownload} 
-                  size="lg" 
-                  className="w-full shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all"
+                  className="brutal-btn col-span-2 sm:col-span-1"
                 >
                   <Download className="w-4 h-4 mr-2" />
                   Download
                 </Button>
                 <Button 
+                  onClick={handleShare}
+                  variant="secondary"
+                  className="border-4 border-foreground font-black uppercase"
+                >
+                  <Share2 className="w-4 h-4 mr-2" />
+                  Share
+                </Button>
+                <Button 
                   onClick={onTryAnotherStyle} 
-                  variant="secondary" 
-                  size="lg" 
-                  className="w-full"
+                  variant="outline" 
+                  className="border-4 border-foreground font-black uppercase hover:bg-muted"
                 >
                   <RefreshCw className="w-4 h-4 mr-2" />
-                  Another Style
+                  New Style
                 </Button>
                 <Button 
                   onClick={onNewPhoto} 
                   variant="outline" 
-                  size="lg" 
-                  className="w-full"
+                  className="border-4 border-foreground font-black uppercase hover:bg-muted"
                 >
                   <Upload className="w-4 h-4 mr-2" />
                   New Photo
@@ -322,26 +386,28 @@ export const GeneratePanel = ({
               </div>
             </div>
           ) : (
-            // Error State
-            <div className="p-6 md:p-10 text-center space-y-4">
-              <div className="w-16 h-16 mx-auto rounded-full bg-destructive/10 flex items-center justify-center">
-                <RefreshCw className="w-8 h-8 text-destructive" />
+            // Error State - Brutal
+            <div className="p-6 md:p-10 text-center space-y-6">
+              <div className="w-20 h-20 mx-auto border-4 border-destructive bg-destructive/10 flex items-center justify-center">
+                <AlertTriangle className="w-10 h-10 text-destructive" />
               </div>
-              <div className="space-y-1">
-                <p className="font-medium">Generation failed</p>
-                <p className="text-sm text-muted-foreground">Something went wrong. Let's try again!</p>
+              <div className="space-y-2">
+                <p className="font-black uppercase text-xl">Generation Failed</p>
+                <p className="text-sm text-muted-foreground font-mono">
+                  Something went wrong. Let's try again!
+                </p>
               </div>
-              <Button onClick={generateCartoon} size="lg">
+              <Button onClick={generateCartoon} className="brutal-btn">
                 <RefreshCw className="w-4 h-4 mr-2" />
                 Try Again
               </Button>
             </div>
           )}
-        </Card>
+        </div>
 
         {/* Footer */}
         <div className="text-center">
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-muted-foreground font-mono uppercase tracking-widest">
             A creative break for the homies 🤝
           </p>
         </div>
